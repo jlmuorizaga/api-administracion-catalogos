@@ -10,18 +10,20 @@ const pool = new Pool({
     database: DB_NAME,
     password: DB_PASSWORD,
     port: DB_PORT,
- /*   ssl: {
+    ssl: {
         rejectUnauthorized: false,
     },
-*/
+
 });
 
 
 const getListaSucursales = (request, response) => {
+    //console.log('****************Entré a getListaSucursales')
     pool.query(
         'SELECT id, clave, nombre_sucursal, rfc, domicilio, telefono, hora_inicio, hora_fin, latitud, longitud, '
-        +'id_lugar, venta_activa, pk, sk, monto_minimo_entrega_sucursal, monto_minimo_entrega_domicilio	FROM preesppropro.sucursal;',
-        (error, results) => {
+        +'id_region, venta_activa, pk, sk, monto_minimo_entrega_sucursal, monto_minimo_entrega_domicilio '
+	    +'FROM preesppropro.sucursal;',
+            (error, results) => {
             if (error) {
                 throw error;
             }

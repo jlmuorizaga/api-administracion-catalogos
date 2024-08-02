@@ -17,7 +17,7 @@ const pool = new Pool({
 });
 
 
-const getListaSucursales = (request,  response) => {
+const getListaSucursales = (request, response) => {
     //console.log('****************Entré a getListaSucursales')
     pool.query(
         'SELECT id, clave, nombre_sucursal, rfc, domicilio, telefono, hora_inicio, hora_fin, latitud, longitud, '

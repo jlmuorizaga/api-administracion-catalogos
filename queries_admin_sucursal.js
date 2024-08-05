@@ -20,9 +20,9 @@ const pool = new Pool({
 const getListaSucursales = (request, response) => {
     //console.log('****************Entré a getListaSucursales')
     pool.query(
-        'SELECT id, clave, nombre_sucursal, rfc, domicilio, telefono, hora_inicio, hora_fin, latitud, longitud, '
+        'SELECT id, clave, nombre_sucursal, rfc, domicilio, telefono, hora_inicio, hora_fin, latitud, longitud,' 
         +'id_region, venta_activa, pk, sk, monto_minimo_entrega_sucursal, monto_minimo_entrega_domicilio '
-	    +'FROM preesppropro.sucursal;',
+        +'FROM preesppropro.sucursal;',
             (error, results) => {
             if (error) {
                 throw error;
@@ -33,9 +33,11 @@ const getListaSucursales = (request, response) => {
 }
 const getSucursal= (request, response) => {
     const claveSucursal = request.params.claveSucursal;
-    pool.query(
+    console.log('***entre a getSucursal. claveSucursal='+claveSucursal);
+    pool.query(        
         'SELECT id, clave, nombre_sucursal, rfc, domicilio, telefono, hora_inicio, hora_fin, latitud, longitud, '
-        +'id_lugar, venta_activa, pk, sk, monto_minimo_entrega_sucursal, monto_minimo_entrega_domicilio	FROM preesppropro.sucursal '
+        +'id_region, venta_activa, pk, sk, monto_minimo_entrega_sucursal, monto_minimo_entrega_domicilio '	
+        +'FROM preesppropro.sucursal '
         +'WHERE clave=$1;',
         [claveSucursal],
         (error, results) => {
@@ -45,6 +47,7 @@ const getSucursal= (request, response) => {
             response.status(200).json(results.rows[0]);
         }
     );
+    console.log(results)
 }
 const insertaSucursal = (req, res) => {
     const { idSucursal, claveSucursal,nombreSucursal,rfc,domicilio,telefono,horaInicio,horaFin,latitud,longitud,idLugar,ventaActiva,pk,sk,

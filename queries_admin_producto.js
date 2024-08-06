@@ -10,16 +10,16 @@ const pool = new Pool({
     database: DB_NAME,
     password: DB_PASSWORD,
     port: DB_PORT,
- /*   ssl: {
+    ssl: {
         rejectUnauthorized: false,
     },
-*/
+
 });
 
 
 const getListaProducto = (request, response) => {
     pool.query(
-        'SELECT id, descripcion, tamanio, usa_salsa, id_tipo_producto, ruta_imagen '
+        'SELECT id, descripcion, tamanio, usa_salsa, id_tipo_producto, ruta_imagen, categoria1, categoria2, categoria3 '
         +'FROM preesppropro.producto ORDER BY descripcion;',
         (error, results) => {
             if (error) {
@@ -32,7 +32,7 @@ const getListaProducto = (request, response) => {
 const getProducto= (request, response) => {
     const idProducto = request.params.idProducto;    
     pool.query(
-        'SELECT id, descripcion, tamanio, usa_salsa, id_tipo_producto, ruta_imagen '
+        'SELECT id, descripcion, tamanio, usa_salsa, id_tipo_producto, ruta_imagen, categoria1, categoria2, categoria3 '
         +'FROM preesppropro.producto WHERE id=$1;',
         [idProducto],
         (error, results) => {
@@ -44,11 +44,11 @@ const getProducto= (request, response) => {
     );
 }
 const insertaProducto = (req, res) => {
-    const { id, descripcion,  tamanio, usa_salsa, id_tipo_producto, ruta_imagen} = req.body;
+    const { id, descripcion,  tamanio, usa_salsa, id_tipo_producto, ruta_imagen, categoria1, categoria2, categoria3} = req.body;
     pool.query(
-        'INSERT INTO preesppropro.producto(id, descripcion, tamanio, usa_salsa, id_tipo_producto, ruta_imagen) '
-        +'VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
-        [id,descripcion,tamanio, usa_salsa, id_tipo_producto, ruta_imagen],
+        'INSERT INTO preesppropro.producto(id, descripcion, tamanio, usa_salsa, id_tipo_producto, ruta_imagen, categoria1, categoria2, categoria3) '
+        +'VALUES ($1, $2, $3, $4, $5, $6,$7, $8, $9) RETURNING *',
+        [id,descripcion,tamanio, usa_salsa, id_tipo_producto, ruta_imagen, categoria1, categoria2, categoria3],
         (error, results) => {
             if (error) {
                 throw error;
@@ -61,11 +61,11 @@ const insertaProducto = (req, res) => {
 
 const actualizaProducto= (req, res) => {
     const idProducto = req.params.idProducto;
-    const { descripcion, tamanio, usa_salsa, id_tipo_producto, ruta_imagen } = req.body;
+    const { descripcion, tamanio, usa_salsa, id_tipo_producto, ruta_imagen, categoria1, categoria2, categoria3 } = req.body;
     pool.query(
         'UPDATE preesppropro.producto SET descripcion=$1, tamanio=$2, usa_salsa=$3, '
-        +'id_tipo_producto=$4, ruta_imagen=$5 WHERE id=$6 RETURNING *',
-        [descripcion, tamanio, usa_salsa, id_tipo_producto, ruta_imagen,idProducto],
+        +'id_tipo_producto=$4, ruta_imagen=$5, categoria1=$6, categoria2=$7, categoria3=$8 WHERE id=$9 RETURNING *',
+        [descripcion, tamanio, usa_salsa, id_tipo_producto, ruta_imagen, categoria1, categoria2, categoria3,idProducto],
         (error, results) => {
             if (error) {
                 throw error;

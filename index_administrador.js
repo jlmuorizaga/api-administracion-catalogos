@@ -60,6 +60,7 @@ app.delete('/tipos-producto/:idTipoProducto', db_tipos_producto.eliminaTipoProdu
 
 //Endpoints para productos
 app.get('/productos', db_producto.getListaProducto);
+app.get('/productos2', db_producto.getListaProducto2);
 app.get('/productos/:idProducto', db_producto.getProducto);
 app.post('/productos', db_producto.insertaProducto);
 app.put('/productos/:idProducto', db_producto.actualizaProducto);

@@ -19,7 +19,7 @@ const pool = new Pool({
 
 const getListaTiposProducto = (request, response) => {
     pool.query(
-        'SELECT id, descripcion, img_url FROM preesppropro.producto_tipo;',
+        'SELECT id, descripcion, img_url FROM preesppropro.producto_tipo order by descripcion asc;',
         (error, results) => {
             if (error) {
                 throw error;

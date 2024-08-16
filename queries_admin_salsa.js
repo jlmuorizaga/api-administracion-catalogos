@@ -10,10 +10,10 @@ const pool = new Pool({
     database: DB_NAME,
     password: DB_PASSWORD,
     port: DB_PORT,
- /*   ssl: {
+    ssl: {
         rejectUnauthorized: false,
     },
-*/
+
 });
 
 
@@ -29,10 +29,10 @@ const getListaSalsas = (request, response) => {
     );
 }
 const getSalsa= (request, response) => {
-    const idSalsa = request.params.idSalsa;
+    const id = request.params.id;
     pool.query(
         'SELECT id, descripcion FROM preesppropro.salsa WHERE id=$1 ORDER BY descripcion',
-        [idSalsa],
+        [id],
         (error, results) => {
             if (error) {
                 throw error;
@@ -42,11 +42,11 @@ const getSalsa= (request, response) => {
     );
 }
 const insertaSalsa = (req, res) => {
-    const { idSalsa, nombreSalsa } = req.body;
+    const { id, descripcion } = req.body;
     pool.query(
         'INSERT INTO preesppropro.salsa(id, descripcion) ' 
         +'VALUES ($1, $2) RETURNING *',
-        [idSalsa,nombreSalsa],
+        [id,descripcion],
         (error, results) => {
             if (error) {
                 throw error;
@@ -58,11 +58,11 @@ const insertaSalsa = (req, res) => {
 }
 
 const actualizaSalsa= (req, res) => {
-    const idSalsa = req.params.idSalsa;
-    const { nombreSalsa } = req.body;
+    const id = req.params.id;
+    const { descripcion } = req.body;
     pool.query(
         'UPDATE preesppropro.salsa SET descripcion=$1 WHERE id=$2 RETURNING *',
-        [nombreSalsa,idSalsa],
+        [descripcion,id],
         (error, results) => {
             if (error) {
                 throw error;
@@ -74,15 +74,15 @@ const actualizaSalsa= (req, res) => {
 }
 
 const eliminaSalsa = (req, res) => {
-    const idSalsa = req.params.idSalsa;
+    const id = req.params.id;
     pool.query(
         'DELETE FROM preesppropro.salsa WHERE id=$1 ',
-        [idSalsa],
+        [id],
         (error, results) => {
             if (error) {
                 throw error;
             }
-            textoRespuesta = '{"respuesta": "Se eliminó ' + results.rowCount + ' salsa: ' + idSalsa + '"}';
+            textoRespuesta = '{"respuesta": "Se eliminó ' + results.rowCount + ' salsa: ' + id + '"}';
             res.status(201).json(JSON.parse(textoRespuesta));
         }
     );

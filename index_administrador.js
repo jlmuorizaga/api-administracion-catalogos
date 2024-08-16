@@ -39,10 +39,10 @@ app.delete('/tamanios-pizza/:idTamanioPizza', db_tp.eliminaTamanioPizza);
 
 //Endpoints para salsa
 app.get('/salsas', db_s.getListaSalsas);
-app.get('/salsas/:idSalsa', db_s.getSalsa);
+app.get('/salsas/:id', db_s.getSalsa);
 app.post('/salsas', db_s.insertaSalsa);
-app.put('/salsas/:idSalsa', db_s.actualizaSalsa);
-app.delete('/salsas/:idSalsa', db_s.eliminaSalsa);
+app.put('/salsas/:id', db_s.actualizaSalsa);
+app.delete('/salsas/:id', db_s.eliminaSalsa);
 
 //Endpoints para especialidades
 app.get('/especialidades', db_e.getListaEspecialidades);

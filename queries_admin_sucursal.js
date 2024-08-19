@@ -22,7 +22,7 @@ const getListaSucursales = (request, response) => {
     pool.query(
         'SELECT id, clave, nombre_sucursal, rfc, domicilio, telefono, hora_inicio, hora_fin, latitud, longitud,' 
         +'id_region, venta_activa, pk, sk, monto_minimo_entrega_sucursal, monto_minimo_entrega_domicilio '
-        +'FROM preesppropro.sucursal;',
+        +'FROM preesppropro.sucursal order by clave;',
             (error, results) => {
             if (error) {
                 throw error;

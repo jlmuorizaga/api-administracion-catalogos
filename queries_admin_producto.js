@@ -63,11 +63,11 @@ const getProducto= (request, response) => {
     );
 }
 const insertaProducto = (req, res) => {
-    const { id, descripcion,  tamanio, usa_salsa, id_tipo_producto, ruta_imagen, categoria1, categoria2, categoria3} = req.body;
+    const { id, descripcion_p,  tamanio, usa_salsa, id_tipo_producto, ruta_imagen, categoria1, categoria2, categoria3} = req.body;
     pool.query(
         'INSERT INTO preesppropro.producto(id, descripcion, tamanio, usa_salsa, id_tipo_producto, ruta_imagen, categoria1, categoria2, categoria3) '
         +'VALUES ($1, $2, $3, $4, $5, $6,$7, $8, $9) RETURNING *',
-        [id,descripcion,tamanio, usa_salsa, id_tipo_producto, ruta_imagen, categoria1, categoria2, categoria3],
+        [id,descripcion_p,tamanio, usa_salsa, id_tipo_producto, ruta_imagen, categoria1, categoria2, categoria3],
         (error, results) => {
             if (error) {
                 throw error;

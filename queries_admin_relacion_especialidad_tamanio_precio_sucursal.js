@@ -11,10 +11,9 @@ const pool = new Pool({
     database: DB_NAME,
     password: DB_PASSWORD,
     port: DB_PORT,
- /*   ssl: {
+    ssl: {
         rejectUnauthorized: false,
     },
-*/
 });
 
 
@@ -24,7 +23,8 @@ const getListaRelacionEspecialidadTamanioPrecioSucursal = (request, response) =>
     pool.query(
         'SELECT id_especialidad_pizza as idEspecialidad, ep.nombre as pizzaNombre,'
                 + 'id_tamanio_pizza as idTamanioPizza, tp.nombre as pizzaTamanio,id_sucursal as idSucursal, precio,precio_p1 as precioP1,'
-                + 'r.aplica_2x1 as aplica2x1, r.aplica_p1 as aplicaP1,r.aplica_bebida_chica_gratis as aplicaBebidaChicaGratis '
+                + 'r.aplica_2x1 as aplica2x1, r.aplica_p1 as aplicaP1,r.aplica_bebida_chica_gratis as aplicaBebidaChicaGratis, r.categoria1 as categoria1, '
+                + 'r.categoria2 as categoria2, r.categoria3 as categoria3 '
                 + 'FROM preesppropro.relacion_especialidad_tamanio_precio_sucursal r,preesppropro.especialidad_pizza ep,preesppropro.tamanio_pizza tp '
                 + 'WHERE id_sucursal=$1 '
                 + 'AND id_especialidad_pizza=ep.id AND id_tamanio_pizza=tp.id '

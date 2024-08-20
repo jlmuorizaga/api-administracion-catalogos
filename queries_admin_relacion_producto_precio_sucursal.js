@@ -11,10 +11,10 @@ const pool = new Pool({
     database: DB_NAME,
     password: DB_PASSWORD,
     port: DB_PORT,
- /*   ssl: {
+    ssl: {
         rejectUnauthorized: false,
     },
-*/
+
 });
 
 
@@ -23,7 +23,8 @@ const getListaRelacionProductoPrecioSucursal = (request, response) => {
     console.log('idSucursal='+idSucursal);
     pool.query(
 
-        'SELECT id_producto, descripcion ||\' - \'|| tamanio as descripcion,id_sucursal, clave,nombre_sucursal, precio_normal,aplica_bebida_chica_gratis '
+        'SELECT id_producto, descripcion ||\' - \'|| tamanio as descripcion,id_sucursal, clave,nombre_sucursal, precio_normal,aplica_bebida_chica_gratis,'
+        +'categoria1, categoria2, categoria3'
    +'FROM preesppropro.relacion_producto_sucursal rs , preesppropro.producto p, preesppropro.sucursal s '
    +'WHERE id_sucursal=$1 and rs.id_producto=p.id and rs.id_sucursal=s.id',
                 [idSucursal],

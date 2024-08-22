@@ -89,7 +89,7 @@ app.delete('/regiones/:idRegion', db_region.eliminaRegion);
 
 //Endpoints para sucursal
 app.get('/sucursales', db_sucursal.getListaSucursales);
-app.get('/sucursales/:claveSucursal', db_sucursal.getSucursal);
+app.get('/sucursales/:idSucursal', db_sucursal.getSucursal);
 app.post('/sucursales', db_sucursal.insertaSucursal);
 app.put('/sucursales/:idSucursal', db_sucursal.actualizaSucursal);
 app.delete('/sucursales/:idSucursal', db_sucursal.eliminaSucursal);

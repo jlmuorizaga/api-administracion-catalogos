@@ -32,14 +32,14 @@ const getListaSucursales = (request, response) => {
     );
 }
 const getSucursal= (request, response) => {
-    const claveSucursal = request.params.claveSucursal;
-    console.log('***entre a getSucursal. claveSucursal='+claveSucursal);
+    const idSucursal = request.params.idSucursal;
+    console.log('***entre a getSucursal. idSucursal='+idSucursal);
     pool.query(        
         'SELECT id, clave, nombre_sucursal, rfc, domicilio, telefono, hora_inicio, hora_fin, latitud, longitud, '
         +'id_region, venta_activa, pk, sk, monto_minimo_entrega_sucursal, monto_minimo_entrega_domicilio '	
         +'FROM preesppropro.sucursal '
-        +'WHERE clave=$1;',
-        [claveSucursal],
+        +'WHERE id=$1;',
+        [idSucursal],
         (error, results) => {
             if (error) {
                 throw error;
@@ -47,7 +47,6 @@ const getSucursal= (request, response) => {
             response.status(200).json(results.rows[0]);
         }
     );
-    console.log(results)
 }
 const insertaSucursal = (req, res) => {
     const { idSucursal, claveSucursal,nombreSucursal,rfc,domicilio,telefono,horaInicio,horaFin,latitud,longitud,idLugar,ventaActiva,pk,sk,

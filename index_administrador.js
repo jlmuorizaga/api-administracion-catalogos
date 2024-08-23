@@ -11,6 +11,7 @@ const db_retps=require('./queries_admin_relacion_especialidad_tamanio_precio_suc
 const db_rpps=require('./queries_admin_relacion_producto_precio_sucursal')
 const db_region=require('./queries_admin_region')
 const db_sucursal=require('./queries_admin_sucursal')
+const db_promocion_especial=require('./queries_promocion_especial')
 const port = process.env.PORT || 3005
 
 app.use(bodyParser.json())
@@ -93,6 +94,14 @@ app.get('/sucursales/:idSucursal', db_sucursal.getSucursal);
 app.post('/sucursales', db_sucursal.insertaSucursal);
 app.put('/sucursales/:idSucursal', db_sucursal.actualizaSucursal);
 app.delete('/sucursales/:idSucursal', db_sucursal.eliminaSucursal);
+
+//Endpoints para promocion_especial
+app.get('/promociones_especiales',db_promocion_especial.getListaPromocionesEspeciales);
+app.get('/promociones_especiales/:idPromocion',db_promocion_especial.getPromocionEspecial);
+app.post('/promociones_especiales',db_promocion_especial.insertaPromocionEspecial);
+app.put('/promociones_especiales:/idPromocion',db_promocion_especial.actualizaPromocionEspecial);
+app.delete('/promociones_especiales/:idPromocion',db_promocion_especial.eliminaPromocionEspecial);
+
 
 app.listen(port, () => {
     console.log('API CHPSystem Captura PPP Móviles Nube corriendo en puerto', port);

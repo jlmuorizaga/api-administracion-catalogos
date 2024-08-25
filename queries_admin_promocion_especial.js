@@ -62,10 +62,12 @@ const insertaPromocionEspecial = (req, res) => {
 const actualizaPromocionEspecial= (req, res) => {
     const idPromocion = req.params.idPromocion;
     const { nombre,descripcion,tipo,definicion,precio,activa } = req.body;
+    console.log('Estoy en ActualizaPromocionEspecial');
+    console.log('idPromocion=',idPromocion);
     pool.query(
         'UPDATE preesppropro.promocion_especial	SET nombre=$2, descripcion=$3, '
         +'tipo=$4, definicion=$5, precio=$6, activa=$7 WHERE id_promocion=$1 RETURNING *',
-        [nombre,descripcion,tipo,definicion,precio,activa,idPromocion],
+        [idPromocion,nombre,descripcion,tipo,definicion,precio,activa],
         (error, results) => {
             if (error) {
                 throw error;

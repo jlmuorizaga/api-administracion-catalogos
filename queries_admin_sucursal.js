@@ -18,7 +18,6 @@ const pool = new Pool({
 
 
 const getListaSucursales = (request, response) => {
-    //console.log('****************Entré a getListaSucursales')
     pool.query(
         'SELECT id, clave, nombre_sucursal, rfc, domicilio, telefono, hora_inicio, hora_fin, latitud, longitud,' 
         +'id_region, venta_activa, pk, sk, monto_minimo_entrega_sucursal, monto_minimo_entrega_domicilio '
@@ -33,7 +32,6 @@ const getListaSucursales = (request, response) => {
 }
 const getSucursal= (request, response) => {
     const idSucursal = request.params.idSucursal;
-    console.log('***entre a getSucursal. idSucursal='+idSucursal);
     pool.query(        
         'SELECT id, clave, nombre_sucursal, rfc, domicilio, telefono, hora_inicio, hora_fin, latitud, longitud, '
         +'id_region, venta_activa, pk, sk, monto_minimo_entrega_sucursal, monto_minimo_entrega_domicilio '	

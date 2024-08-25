@@ -99,7 +99,7 @@ app.delete('/sucursales/:idSucursal', db_sucursal.eliminaSucursal);
 app.get('/promociones_especiales',db_promocion_especial.getListaPromocionesEspeciales);
 app.get('/promociones_especiales/:idPromocion',db_promocion_especial.getPromocionEspecial);
 app.post('/promociones_especiales',db_promocion_especial.insertaPromocionEspecial);
-app.put('/promociones_especiales:/idPromocion',db_promocion_especial.actualizaPromocionEspecial);
+app.put('/promociones_especiales/:idPromocion',db_promocion_especial.actualizaPromocionEspecial);
 app.delete('/promociones_especiales/:idPromocion',db_promocion_especial.eliminaPromocionEspecial);
 
 

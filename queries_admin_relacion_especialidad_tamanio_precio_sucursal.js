@@ -22,8 +22,8 @@ const getListaRelacionEspecialidadTamanioPrecioSucursal = (request, response) =>
     console.log('idSucursal='+idSucursal);
     pool.query(
         'SELECT id_especialidad_pizza as "idEspecialidad", ep.nombre as "pizzaNombre",'
-                + 'id_tamanio_pizza as idTamanioPizza, tp.nombre as "pizzaTamanio",id_sucursal as idSucursal, precio,precio_p1 as precioP1,'
-                + 'r.aplica_2x1 as aplica2x1, r.aplica_p1 as aplicaP1,r.aplica_bebida_chica_gratis as aplicaBebidaChicaGratis, r.categoria1 as categoria1, '
+                + 'id_tamanio_pizza as idTamanioPizza, tp.nombre as "pizzaTamanio",id_sucursal as idSucursal, precio,'
+                + 'r.categoria1 as categoria1, '
                 + 'r.categoria2 as categoria2, r.categoria3 as categoria3 '
                 + 'FROM preesppropro.relacion_especialidad_tamanio_precio_sucursal r,preesppropro.especialidad_pizza ep,preesppropro.tamanio_pizza tp '
                 + 'WHERE id_sucursal=$1 '
@@ -44,8 +44,8 @@ const getRelacionEspecialidadTamanioPrecioSucursal = (request, response) => {
     const idSucursal = request.params.idSucursal;
     pool.query(
         'SELECT id_especialidad_pizza as idEspecialidad, ep.nombre as pizzaNombre,'
-                + 'id_tamanio_pizza as idTamanioPizza, tp.nombre as pizzaTamanio,id_sucursal as idSucursal, precio,precio_p1 as precioP1,'
-                + 'r.aplica_2x1 as aplica2x1, r.aplica_p1 as aplicaP1,r.aplica_bebida_chica_gratis as aplicaBebidaChicaGratis '
+                + 'id_tamanio_pizza as idTamanioPizza, tp.nombre as pizzaTamanio,id_sucursal as idSucursal, precio,'
+                + 'r.categoria1, r.categoria2,r.categoria3 '
                 + 'FROM preesppropro.relacion_especialidad_tamanio_precio_sucursal r,preesppropro.especialidad_pizza ep,preesppropro.tamanio_pizza tp '
                 + 'WHERE id_especialidad_pizza=$1 and id_tamanio_pizza=$2 and id_sucursal=$3 '
                 + 'AND id_especialidad_pizza=ep.id AND id_tamanio_pizza=tp.id '
@@ -60,7 +60,7 @@ const getRelacionEspecialidadTamanioPrecioSucursal = (request, response) => {
     );
 }
 const insertaRelacionEspecialidadTamanioPrecioSucursal = (request, response) => {
-    const { idEspecialidad, idTamanio,idSucursal,precio,preciop1,aplica2x1,aplicap1,aplicabebidachicagratis } = request.body;
+    const { idEspecialidad, idTamanio,idSucursal,precio,categoria1, categoria2, categoria3} = request.body;
 /*    console.log('idEspecialidad='+idEspecialidad);
     console.log('idTamanio='+idTamanio);
     console.log('idSucursal='+idSucursal);
@@ -72,9 +72,9 @@ const insertaRelacionEspecialidadTamanioPrecioSucursal = (request, response) => 
     */
    pool.query(
         'INSERT INTO preesppropro.relacion_especialidad_tamanio_precio_sucursal(id_especialidad_pizza,'
-        +'id_tamanio_pizza, id_sucursal, precio,precio_p1,aplica_2x1,aplica_p1,aplica_bebida_chica_gratis) '
+        +'id_tamanio_pizza, id_sucursal, precio,categoria1, categoria2, categoria3) '
         +'VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *;',
-        [idEspecialidad,idTamanio,idSucursal,precio,preciop1,aplica2x1,aplicap1,aplicabebidachicagratis],
+        [idEspecialidad,idTamanio,idSucursal,precio,categoria1,categoria2,categoria3],
         (error, results) => {
             if (error) {
                 throw error;
@@ -89,21 +89,20 @@ const actualizaRelacionEspecialidadTamanioPrecioSucursal= (request, response) =>
     const idEspecialidad = request.params.idEspecialidad;
     const idTamanio = request.params.idTamanio;
     const idSucursal = request.params.idSucursal;    
-    const {precio,preciop1,aplica2x1,aplicap1,aplicabebidachicagratis } = request.body;
+    const {precio,categoria1,categoria2,categoria3} = request.body;
     
     console.log('idEspecialidad='+idEspecialidad);
     console.log('idTamanio='+idTamanio);
     console.log('idSucursal='+idSucursal);
     console.log('precio='+precio);
-    console.log('preciop1='+preciop1);
-    console.log('aplica2x1='+aplica2x1);
-    console.log('aplicap1='+aplicap1);
-    console.log('aplicabebidachicagratis='+aplicabebidachicagratis);
+    console.log('categoria1='+categoria1);
+    console.log('categoria2='+categoria2);
+    console.log('categoria3='+categoria3);
 
     pool.query(
         'UPDATE preesppropro.relacion_especialidad_tamanio_precio_sucursal '
         +'SET id_especialidad_pizza=$1, id_tamanio_pizza=$2, id_sucursal=$3, precio=$4, '
-        +'precio_p1=$5, aplica_2x1=$6, aplica_p1=$7, aplica_bebida_chica_gratis=$8  '
+        +'categoria1=$5, categoria2=$6, categoria3=$7  '
         + 'WHERE id_especialidad_pizza=$1 and id_tamanio_pizza=$2 and id_sucursal=$3 RETURNING *',
         
         [idEspecialidad,idTamanio,idSucursal,precio,preciop1,aplica2x1,aplicap1,aplicabebidachicagratis],

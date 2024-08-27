@@ -104,5 +104,5 @@ app.delete('/promociones_especiales/:idPromocion',db_promocion_especial.eliminaP
 
 
 app.listen(port, () => {
-    console.log('API CHPSystem Captura PPP Móviles Nube corriendo en puerto', port);
+    console.log('API CHPSystem 20240826 Captura PPP Móviles Nube corriendo en puerto', port);
 });

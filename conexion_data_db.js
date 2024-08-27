@@ -2,7 +2,7 @@ const DB_HOST = process.env.DB_HOST || 'database-1.cgujpjkz4fsl.us-west-1.rds.am
  //const DB_HOST = process.env.DB_HOST || 'localhost';
  const DB_USER = process.env.DB_USER || 'cheesepizzauser';
  const DB_PASSWORD = process.env.DB_PASSWORD || 'cheesepizza2001';
- const DB_NAME = process.env.DB_NAME || 'chppreciosespecprodpromocdb';
+ const DB_NAME = process.env.DB_NAME ||  'chppreciosespecprodpromocdb';
  const URL_SERVER=process.env.URL_SERVER || 'http://ec2-54-153-58-93.us-west-1.compute.amazonaws.com/';
 
 

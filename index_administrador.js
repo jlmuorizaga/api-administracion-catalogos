@@ -12,6 +12,7 @@ const db_rpps=require('./queries_admin_relacion_producto_precio_sucursal')
 const db_region=require('./queries_admin_region')
 const db_sucursal=require('./queries_admin_sucursal')
 const db_promocion_especial=require('./queries_admin_promocion_especial')
+const db_relacion_promocion_especial_sucursal=require('./queries_admin_relacion_promocion_especial_sucursal')
 const port = process.env.PORT || 3005
 
 app.use(bodyParser.json())
@@ -101,6 +102,13 @@ app.get('/promociones_especiales/:idPromocion',db_promocion_especial.getPromocio
 app.post('/promociones_especiales',db_promocion_especial.insertaPromocionEspecial);
 app.put('/promociones_especiales/:idPromocion',db_promocion_especial.actualizaPromocionEspecial);
 app.delete('/promociones_especiales/:idPromocion',db_promocion_especial.eliminaPromocionEspecial);
+
+//Endpoints para relacion_promocion_especial_sucursal
+app.get('/relacion_promociones_especiales_sucursal/:claveSucursal',db_relacion_promocion_especial_sucursal.getListaRelacionPromocionesEspecialesSucursal);
+app.get('/relacion_promociones_especiales_sucursal/:idPromocion',db_relacion_promocion_especial_sucursal.getRelacionPromocionEspecialSucursal);
+app.post('/relacion_promociones_especiales_sucursal',db_relacion_promocion_especial_sucursal.insertaRelacionPromocionEspecialSucursal);
+app.put('/relacion_promociones_especiales_sucursal/:idPromocion',db_relacion_promocion_especial_sucursal.actualizaRelacionPromocionEspecialSucursal);
+app.delete('/relacion_promociones_especiales_sucursal/:idPromocion',db_relacion_promocion_especial_sucursal.eliminaRelacionPromocionEspecialSucursal);
 
 
 app.listen(port, () => {

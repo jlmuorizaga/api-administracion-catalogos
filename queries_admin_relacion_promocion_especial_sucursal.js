@@ -21,13 +21,13 @@ const pool = new Pool({
 });
 
 const getListaRelacionPromocionesEspecialesSucursal = (request, response) => {
-    const claveSucursal = request.params.claveSucursal;
+    const idSucursal = request.params.idSucursal;
   pool.query(
     'SELECT r.id_promocion as "idPromocion" ,pe.nombre as "nombre",pe.descripcion as "descripcion",r.id_sucursal as "idSucursal",s.clave as "claveSucursal",' +
       's.nombre_sucursal as "nombreSucursal",r.activa as "activa" FROM preesppropro.relacion_promocion_especial_sucursal as r,preesppropro.sucursal as s,' +
-      'preesppropro.promocion_especial as pe WHERE s.id=r.id_sucursal AND pe.id_promocion=r.id_promocion AND s.clave=$1 ' +
+      'preesppropro.promocion_especial as pe WHERE s.id=r.id_sucursal AND pe.id_promocion=r.id_promocion AND s.id=$1 ' +
       'ORDER BY nombre ASC, id_sucursal ASC ',
-      [claveSucursal],
+      [idSucursal],
     (error, results) => {
       if (error) {
         throw error;

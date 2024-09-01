@@ -29,6 +29,23 @@ const getListaPromocionesEspeciales = (request, response) => {
         }
     );
 }
+
+const getListaPromocionesEspecialesQueNoEstanEnRelacionPromocionEspecialSucursal= (request, response) => {
+    const idSucursal = request.params.idSucursal;
+    pool.query(
+        ' SELECT pe.id_promocion as "idPromocion", pe.nombre, pe.descripcion, pe.tipo, pe.definicion, pe.precio, pe.activa '
+        +'FROM preesppropro.promocion_especial as pe WHERE (pe.id_promocion not in(SELECT id_promocion as "idPromocion" '
+        +'FROM preesppropro.relacion_promocion_especial_sucursal where id_sucursal=$1)) order by pe.nombre asc ',
+        [idSucursal],
+        (error, results) => {
+            if (error) {
+                throw error;
+            }
+            response.status(200).json(results.rows);
+        }        
+    );
+}
+
 const getPromocionEspecial= (request, response) => {
     const idPromocion = request.params.idPromocion;
     pool.query(
@@ -100,5 +117,6 @@ module.exports = {
     getPromocionEspecial,
     insertaPromocionEspecial,
     actualizaPromocionEspecial,
-    eliminaPromocionEspecial
+    eliminaPromocionEspecial,
+    getListaPromocionesEspecialesQueNoEstanEnRelacionPromocionEspecialSucursal
 }

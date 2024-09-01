@@ -102,6 +102,8 @@ app.get('/promociones_especiales/:idPromocion',db_promocion_especial.getPromocio
 app.post('/promociones_especiales',db_promocion_especial.insertaPromocionEspecial);
 app.put('/promociones_especiales/:idPromocion',db_promocion_especial.actualizaPromocionEspecial);
 app.delete('/promociones_especiales/:idPromocion',db_promocion_especial.eliminaPromocionEspecial);
+// Dame lista de promociones especiales que no se encuentran en relacion_promocion_especial_sucursal
+app.get('/promociones_especiales_no/:idSucursal',db_promocion_especial.getListaPromocionesEspecialesQueNoEstanEnRelacionPromocionEspecialSucursal);
 
 //Endpoints para relacion_promocion_especial_sucursal
 app.get('/relacion_promociones_especiales_sucursal/:idSucursal',db_relacion_promocion_especial_sucursal.getListaRelacionPromocionesEspecialesSucursal);

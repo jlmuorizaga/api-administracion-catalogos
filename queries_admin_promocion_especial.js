@@ -35,7 +35,7 @@ const getListaPromocionesEspecialesQueNoEstanEnRelacionPromocionEspecialSucursal
     pool.query(
         ' SELECT pe.id_promocion as "idPromocion", pe.nombre, pe.descripcion, pe.tipo, pe.definicion, pe.precio, pe.activa '
         +'FROM preesppropro.promocion_especial as pe WHERE (pe.id_promocion not in(SELECT id_promocion as "idPromocion" '
-        +'FROM preesppropro.relacion_promocion_especial_sucursal where id_sucursal=$1)) order by pe.nombre asc ',
+        +'FROM preesppropro.relacion_promocion_especial_sucursal where id_sucursal=$1)) AND activa=\'S\' order by pe.nombre asc ',
         [idSucursal],
         (error, results) => {
             if (error) {

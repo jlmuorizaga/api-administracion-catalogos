@@ -88,6 +88,8 @@ const actualizaRelacionPromocionEspecialSucursal = (req, res) => {
 const eliminaRelacionPromocionEspecialSucursal = (req, res) => {
   const idPromocion = req.params.idPromocion;
   const idSucursal  = req.params.idSucursal;
+  console.log('idPromocion=',idPromocion);
+  console.log('idSucursal=',idSucursal);
     pool.query(
     "DELETE FROM preesppropro.relacion_promocion_especial_sucursal WHERE id_promocion=$1 and id_sucursal=$2",
     [idPromocion,idSucursal],

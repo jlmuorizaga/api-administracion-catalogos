@@ -86,10 +86,11 @@ const actualizaRelacionPromocionEspecialSucursal = (req, res) => {
 };
 
 const eliminaRelacionPromocionEspecialSucursal = (req, res) => {
-  const id = req.params.id;
-  pool.query(
-    "DELETE FROM preesppropro.salsa WHERE id=$1 ",
-    [id],
+  const idPromocion = req.params.idPromocion;
+  const idSucursal  = req.params.idSucursal;
+    pool.query(
+    "DELETE FROM preesppropro.relacion_promocion_especial_sucursal WHERE id_promocion=$1 and id_sucursal=$2",
+    [idPromocion,idSucursal],
     (error, results) => {
       if (error) {
         throw error;
@@ -97,7 +98,7 @@ const eliminaRelacionPromocionEspecialSucursal = (req, res) => {
       textoRespuesta =
         '{"respuesta": "Se eliminó ' +
         results.rowCount +
-        " salsa: " +
+        " relacion_promocion_especial_sucursal: " +
         id +
         '"}';
       res.status(201).json(JSON.parse(textoRespuesta));

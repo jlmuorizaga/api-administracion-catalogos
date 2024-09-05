@@ -110,7 +110,7 @@ app.get('/relacion_promociones_especiales_sucursal/:idSucursal',db_relacion_prom
 app.get('/relacion_promociones_especiales_sucursal/:idPromocion',db_relacion_promocion_especial_sucursal.getRelacionPromocionEspecialSucursal);
 app.post('/relacion_promociones_especiales_sucursal',db_relacion_promocion_especial_sucursal.insertaRelacionPromocionEspecialSucursal);
 app.put('/relacion_promociones_especiales_sucursal/:idPromocion',db_relacion_promocion_especial_sucursal.actualizaRelacionPromocionEspecialSucursal);
-app.delete('/relacion_promociones_especiales_sucursal/:idPromocion',db_relacion_promocion_especial_sucursal.eliminaRelacionPromocionEspecialSucursal);
+app.delete('/relacion_promociones_especiales_sucursal/:idPromocion/:idSucursal',db_relacion_promocion_especial_sucursal.eliminaRelacionPromocionEspecialSucursal);
 
 
 app.listen(port, () => {

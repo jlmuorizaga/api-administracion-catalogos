@@ -51,16 +51,18 @@ const getRelacionPromocionEspecialSucursal = (request, response) => {
 };
 const insertaRelacionPromocionEspecialSucursal = (req, res) => {
   const { idPromocion, idSucursal,activa } = req.body;
+  console.log('idPromocion=',idPromocion);
+  console.log('idSucursal=',idSucursal);
+  console.log('activa=',activa)
   pool.query(
-    "INSERT INTO preesppropro.relacion_promocion_especial_sucursal(id_promocion, id_sucursal, activa)"
-    +"	VALUES ($1, $2, $3) RETURNING *"
+     'INSERT INTO preesppropro.relacion_promocion_especial_sucursal (id_promocion, id_sucursal, activa) VALUES ($1, $2, $3) RETURNING *;',
     [idPromocion, idSucursal,activa],
     (error, results) => {
       if (error) {
         throw error;
       }
       textoRespuesta =
-        '{"respuesta": "Se insertó nueva promoción especial en sucursal: ' + results.rows[0].id + '"}';
+        '{"respuesta": "Se insertó nueva promoción especial en sucursal: ' + results.rows[0].id_promocion + '"}';
       res.status(201).json(JSON.parse(textoRespuesta));
     }
   );

@@ -101,7 +101,7 @@ const eliminaRelacionPromocionEspecialSucursal = (req, res) => {
         '{"respuesta": "Se eliminó ' +
         results.rowCount +
         " relacion_promocion_especial_sucursal: " +
-        id +
+        idPromocion +
         '"}';
       res.status(201).json(JSON.parse(textoRespuesta));
     }

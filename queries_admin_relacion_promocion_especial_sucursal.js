@@ -39,15 +39,19 @@ const getListaRelacionPromocionesEspecialesSucursal = (request, response) => {
 const getRelacionPromocionEspecialSucursal = (request, response) => {
   const idPromocion = request.params.idPromocion;
   const idSucursal = request.params.idSucursal;
+  console.log('Entré a getRelacionPromocionEspecialSucursal()')
+  console.log("idPromocion=", idPromocion);
+  console.log("idSucursal=", idSucursal);
   pool.query(
     'SELECT r.id_promocion as "idPromocion" ,pe.nombre as "nombre",pe.descripcion as "descripcion",r.id_sucursal as "idSucursal",s.clave as "claveSucursal",' +
       's.nombre_sucursal as "nombreSucursal",r.activa as "activa" FROM preesppropro.relacion_promocion_especial_sucursal as r,preesppropro.sucursal as s,' +
-      "preesppropro.promocion_especial as pe WHERE s.id=r.id_sucursal AND pe.id_promocion=r.id_promocion AND s.id=$2 " +
-      "AND r.id_promocion=$1 " +c
+      'preesppropro.promocion_especial as pe WHERE s.id=r.id_sucursal AND pe.id_promocion=r.id_promocion AND s.id=$2 ' +
+      'AND r.id_promocion=$1',
       [idPromocion, idSucursal],
     (error, results) => {
       if (error) {
         throw error;
+        console.log(results);
       }
       response.status(200).json(results.rows[0]);
     }

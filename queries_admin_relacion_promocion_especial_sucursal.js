@@ -21,13 +21,13 @@ const pool = new Pool({
 });
 
 const getListaRelacionPromocionesEspecialesSucursal = (request, response) => {
-    const idSucursal = request.params.idSucursal;
+  const idSucursal = request.params.idSucursal;
   pool.query(
     'SELECT r.id_promocion as "idPromocion" ,pe.nombre as "nombre",pe.descripcion as "descripcion",r.id_sucursal as "idSucursal",s.clave as "claveSucursal",' +
       's.nombre_sucursal as "nombreSucursal",r.activa as "activa" FROM preesppropro.relacion_promocion_especial_sucursal as r,preesppropro.sucursal as s,' +
-      'preesppropro.promocion_especial as pe WHERE s.id=r.id_sucursal AND pe.id_promocion=r.id_promocion AND s.id=$1 ' +
-      'ORDER BY nombre ASC, id_sucursal ASC ',
-      [idSucursal],
+      "preesppropro.promocion_especial as pe WHERE s.id=r.id_sucursal AND pe.id_promocion=r.id_promocion AND s.id=$1 " +
+      "ORDER BY nombre ASC, id_sucursal ASC ",
+    [idSucursal],
     (error, results) => {
       if (error) {
         throw error;
@@ -37,10 +37,14 @@ const getListaRelacionPromocionesEspecialesSucursal = (request, response) => {
   );
 };
 const getRelacionPromocionEspecialSucursal = (request, response) => {
-  const id = request.params.id;
+  const idPromocion = request.params.idPromocion;
+  const idSucursal = request.params.idSucursal;
   pool.query(
-    "SELECT id, descripcion FROM preesppropro.salsa WHERE id=$1 ORDER BY descripcion",
-    [id],
+    'SELECT r.id_promocion as "idPromocion" ,pe.nombre as "nombre",pe.descripcion as "descripcion",r.id_sucursal as "idSucursal",s.clave as "claveSucursal",' +
+      's.nombre_sucursal as "nombreSucursal",r.activa as "activa" FROM preesppropro.relacion_promocion_especial_sucursal as r,preesppropro.sucursal as s,' +
+      "preesppropro.promocion_especial as pe WHERE s.id=r.id_sucursal AND pe.id_promocion=r.id_promocion AND s.id=$2 " +
+      "AND r.id_promocion=$1 " +c
+      [idPromocion, idSucursal],
     (error, results) => {
       if (error) {
         throw error;
@@ -50,36 +54,42 @@ const getRelacionPromocionEspecialSucursal = (request, response) => {
   );
 };
 const insertaRelacionPromocionEspecialSucursal = (req, res) => {
-  const { idPromocion, idSucursal,activa } = req.body;
-  console.log('idPromocion=',idPromocion);
-  console.log('idSucursal=',idSucursal);
-  console.log('activa=',activa)
+  const { idPromocion, idSucursal, activa } = req.body;
+  console.log("idPromocion=", idPromocion);
+  console.log("idSucursal=", idSucursal);
+  console.log("activa=", activa);
   pool.query(
-     'INSERT INTO preesppropro.relacion_promocion_especial_sucursal (id_promocion, id_sucursal, activa) VALUES ($1, $2, $3) RETURNING *;',
-    [idPromocion, idSucursal,activa],
+    "INSERT INTO preesppropro.relacion_promocion_especial_sucursal (id_promocion, id_sucursal, activa) VALUES ($1, $2, $3) RETURNING *;",
+    [idPromocion, idSucursal, activa],
     (error, results) => {
       if (error) {
         throw error;
       }
       textoRespuesta =
-        '{"respuesta": "Se insertó nueva promoción especial en sucursal: ' + results.rows[0].id_promocion + '"}';
+        '{"respuesta": "Se insertó nueva promoción especial en sucursal: ' +
+        results.rows[0].id_promocion +
+        '"}';
       res.status(201).json(JSON.parse(textoRespuesta));
     }
   );
 };
 
 const actualizaRelacionPromocionEspecialSucursal = (req, res) => {
-  const id = req.params.id;
-  const { descripcion } = req.body;
+  const idPromocion = request.params.idPromocion;
+  const idSucursal = request.params.idSucursal;
+  const { activa } = req.body;
   pool.query(
-    "UPDATE preesppropro.salsa SET descripcion=$1 WHERE id=$2 RETURNING *",
-    [descripcion, id],
+    "UPDATE preesppropro.relacion_promocion_especial_sucursal SET  activa=$3 WHERE id_promocion=$1 and id_sucursal=$2 RETURNING *;"[
+      (idPromocion, idSucursal, activa)
+    ],
     (error, results) => {
       if (error) {
         throw error;
       }
       textoRespuesta =
-        '{"respuesta": "Se actualizó salsa: ' + results.rows[0].id + '"}';
+        '{"respuesta": "Se actualizó promoción especial en sucursal: ' +
+        results.rows[0].id_promocion +
+        '"}';
       res.status(201).json(JSON.parse(textoRespuesta));
     }
   );
@@ -87,12 +97,12 @@ const actualizaRelacionPromocionEspecialSucursal = (req, res) => {
 
 const eliminaRelacionPromocionEspecialSucursal = (req, res) => {
   const idPromocion = req.params.idPromocion;
-  const idSucursal  = req.params.idSucursal;
-  console.log('idPromocion=',idPromocion);
-  console.log('idSucursal=',idSucursal);
-    pool.query(
+  const idSucursal = req.params.idSucursal;
+  console.log("idPromocion=", idPromocion);
+  console.log("idSucursal=", idSucursal);
+  pool.query(
     "DELETE FROM preesppropro.relacion_promocion_especial_sucursal WHERE id_promocion=$1 and id_sucursal=$2",
-    [idPromocion,idSucursal],
+    [idPromocion, idSucursal],
     (error, results) => {
       if (error) {
         throw error;

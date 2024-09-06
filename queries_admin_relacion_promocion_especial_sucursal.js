@@ -79,7 +79,7 @@ const actualizaRelacionPromocionEspecialSucursal = (req, res) => {
   const idSucursal = request.params.idSucursal;
   const { activa } = req.body;
   pool.query(
-    "UPDATE preesppropro.relacion_promocion_especial_sucursal SET  activa=$3 WHERE id_promocion=$1 and id_sucursal=$2 RETURNING *;"[
+    "UPDATE preesppropro.relacion_promocion_especial_sucursal SET activa=$3 WHERE id_promocion=$1 and id_sucursal=$2 RETURNING *;"[
       (idPromocion, idSucursal, activa)
     ],
     (error, results) => {

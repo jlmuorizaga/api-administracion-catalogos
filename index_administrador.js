@@ -107,9 +107,9 @@ app.get('/promociones_especiales_no/:idSucursal',db_promocion_especial.getListaP
 
 //Endpoints para relacion_promocion_especial_sucursal
 app.get('/relacion_promociones_especiales_sucursal/:idSucursal',db_relacion_promocion_especial_sucursal.getListaRelacionPromocionesEspecialesSucursal);
-app.get('/relacion_promociones_especiales_sucursal/:idPromocion',db_relacion_promocion_especial_sucursal.getRelacionPromocionEspecialSucursal);
+app.get('/relacion_promociones_especiales_sucursal/:idPromocion/:idSucursal',db_relacion_promocion_especial_sucursal.getRelacionPromocionEspecialSucursal);
 app.post('/relacion_promociones_especiales_sucursal',db_relacion_promocion_especial_sucursal.insertaRelacionPromocionEspecialSucursal);
-app.put('/relacion_promociones_especiales_sucursal/:idPromocion',db_relacion_promocion_especial_sucursal.actualizaRelacionPromocionEspecialSucursal);
+app.put('/relacion_promociones_especiales_sucursal/:idPromocion/:idSucursal/:activa',db_relacion_promocion_especial_sucursal.actualizaRelacionPromocionEspecialSucursal);
 app.delete('/relacion_promociones_especiales_sucursal/:idPromocion/:idSucursal',db_relacion_promocion_especial_sucursal.eliminaRelacionPromocionEspecialSucursal);
 
 

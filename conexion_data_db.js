@@ -17,7 +17,7 @@ const DB_HOST = process.env.DB_HOST || 'database-1.cgujpjkz4fsl.us-west-1.rds.am
 //const DB_PORT = process.env.DB_PORT || 5434;
 
 //Desktop INEGI
-//const DB_PORT = process.env.DB_PORT || 5433;s
+//const DB_PORT = process.env.DB_PORT || 5433;
 
  module.exports={
     DB_HOST, DB_USER,DB_PASSWORD, DB_NAME,DB_PORT,URL_SERVER

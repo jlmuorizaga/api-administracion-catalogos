@@ -68,21 +68,28 @@ const insertaSucursal = (req, res) => {
 }
 
 const actualizaSucursal= (req, res) => {
-    const idSucursal = req.params.idSucursal;
-    const {claveSucursal,nombreSucursal,rfc,domicilio,telefono,horaInicio,horaFin,latitud,longitud,idRegion,ventaActiva,pk,sk,
-        montoMinimoEntregaSucursal,montoMinimoEntregaDomicilio} = req.body;
-        console.log('mmed='+montoMinimoEntregaDomicilio);
+    const id = req.params.id;
+    const {clave,nombre_sucursal,rfc,domicilio,telefono,hora_inicio,hora_fin,latitud,longitud,id_region,venta_activa,pk,sk,
+        monto_minimo_entrega_sucursal,monto_minimo_entrega_domicilio} = req.body;
+        console.log('id='+id);
+        console.log('nombre_sucursal='+nombre_sucursal);
+        console.log('rfc='+rfc);
+        console.log('domicilio='+domicilio);
+        console.log('telefono='+telefono);
+        console.log('clave=',clave);
+
+        console.log('mmed='+monto_minimo_entrega_domicilio);
     pool.query(
         'UPDATE preesppropro.sucursal SET clave=$2, nombre_sucursal=$3, rfc=$4, domicilio=$5, telefono=$6, hora_inicio=$7, hora_fin=$8, '
         +'latitud=$9, longitud=$10, id_region=$11, venta_activa=$12, pk=$13, sk=$14, monto_minimo_entrega_sucursal=$15, monto_minimo_entrega_domicilio=$16 '
         +'WHERE id=$1 RETURNING *',
-        [idSucursal,claveSucursal,nombreSucursal,rfc,domicilio,telefono,horaInicio,horaFin,latitud,longitud,idRegion,ventaActiva,pk,sk,
-            montoMinimoEntregaSucursal,montoMinimoEntregaDomicilio],
+        [id,clave,nombre_sucursal,rfc,domicilio,telefono,hora_inicio,hora_fin,latitud,longitud,id_region,venta_activa,pk,sk,
+            monto_minimo_entrega_sucursal,monto_minimo_entrega_domicilio],
         (error, results) => {
             if (error) {
                 throw error;
             }
-            textoRespuesta = '{"respuesta": "Se actualizó sucursal: ' + results.rows[0].clave + '"}';
+            textoRespuesta = '{"respuesta": "Se actualizó sucursal: ' + results.rows[0]+ '"}';
             res.status(201).json(JSON.parse(textoRespuesta));
         }
     );

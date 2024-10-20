@@ -31,6 +31,12 @@ app.get('/', (request, response) => {
         {version:'Version 202406072024'}
     ])
 })
+//Endpoints para categoria
+app.get('/categorias', db_s.getListaCategorias);
+app.get('/categorias/:codigo', db_s.getCategoria);
+app.post('/categorias', db_s.insertaCategoria);
+app.put('/categorias/:codigo/:nombre', db_s.actualizaCategoria);
+app.delete('/categorias/:codigo/:nombre', db_s.eliminaCategoria);
 
 //Endpoints para tamanio_pizza
 app.get('/tamanios-pizza', db_tp.getListaTamaniosPizza);

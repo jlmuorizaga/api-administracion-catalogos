@@ -4,6 +4,7 @@ const bodyParser = require('body-parser')
 const app = express()
 const db_tp = require('./queries_admin_tamanio_pizza')
 const db_s=require('./queries_admin_salsa')
+const db_c=require('./queries_admin_categoria')
 const db_e=require('./queries_admin_especialidad_pizza')
 const db_tipos_producto=require('./queries_admin_tipos_producto')
 const db_producto=require('./queries_admin_producto')
@@ -32,11 +33,11 @@ app.get('/', (request, response) => {
     ])
 })
 //Endpoints para categoria
-app.get('/categorias', db_s.getListaCategorias);
-app.get('/categorias/:codigo', db_s.getCategoria);
-app.post('/categorias', db_s.insertaCategoria);
-app.put('/categorias/:codigo/:nombre', db_s.actualizaCategoria);
-app.delete('/categorias/:codigo/:nombre', db_s.eliminaCategoria);
+app.get('/categorias', db_c.getListaCategorias);
+app.get('/categorias/:codigo', db_c.getCategoria);
+app.post('/categorias', db_c.insertaCategoria);
+app.put('/categorias/:codigo/:nombre', db_c.actualizaCategoria);
+app.delete('/categorias/:codigo/:nombre', db_c.eliminaCategoria);
 
 //Endpoints para tamanio_pizza
 app.get('/tamanios-pizza', db_tp.getListaTamaniosPizza);

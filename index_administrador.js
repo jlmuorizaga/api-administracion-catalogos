@@ -12,6 +12,7 @@ const db_retps=require('./queries_admin_relacion_especialidad_tamanio_precio_suc
 const db_rpps=require('./queries_admin_relacion_producto_precio_sucursal')
 const db_region=require('./queries_admin_region')
 const db_sucursal=require('./queries_admin_sucursal')
+const db_ingrediente=require('./queries_admin_ingrediente')
 const db_promocion_especial=require('./queries_admin_promocion_especial')
 const db_relacion_promocion_especial_sucursal=require('./queries_admin_relacion_promocion_especial_sucursal')
 const port = process.env.PORT || 3005
@@ -32,6 +33,14 @@ app.get('/', (request, response) => {
         {version:'Version 202406072024'}
     ])
 })
+
+//Endpoints para ingrediente
+app.get('/ingredientes', db_ingrediente.getListaSucursales);
+app.get('/ingredientes/:id', db_ingrediente.getSucursal);
+app.post('/ingredientes', db_ingrediente.insertaSucursal);
+app.put('/ingredientes/:id', db_ingrediente.actualizaSucursal);
+app.delete('/ingredientes/:id', db_ingrediente.eliminaSucursal);
+
 //Endpoints para categoria
 app.get('/categorias', db_c.getListaCategorias);
 app.get('/categorias/:codigo', db_c.getCategoria);

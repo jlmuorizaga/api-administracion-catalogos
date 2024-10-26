@@ -60,9 +60,9 @@ const insertaCategoria = (req, res) => {
 
 const actualizaCategoria= (req, res) => {
     const codigo = req.params.codigo;
-    const nombre = req.params.nombre;
+    const { nombre } = req.body;
     pool.query(
-        'UPDATE preesppropro.categoria SET codigo=$1, nombre=$2 WHERE codigo=$1 and nombre=$2 RETURNING *',
+        'UPDATE preesppropro.categoria SET nombre=$2 WHERE codigo=$1 RETURNING *',
         [codigo,nombre],
         (error, results) => {
             if (error) {
@@ -76,10 +76,9 @@ const actualizaCategoria= (req, res) => {
 
 const eliminaCategoria = (req, res) => {
     const codigo = req.params.codigo;
-    const nombre = req.params.nombre;
     pool.query(
-        'DELETE FROM preesppropro.categoria WHERE codigo=$1 and nombre=$2',
-        [codigo,nombre],
+        'DELETE FROM preesppropro.categoria WHERE codigo=$1',
+        [codigo],
         (error, results) => {
             if (error) {
                 throw error;

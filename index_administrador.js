@@ -36,8 +36,8 @@ app.get('/', (request, response) => {
 app.get('/categorias', db_c.getListaCategorias);
 app.get('/categorias/:codigo', db_c.getCategoria);
 app.post('/categorias', db_c.insertaCategoria);
-app.put('/categorias/:codigo/:nombre', db_c.actualizaCategoria);
-app.delete('/categorias/:codigo/:nombre', db_c.eliminaCategoria);
+app.put('/categorias/:codigo', db_c.actualizaCategoria);
+app.delete('/categorias/:codigo', db_c.eliminaCategoria);
 
 //Endpoints para tamanio_pizza
 app.get('/tamanios-pizza', db_tp.getListaTamaniosPizza);

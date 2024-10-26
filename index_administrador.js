@@ -35,11 +35,11 @@ app.get('/', (request, response) => {
 })
 
 //Endpoints para ingrediente
-app.get('/ingredientes', db_ingrediente.getListaSucursales);
-app.get('/ingredientes/:id', db_ingrediente.getSucursal);
-app.post('/ingredientes', db_ingrediente.insertaSucursal);
-app.put('/ingredientes/:id', db_ingrediente.actualizaSucursal);
-app.delete('/ingredientes/:id', db_ingrediente.eliminaSucursal);
+app.get('/ingredientes', db_ingrediente.getListaIngredientes);
+app.get('/ingredientes/:id', db_ingrediente.getIngrediente);
+app.post('/ingredientes', db_ingrediente.insertaIngrediente);
+app.put('/ingredientes/:id', db_ingrediente.actualizaIngrediente);
+app.delete('/ingredientes/:id', db_ingrediente.eliminaIngrediente);
 
 //Endpoints para categoria
 app.get('/categorias', db_c.getListaCategorias);

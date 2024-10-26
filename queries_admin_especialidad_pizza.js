@@ -19,7 +19,7 @@ const pool = new Pool({
 
 const getListaEspecialidades = (request, response) => {
     pool.query(
-        'SELECT id, nombre, ingredientes, img_url '
+        'SELECT id, nombre, ingredientes, img_url, orden '
         +'FROM preesppropro.especialidad_pizza ORDER BY nombre',
         (error, results) => {
             if (error) {
@@ -34,7 +34,7 @@ const getEspecialidad= (request, response) => {
     console.log('idEspecialidad='+idEspecialidad);
     pool.query(
         //'SELECT id as idEspecialidad, nombre as nombreEspecialidad, ingredientes as ingredientesEspecialidad,aplica_2x1 as aplica2x1Especialidad, aplica_p1 as aplicaP1Especialidad FROM preesppropro.especialidad_pizza WHERE id=$1 ORDER by nombre',
-        'SELECT id, nombre, ingredientes, img_url FROM preesppropro.especialidad_pizza as ep WHERE id=$1 ORDER by nombre',
+        'SELECT id, nombre, ingredientes, img_url, orden FROM preesppropro.especialidad_pizza as ep WHERE id=$1 ORDER by nombre',
          //where id=$1 ORDER by nombre'        
         [idEspecialidad],
         (error, results) => {
@@ -48,7 +48,7 @@ const getEspecialidad= (request, response) => {
 const insertaEspecialidad = (req, res) => {
     const { id, nombre, ingredientes, img_url } = req.body;
     pool.query(
-        'INSERT INTO preesppropro.especialidad_pizza(id, nombre, ingredientes,img_url) '
+        'INSERT INTO preesppropro.especialidad_pizza(id, nombre, ingredientes,img_url,orden) '
         +'VALUES ($1, $2, $3, $4) RETURNING *',
         [id,nombre,ingredientes,img_url],
         (error, results) => {
@@ -63,10 +63,10 @@ const insertaEspecialidad = (req, res) => {
 
 const actualizaEspecialidad= (req, res) => {
     const idEspecialidad = req.params.idEspecialidad;
-    const { nombre,ingredientes,img_url,aplica_2x1,aplica_p1 } = req.body;
+    const { nombre,ingredientes,img_url,orden } = req.body;
     pool.query(
-        'UPDATE preesppropro.especialidad_pizza SET nombre=$1, ingredientes=$2, img_url=$3 WHERE id=$4 RETURNING *',
-        [nombre,ingredientes,img_url,idEspecialidad],
+        'UPDATE preesppropro.especialidad_pizza SET nombre=$2, ingredientes=$3, img_url=$4, orden=$5 WHERE id=$1 RETURNING *',
+        [idEspecialidad,nombre,ingredientes,img_url,orden],
         (error, results) => {
             if (error) {
                 throw error;

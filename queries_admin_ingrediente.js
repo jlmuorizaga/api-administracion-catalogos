@@ -32,7 +32,7 @@ const getIngrediente= (request, response) => {
     const id = request.params.id;
     pool.query(
         'SELECT id, nombre FROM preesppropro.ingrediente WHERE id=$1 ORDER BY nombre',
-        [codigo],
+        [id],
         (error, results) => {
             if (error) {
                 throw error;

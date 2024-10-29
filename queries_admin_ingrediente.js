@@ -60,6 +60,7 @@ const insertaIngrediente = (req, res) => {
 const actualizaIngrediente= (req, res) => {
     const id = req.params.id;
     const { nombre } = req.body;
+    console.log('nombre===>',nombre)
     pool.query(
         'UPDATE preesppropro.ingrediente SET nombre=$2 WHERE id=$1 RETURNING *',
         [id,nombre],

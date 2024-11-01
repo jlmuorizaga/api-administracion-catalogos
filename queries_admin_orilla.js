@@ -59,7 +59,7 @@ const insertaOrilla = (req, res) => {
     );
 }
 
-const actualizaIngrediente= (req, res) => {
+const actualizaOrilla= (req, res) => {
     const id = req.params.id;
     const { nombre } = req.body;
     console.log('nombre===>',nombre)

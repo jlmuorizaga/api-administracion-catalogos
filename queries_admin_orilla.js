@@ -33,7 +33,7 @@ const getListaOrillas = (request, response) => {
 const getOrilla= (request, response) => {
     const id = request.params.id;
     pool.query(
-        'SELECT id, nombre FROM preesppropro.ingrediente WHERE id=$1 ORDER BY nombre',
+        'SELECT id, descripcion, id_tamanio as "idTamanio" FROM preesppropro.orilla WHERE id=$1',
         [id],
         (error, results) => {
             if (error) {

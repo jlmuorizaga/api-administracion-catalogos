@@ -14,6 +14,7 @@ const db_region=require('./queries_admin_region')
 const db_sucursal=require('./queries_admin_sucursal')
 const db_ingrediente=require('./queries_admin_ingrediente')
 const db_orilla=require('./queries_admin_orilla')
+const db_pizza=require('./queries_admin_pizza')
 const db_promocion_especial=require('./queries_admin_promocion_especial')
 const db_relacion_promocion_especial_sucursal=require('./queries_admin_relacion_promocion_especial_sucursal')
 const port = process.env.PORT || 3005
@@ -31,9 +32,19 @@ app.get('/', (request, response) => {
     response.json([{
         info: 'API CHPSystem Captura PPP Móviles'},
         {dameListaTamaniosPizza:'/tamanios-pizza'},
+        {dameListaCategorias:'/categorias'},
+        {dameListaEspecialidades:'/especialidades'},
+
         {version:'Version 202406072024'}
     ])
 })
+
+//Endpoints para pizzas
+app.get('/pizzas', db_pizza.getListaPizzas);
+//app.get('/orillas/:id', db_orilla.getOrilla);
+//app.post('/orillas', db_orilla.insertaOrilla);
+//app.put('/orillas/:id', db_orilla.actualizaOrilla);
+//app.delete('/orillas/:id', db_orilla.eliminaOrilla);
 
 //Endpoints para orilla
 app.get('/orillas', db_orilla.getListaOrillas);

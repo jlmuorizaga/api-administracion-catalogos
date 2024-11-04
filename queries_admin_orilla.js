@@ -44,11 +44,11 @@ const getOrilla= (request, response) => {
     );
 }
 const insertaOrilla = (req, res) => {
-    const { id, nombre } = req.body;
+    const { id, descripcion,idTamanio } = req.body;
     pool.query(
-        'INSERT INTO preesppropro.ingrediente(id, nombre) '
-        +'VALUES ($1, $2) RETURNING *',
-        [id,nombre],
+        'INSERT INTO preesppropro.orilla(id, descripcion,id_tamanio) '
+        +'VALUES ($1, $2, $3) RETURNING *',
+        [id,descripcion,idTamanio],
         (error, results) => {
             if (error) {
                 throw error;
@@ -61,11 +61,10 @@ const insertaOrilla = (req, res) => {
 
 const actualizaOrilla= (req, res) => {
     const id = req.params.id;
-    const { nombre } = req.body;
-    console.log('nombre===>',nombre)
+    const { descripcion,idTamanio } = req.body;
     pool.query(
-        'UPDATE preesppropro.ingrediente SET nombre=$2 WHERE id=$1 RETURNING *',
-        [id,nombre],
+        'UPDATE preesppropro.orilla SET descripcion=$2,id_tamanio=$3 WHERE id=$1 RETURNING *',
+        [id,descripcion,idTamanio],
         (error, results) => {
             if (error) {
                 throw error;
@@ -79,7 +78,7 @@ const actualizaOrilla= (req, res) => {
 const eliminaOrilla = (req, res) => {
     const id = req.params.id;
     pool.query(
-        'DELETE FROM preesppropro.ingrediente WHERE id=$1',
+        'DELETE FROM preesppropro.orilla WHERE id=$1',
         [id],
         (error, results) => {
             if (error) {

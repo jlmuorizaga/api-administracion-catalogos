@@ -33,10 +33,10 @@ const getListaPizzas = (request, response) => {
         }
     );
 }
-const getOrilla= (request, response) => {
+const getPizza= (request, response) => {
     const id = request.params.id;
     pool.query(
-        'SELECT id, descripcion, id_tamanio as "idTamanio" FROM preesppropro.orilla WHERE id=$1',
+        'SELECT id, id_especialidad, id_tamanio, aplica_2x1, categoria1, categoria2, categoria3 FROM preesppropro.pizza WHERE id=$',
         [id],
         (error, results) => {
             if (error) {
@@ -46,10 +46,10 @@ const getOrilla= (request, response) => {
         }
     );
 }
-const insertaOrilla = (req, res) => {
-    const { id, descripcion,idTamanio } = req.body;
+const insertaPizza = (req, res) => {
+    const { id, idEspecialidad,idTamanio, } = req.body;
     pool.query(
-        'INSERT INTO preesppropro.orilla(id, descripcion,id_tamanio) '
+        'INSERT INTO preesppropro.pizza(id, id_especialidad, id_tamanio, aplica_2x1, categoria1, categoria2, categoria3) VALUES (?, ?, ?, ?, ?, ?, ?) RETURNING *;'
         +'VALUES ($1, $2, $3) RETURNING *',
         [id,descripcion,idTamanio],
         (error, results) => {
@@ -62,7 +62,7 @@ const insertaOrilla = (req, res) => {
     );
 }
 
-const actualizaOrilla= (req, res) => {
+const actualizaPizza= (req, res) => {
     const id = req.params.id;
     const { descripcion,idTamanio } = req.body;
     pool.query(
@@ -78,7 +78,7 @@ const actualizaOrilla= (req, res) => {
     );
 }
 
-const eliminaOrilla = (req, res) => {
+const eliminaPizza = (req, res) => {
     const id = req.params.id;
     pool.query(
         'DELETE FROM preesppropro.orilla WHERE id=$1',
@@ -95,8 +95,8 @@ const eliminaOrilla = (req, res) => {
 
 module.exports = {
     getListaPizzas,
-    getOrilla,
-    insertaOrilla,
-    actualizaOrilla,
-    eliminaOrilla
+    getPizza,
+    insertaPizza,
+    actualizaPizza,
+    eliminaPizza
 }

@@ -19,7 +19,7 @@ const pool = new Pool({
 
 const getListaTiposProducto = (request, response) => {
     pool.query(
-        'SELECT id, descripcion, img_url FROM preesppropro.producto_tipo order by descripcion asc;',
+        'SELECT id, nombre, img_url FROM preesppropro.producto_tipo order by nombre asc;',
         (error, results) => {
             if (error) {
                 throw error;
@@ -31,7 +31,7 @@ const getListaTiposProducto = (request, response) => {
 const getTipoProducto= (request, response) => {
     const idTipoProducto = request.params.idTipoProducto;    
     pool.query(
-        'SELECT id, descripcion, img_url FROM preesppropro.producto_tipo WHERE id=$1;',
+        'SELECT id, nombre, img_url FROM preesppropro.producto_tipo WHERE id=$1;',
         [idTipoProducto],
         (error, results) => {
             if (error) {
@@ -45,7 +45,7 @@ const insertaTipoProducto = (req, res) => {
     const { id, descripcion, img_url} = req.body;
     console.log('img_url='+img_url);
     pool.query(
-        'INSERT INTO preesppropro.producto_tipo(id, descripcion, img_url) '
+        'INSERT INTO preesppropro.producto_tipo(id, nombre, img_url) '
         +'VALUES ($1, $2, $3) RETURNING *',
         [id,descripcion,img_url],
         (error, results) => {
@@ -62,7 +62,7 @@ const actualizaTipoProducto= (req, res) => {
     const idTipoProducto = req.params.idTipoProducto;
     const { descripcion,img_url } = req.body;
     pool.query(
-        'UPDATE preesppropro.producto_tipo SET descripcion=$1, img_url=$2 WHERE id=$3 RETURNING *',
+        'UPDATE preesppropro.producto_tipo SET nombre=$1, img_url=$2 WHERE id=$3 RETURNING *',
         [descripcion,img_url,idTipoProducto],
         (error, results) => {
             if (error) {

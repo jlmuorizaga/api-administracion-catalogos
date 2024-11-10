@@ -19,7 +19,7 @@ const pool = new Pool({
 
 const getListaTiposProducto = (request, response) => {
     pool.query(
-        'SELECT id, nombre, img_url FROM preesppropro.producto_tipo order by nombre asc;',
+        'SELECT id, descripcion, img_url as "imgURL", nombre, orden FROM preesppropro.producto_tipo order by nombre asc',
         (error, results) => {
             if (error) {
                 throw error;
@@ -31,7 +31,7 @@ const getListaTiposProducto = (request, response) => {
 const getTipoProducto= (request, response) => {
     const idTipoProducto = request.params.idTipoProducto;    
     pool.query(
-        'SELECT id, nombre, img_url FROM preesppropro.producto_tipo WHERE id=$1;',
+        'SELECT id, descripcion, img_url as "imgURL", nombre, orden FROM preesppropro.producto_tipo WHERE id=$1;',
         [idTipoProducto],
         (error, results) => {
             if (error) {
@@ -42,12 +42,11 @@ const getTipoProducto= (request, response) => {
     );
 }
 const insertaTipoProducto = (req, res) => {
-    const { id, descripcion, img_url} = req.body;
-    console.log('img_url='+img_url);
+    const { id, descripcion, imgURL, nombre, orden} = req.body;
     pool.query(
-        'INSERT INTO preesppropro.producto_tipo(id, nombre, img_url) '
-        +'VALUES ($1, $2, $3) RETURNING *',
-        [id,descripcion,img_url],
+        'INSERT INTO preesppropro.producto_tipo(id, descripcion, img_url, nombre, orden) '
+        +'VALUES ($1, $2, $3, $4, $5) RETURNING *',
+        [id,descripcion,imgURL,nombre,orden],
         (error, results) => {
             if (error) {
                 throw error;
@@ -60,10 +59,10 @@ const insertaTipoProducto = (req, res) => {
 
 const actualizaTipoProducto= (req, res) => {
     const idTipoProducto = req.params.idTipoProducto;
-    const { descripcion,img_url } = req.body;
+    const { descripcion,imgURL, nombre, orden } = req.body;
     pool.query(
-        'UPDATE preesppropro.producto_tipo SET nombre=$1, img_url=$2 WHERE id=$3 RETURNING *',
-        [descripcion,img_url,idTipoProducto],
+        'UPDATE preesppropro.producto_tipo SET descripcion=$2, img_url=$3, nombre=$4, orden=$5 WHERE id=$1 RETURNING *',
+        [idTipoProducto,descripcion,imgURL, nombre, orden],
         (error, results) => {
             if (error) {
                 throw error;

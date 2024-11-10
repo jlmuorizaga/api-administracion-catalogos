@@ -34,7 +34,7 @@ const getListaProducto2 = (request, response) => {
     pool.query(
         'SELECT p.id as "id", p.descripcion as "descripcion_p", tamanio as "tamanio", '
         +'usa_salsa as "usa_salsa", id_tipo_producto as "id_tipo_producto",' 
-        +'pt.descripcion as "descripcion_tp", ruta_imagen as "ruta_imagen", categoria1 as "categoria1",' 
+        +'pt.nombre as "nombre_tp", ruta_imagen as "ruta_imagen", categoria1 as "categoria1",' 
         +'categoria2 as "categoria2", categoria3 as "categoria3" '
         +'FROM preesppropro.producto as p, preesppropro.producto_tipo as pt where p.id_tipo_producto=pt.id ORDER BY p.descripcion;',
         (error, results) => {

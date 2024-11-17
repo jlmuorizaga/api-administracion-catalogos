@@ -16,7 +16,7 @@ const pool = new Pool({
 
 });
 
-
+/*
 const getListaPizzas = (request, response) => {
     pool.query(
         'SELECT p.id as "idPizza", p.id_especialidad as "idEspecialidad", ep.nombre as "nombre",ep.ingredientes as "ingredientes",'
@@ -25,6 +25,23 @@ const getListaPizzas = (request, response) => {
         +'INNER JOIN preesppropro.especialidad_pizza as ep ON p.id_especialidad=ep.id '
         +'INNER JOIN preesppropro.tamanio_pizza as tp ON p.id_tamanio=tp.id '
         +'ORDER BY nombre,"tamanioPizza"',
+        (error, results) => {
+            if (error) {
+                throw error;
+            }
+            response.status(200).json(results.rows);
+        }
+    );
+}
+*/
+const getListaPizzas = (request, response) => {
+    pool.query(
+        'SELECT p.id as "idPizza", p.id_especialidad as "idEspecialidad", ep.nombre as "nombreEspecialidad",'
+		+'p.id_tamanio as "idTamanioPizza", tp.nombre as "tamanioPizza",'
+        +'p.aplica_2x1 as "aplica2x1", p.categoria1, p.categoria2, p.categoria3 FROM preesppropro.pizza as p '
+        +'INNER JOIN preesppropro.especialidad_pizza as ep ON p.id_especialidad=ep.id '
+        +'INNER JOIN preesppropro.tamanio_pizza as tp ON p.id_tamanio=tp.id '
+        +'ORDER BY "nombreEspecialidad","tamanioPizza"',
         (error, results) => {
             if (error) {
                 throw error;

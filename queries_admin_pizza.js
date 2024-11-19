@@ -87,7 +87,7 @@ const insertaPizza = (req, res) => {
 }
 
 const actualizaPizza= (req, res) => {
-    const idPizza = req.params.id;
+    const idPizza = req.params.idPizza;
     const {idEspecialidad, idTamanio,aplica2x1,categoria1,categoria2,categoria3 } = req.body;
     pool.query(
         'UPDATE preesppropro.pizza SET id_especialidad=$2, id_tamanio=$3, aplica_2x1=$4, categoria1=$5, categoria2=$6, categoria3=$7 WHERE id=$1 RETURNING *',
@@ -103,7 +103,7 @@ const actualizaPizza= (req, res) => {
 }
 
 const eliminaPizza = (req, res) => {
-    const idPizza = req.params.id;
+    const idPizza = req.params.idPizza;
     pool.query(
         'DELETE FROM preesppropro.pizza WHERE id=$1',
         [idPizza],

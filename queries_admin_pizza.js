@@ -59,7 +59,7 @@ const getPizza= (request, response) => {
         +'INNER JOIN preesppropro.especialidad_pizza as ep ON p.id_especialidad=ep.id '
         +'INNER JOIN preesppropro.tamanio_pizza as tp ON p.id_tamanio=tp.id '
         +'ORDER BY "nombreEspecialidad","tamanioPizza" '
-        +'WHERE p.id=$1'
+        +'WHERE p.id=$1',
         [idPizza],
         (error, results) => {
             if (error) {

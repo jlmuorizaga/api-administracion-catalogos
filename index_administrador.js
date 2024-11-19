@@ -41,10 +41,10 @@ app.get('/', (request, response) => {
 
 //Endpoints para pizzas
 app.get('/pizzas', db_pizza.getListaPizzas);
-app.get('/pizzas/:id', db_pizza.getPizza);
+app.get('/pizzas/:idPizza', db_pizza.getPizza);
 app.post('/pizzas', db_pizza.insertaPizza);
-app.put('/pizzas/:id', db_pizza.actualizaPizza);
-app.delete('/pizzas/:id', db_pizza.eliminaPizza);
+app.put('/pizzas/:idPizza', db_pizza.actualizaPizza);
+app.delete('/pizzas/:idPizza', db_pizza.eliminaPizza);
 
 //Endpoints para orilla
 app.get('/orillas', db_orilla.getListaOrillas);

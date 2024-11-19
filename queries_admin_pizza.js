@@ -51,7 +51,7 @@ const getListaPizzas = (request, response) => {
     );
 }
 const getPizza= (request, response) => {
-    const idPizza = request.params.id;
+    const idPizza = request.params.idPizza;
     console.log('idPizza=',idPizza);
     pool.query(
         'SELECT p.id as "idPizza", p.id_especialidad as "idEspecialidad", ep.nombre as "nombreEspecialidad",'
@@ -88,10 +88,11 @@ const insertaPizza = (req, res) => {
 
 const actualizaPizza= (req, res) => {
     const idPizza = req.params.idPizza;
-    const {idEspecialidad, idTamanio,aplica2x1,categoria1,categoria2,categoria3 } = req.body;
+    const {idEspecialidad, idTamanioPizza,aplica2x1,categoria1,categoria2,categoria3 } = req.body;
     pool.query(
-        'UPDATE preesppropro.pizza SET id_especialidad=$2, id_tamanio=$3, aplica_2x1=$4, categoria1=$5, categoria2=$6, categoria3=$7 WHERE id=$1 RETURNING *',
-        [idPizza,idEspecialidad, idTamanio,aplica2x1,categoria1,categoria2,categoria3],
+        'UPDATE preesppropro.pizza SET id_especialidad=$2, id_tamanio=$3, aplica_2x1=$4, categoria1=$5, '
+        +'categoria2=$6, categoria3=$7 WHERE id=$1 RETURNING *',
+        [idPizza,idEspecialidad, idTamanioPizza,aplica2x1,categoria1,categoria2,categoria3],
         (error, results) => {
             if (error) {
                 throw error;
@@ -104,18 +105,25 @@ const actualizaPizza= (req, res) => {
 
 const eliminaPizza = (req, res) => {
     const idPizza = req.params.idPizza;
+    console.log('idPizza=',idPizza);
     pool.query(
-        'DELETE FROM preesppropro.pizza WHERE id=$1',
+        'DELETE FROM preesppropro.pizza WHERE id=$1;',        
         [idPizza],
         (error, results) => {
             if (error) {
-                throw error;
+                console.error("Error al eliminar la pizza:", error);
+                return res.status(500).json({ error: "Error al eliminar la pizza" });
             }
-            textoRespuesta = '{"respuesta": "Se eliminó una ' + results.rowCount + ' pizza: ' + idPizza + '"}';
-            res.status(201).json(JSON.parse(textoRespuesta));
+            if (results.rowCount > 0) {
+                const textoRespuesta = `{"respuesta": "Se eliminó una pizza con id: ${idPizza}"}`;
+                res.status(200).json(JSON.parse(textoRespuesta));
+            } else {
+                res.status(404).json({ respuesta: "No se encontró una pizza con el ID proporcionado" });
+            }
         }
     );
-}
+};
+
 
 module.exports = {
     getListaPizzas,

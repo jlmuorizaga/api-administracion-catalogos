@@ -71,16 +71,16 @@ const getPizza= (request, response) => {
     );
 }
 const insertaPizza = (req, res) => {
-    const { id, idEspecialidad,idTamanio, } = req.body;
+    const { idPizza, idEspecialidad,idTamanioPizza, aplica2x1,categoria1, categoria2, categoria3 } = req.body;
     pool.query(
-        'INSERT INTO preesppropro.pizza(id, id_especialidad, id_tamanio, aplica_2x1, categoria1, categoria2, categoria3) VALUES (?, ?, ?, ?, ?, ?, ?) RETURNING *;'
-        +'VALUES ($1, $2, $3) RETURNING *',
-        [id,descripcion,idTamanio],
+        'INSERT INTO preesppropro.pizza(id as "idPizza", id_especialidad as "idEspecialidad", id_tamanio as "idTamanioPizza", '
+        +'aplica_2x1 as "aplica2x1", categoria1, categoria2, categoria3) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *;',
+        [idPizza, idEspecialidad,idTamanioPizza, aplica2x1,categoria1, categoria2, categoria3 ],
         (error, results) => {
             if (error) {
                 throw error;
             }
-            textoRespuesta = '{"respuesta": "Se insertó nuevo ingrediente: ' + results.rows[0].id+ '"}';
+            textoRespuesta = '{"respuesta": "Se insertó nueva pizza: ' + results.rows[0].id+ '"}';
             res.status(201).json(JSON.parse(textoRespuesta));
         }
     );

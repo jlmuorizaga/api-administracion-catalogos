@@ -111,7 +111,7 @@ const eliminaPizza = (req, res) => {
             if (error) {
                 throw error;
             }
-            textoRespuesta = '{"respuesta": "Se eliminó la pizza"}';
+            textoRespuesta = '{"respuesta": "Se eliminó una ' + results.rowCount + ' pizza: ' + idPizza + '"}';
             res.status(201).json(JSON.parse(textoRespuesta));
         }
     );

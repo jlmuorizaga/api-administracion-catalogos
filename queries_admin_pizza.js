@@ -59,8 +59,9 @@ const getPizza= (request, response) => {
         +'p.aplica_2x1 as "aplica2x1", p.categoria1, p.categoria2, p.categoria3 FROM preesppropro.pizza as p '
         +'INNER JOIN preesppropro.especialidad_pizza as ep ON p.id_especialidad=ep.id '
         +'INNER JOIN preesppropro.tamanio_pizza as tp ON p.id_tamanio=tp.id '
-        +'ORDER BY "nombreEspecialidad","tamanioPizza" '
-        +'WHERE p.id=$1',
+        +'WHERE p.id=$1' 
+        +'ORDER BY "nombreEspecialidad","tamanioPizza" ',
+        
         [idPizza],
         (error, results) => {
             if (error) {

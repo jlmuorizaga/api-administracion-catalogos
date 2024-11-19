@@ -52,6 +52,7 @@ const getListaPizzas = (request, response) => {
 }
 const getPizza= (request, response) => {
     const idPizza = request.params.id;
+    console.log('idPizza=',idPizza);
     pool.query(
         'SELECT p.id as "idPizza", p.id_especialidad as "idEspecialidad", ep.nombre as "nombreEspecialidad",'
 		+'p.id_tamanio as "idTamanioPizza", tp.nombre as "tamanioPizza",'

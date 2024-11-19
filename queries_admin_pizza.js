@@ -87,31 +87,31 @@ const insertaPizza = (req, res) => {
 }
 
 const actualizaPizza= (req, res) => {
-    const id = req.params.id;
-    const { descripcion,idTamanio } = req.body;
+    const idPizza = req.params.id;
+    const {idEspecialidad, idTamanio,aplica2x1,categoria1,categoria2,categoria3 } = req.body;
     pool.query(
-        'UPDATE preesppropro.orilla SET descripcion=$2,id_tamanio=$3 WHERE id=$1 RETURNING *',
-        [id,descripcion,idTamanio],
+        'UPDATE preesppropro.pizza SET id_especialidad=$2, id_tamanio=$3, aplica_2x1=$4, categoria1=$5, categoria2=$6, categoria3=$7 WHERE id=$1 RETURNING *',
+        [idPizza,idEspecialidad, idTamanio,aplica2x1,categoria1,categoria2,categoria3],
         (error, results) => {
             if (error) {
                 throw error;
             }
-            textoRespuesta = '{"respuesta": "Se actualizó ingrediente: ' + results.rows[0].id + '"}';
+            textoRespuesta = '{"respuesta": "Se actualizó la pizza: ' + results.rows[0].id + '"}';
             res.status(201).json(JSON.parse(textoRespuesta));
         }
     );
 }
 
 const eliminaPizza = (req, res) => {
-    const id = req.params.id;
+    const idPizza = req.params.id;
     pool.query(
-        'DELETE FROM preesppropro.orilla WHERE id=$1',
-        [id],
+        'DELETE FROM preesppropro.pizza WHERE id=$1',
+        [idPizza],
         (error, results) => {
             if (error) {
                 throw error;
             }
-            textoRespuesta = '{"respuesta": "Se eliminó ' + results.rowCount + ' ingrediente: ' + id + '"}';
+            textoRespuesta = '{"respuesta": "Se eliminó la pizza con id: ' + id + '"}';
             res.status(201).json(JSON.parse(textoRespuesta));
         }
     );

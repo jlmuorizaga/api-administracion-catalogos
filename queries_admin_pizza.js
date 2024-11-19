@@ -51,10 +51,16 @@ const getListaPizzas = (request, response) => {
     );
 }
 const getPizza= (request, response) => {
-    const id = request.params.id;
+    const idPizza = request.params.id;
     pool.query(
-        'SELECT id, id_especialidad, id_tamanio, aplica_2x1, categoria1, categoria2, categoria3 FROM preesppropro.pizza WHERE id=$',
-        [id],
+        'SELECT p.id as "idPizza", p.id_especialidad as "idEspecialidad", ep.nombre as "nombreEspecialidad",'
+		+'p.id_tamanio as "idTamanioPizza", tp.nombre as "tamanioPizza",'
+        +'p.aplica_2x1 as "aplica2x1", p.categoria1, p.categoria2, p.categoria3 FROM preesppropro.pizza as p '
+        +'INNER JOIN preesppropro.especialidad_pizza as ep ON p.id_especialidad=ep.id '
+        +'INNER JOIN preesppropro.tamanio_pizza as tp ON p.id_tamanio=tp.id '
+        +'ORDER BY "nombreEspecialidad","tamanioPizza" '
+        +'WHERE p.id=$1'
+        [idPizza],
         (error, results) => {
             if (error) {
                 throw error;

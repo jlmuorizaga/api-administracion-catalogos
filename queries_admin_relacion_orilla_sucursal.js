@@ -17,10 +17,17 @@ const pool = new Pool({
 });
 
 
-const getListaPromocionesEspeciales = (request, response) => {
+const getListaRelacionOrillaSucursal = (request, response) => {
+    const idSucursal = request.params.idSucursal;
     pool.query(
-        'SELECT id_promocion as "idPromocion", nombre, descripcion, tipo, definicion, precio, activa, img_url as "imgURL" '
-        +'FROM preesppropro.promocion_especial ORDER BY nombre',
+        'SELECT ros.id_orilla as "idOrilla", o.descripcion as "descripcionOrilla", tp.id as "idTamanioPizza",tp.nombre as "tamanioPizza",'
+        +'ros.id_sucursal as "idSucursal", s.clave as "claveSucursal",ros.precio as "precio"'
+        +'FROM preesppropro.relacion_orilla_sucursal as ros '
+        +'INNER JOIN preesppropro.orilla as o ON ros.id_orilla=o.id '
+        +'INNER JOIN preesppropro.tamanio_pizza as tp ON o.id_tamanio=tp.id '
+        +'INNER JOIN preesppropro.sucursal AS s ON s.id=ros.id_sucursal and s.clave=$1 '
+        +'ORDER BY "descripcionOrilla","tamanioPizza"',
+        [idSucursal],
         (error, results) => {
             if (error) {
                 throw error;
@@ -30,23 +37,8 @@ const getListaPromocionesEspeciales = (request, response) => {
     );
 }
 
-const getListaPromocionesEspecialesQueNoEstanEnRelacionPromocionEspecialSucursal= (request, response) => {
-    const idSucursal = request.params.idSucursal;
-    pool.query(
-        ' SELECT pe.id_promocion as "idPromocion", pe.nombre, pe.descripcion, pe.tipo, pe.definicion, pe.precio, pe.activa '
-        +'FROM preesppropro.promocion_especial as pe WHERE (pe.id_promocion not in(SELECT id_promocion as "idPromocion" '
-        +'FROM preesppropro.relacion_promocion_especial_sucursal where id_sucursal=$1)) AND activa=\'S\' order by pe.nombre asc ',
-        [idSucursal],
-        (error, results) => {
-            if (error) {
-                throw error;
-            }
-            response.status(200).json(results.rows);
-        }        
-    );
-}
 
-const getPromocionEspecial= (request, response) => {
+const getRegistroRelacionOrillaSucursal= (request, response) => {
     const idPromocion = request.params.idPromocion;
     pool.query(
         'SELECT id_promocion as "idPromocion", nombre, descripcion, tipo, definicion, precio, activa, img_url as "imgURL" '
@@ -60,7 +52,7 @@ const getPromocionEspecial= (request, response) => {
         }
     );
 }
-const insertaPromocionEspecial = (req, res) => {
+const insertaRegistroRelacionOrillaSucursal = (req, res) => {
     const { idPromocion, nombre,descripcion,tipo,definicion,precio,activa,imgURL } = req.body;
     pool.query(
         'INSERT INTO preesppropro.promocion_especial(id_promocion, nombre, descripcion,'
@@ -76,7 +68,7 @@ const insertaPromocionEspecial = (req, res) => {
     );
 }
 
-const actualizaPromocionEspecial= (req, res) => {
+const actualizaRegistroRelacionOrillaSucursal= (req, res) => {
     const idPromocion = req.params.idPromocion;
     const { nombre,descripcion,tipo,definicion,precio,activa, imgURL } = req.body;
     console.log('Estoy en ActualizaPromocionEspecial');
@@ -95,7 +87,7 @@ const actualizaPromocionEspecial= (req, res) => {
     );
 }
 
-const eliminaPromocionEspecial = (req, res) => {
+const eliminaRegistroRelacionOrillaSucursal = (req, res) => {
     const idPromocion = req.params.idPromocion;
     console.log('Entré a eliminiaPromocionEspecial');
     console.log('idPromocion='+idPromocion);
@@ -113,10 +105,9 @@ const eliminaPromocionEspecial = (req, res) => {
 }
 
 module.exports = {
-    getListaPromocionesEspeciales,
-    getPromocionEspecial,
-    insertaPromocionEspecial,
-    actualizaPromocionEspecial,
-    eliminaPromocionEspecial,
-    getListaPromocionesEspecialesQueNoEstanEnRelacionPromocionEspecialSucursal
+    getListaRelacionOrillaSucursal,
+    getRegistroRelacionOrillaSucursal,
+    insertaRegistroRelacionOrillaSucursal,
+    actualizaRegistroRelacionOrillaSucursal,
+    eliminaRegistroRelacionOrillaSucursal,
 }

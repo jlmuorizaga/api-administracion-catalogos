@@ -17,6 +17,7 @@ const db_orilla=require('./queries_admin_orilla')
 const db_pizza=require('./queries_admin_pizza')
 const db_promocion_especial=require('./queries_admin_promocion_especial')
 const db_relacion_promocion_especial_sucursal=require('./queries_admin_relacion_promocion_especial_sucursal')
+const db_ros=require('./queries_admin_relacion_orilla_sucursal')
 const port = process.env.PORT || 3005
 
 app.use(bodyParser.json())
@@ -116,6 +117,14 @@ app.get('/relacion_producto_precio_sucursal/:idSucursal/:idProducto', db_rpps.ge
 app.post('/relacion_producto_precio_sucursal', db_rpps.insertaRelacionProductoPrecioSucursal);
 app.put('/relacion_producto_precio_sucursal/:idSucursal/:idProducto', db_rpps.actualizaRelacionProductoPrecioSucursal);
 app.delete('/relacion_producto_precio_sucursal/:idSucursal/:idProducto', db_rpps.eliminaRelacionProductoPrecioSucursal);
+
+//Endpoints para relacion_orilla_sucursal
+app.get('/relacion_orilla_sucursal/:idSucursal', db_ros.getListaRelacionOrillaSucursal);
+app.get('/relacion_orilla_sucursal/:idOrilla/:idSucursal', db_ros.getRegistroRelacionOrillaSucursal);
+app.post('/relacion_orilla_sucursal', db_ros.insertaRegistroRelacionOrillaSucursal);
+app.put('/relacion_orilla_sucursal/:idOrilla/:idSucursal', db_ros.actualizaRegistroRelacionOrillaSucursal);
+app.delete('/relacion_orilla_sucursal/:idOrilla/:idSucursal', db_ros.eliminaRegistroRelacionOrillaSucursal);
+
 
 //Endpoints para region
 app.get('/regiones', db_region.getListaRegiones);

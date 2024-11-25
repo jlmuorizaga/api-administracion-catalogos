@@ -19,13 +19,14 @@ const pool = new Pool({
 
 const getListaRelacionOrillaSucursal = (request, response) => {
     const idSucursal = request.params.idSucursal;
+    console.log('idSucursal=',idSucursal)
     pool.query(
         'SELECT ros.id_orilla as "idOrilla", o.descripcion as "descripcionOrilla", tp.id as "idTamanioPizza",tp.nombre as "tamanioPizza",'
         +'ros.id_sucursal as "idSucursal", s.clave as "claveSucursal",ros.precio as "precio"'
         +'FROM preesppropro.relacion_orilla_sucursal as ros '
         +'INNER JOIN preesppropro.orilla as o ON ros.id_orilla=o.id '
         +'INNER JOIN preesppropro.tamanio_pizza as tp ON o.id_tamanio=tp.id '
-        +'INNER JOIN preesppropro.sucursal AS s ON s.id=ros.id_sucursal and s.clave=$1 '
+        +'INNER JOIN preesppropro.sucursal AS s ON s.id=ros.id_sucursal and s.id=$1 '
         +'ORDER BY "descripcionOrilla","tamanioPizza"',
         [idSucursal],
         (error, results) => {

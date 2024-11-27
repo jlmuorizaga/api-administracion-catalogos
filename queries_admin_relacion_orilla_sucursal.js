@@ -89,17 +89,19 @@ const actualizaRegistroRelacionOrillaSucursal= (req, res) => {
 }
 
 const eliminaRegistroRelacionOrillaSucursal = (req, res) => {
-    const idPromocion = req.params.idPromocion;
-    console.log('Entré a eliminiaPromocionEspecial');
-    console.log('idPromocion='+idPromocion);
+    const idOrilla = req.params.idOrilla;
+    const idSucursal = req.params.idSucursal;
+    console.log('Entré a eliminaRegistroRelacionOrillaSucursal');
+    console.log('idOrilla='+idOrilla);
+    console.log('idSucursal='+idSucursal);
     pool.query(
-        'DELETE FROM preesppropro.promocion_especial WHERE id_promocion=$1',        
-        [idPromocion],
+        'DELETE FROM preesppropro.relacion_orilla_sucursal WHERE idOrilla=$1 and idSucursal=$2',
+        [idOrilla,idSucursal],
         (error, results) => {
             if (error) {
                 throw error;
             }
-            textoRespuesta = '{"respuesta": "Se eliminó ' + results.rowCount + ' promocion_especial: ' + idPromocion + '"}';
+            textoRespuesta = '{"respuesta": "Se eliminó ' + results.rows[0].idOrilla + '"}';
             res.status(201).json(JSON.parse(textoRespuesta));
         }
     );

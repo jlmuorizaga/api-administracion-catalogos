@@ -54,35 +54,32 @@ const getRegistroRelacionOrillaSucursal= (request, response) => {
     );
 }
 const insertaRegistroRelacionOrillaSucursal = (req, res) => {
-    const { idPromocion, nombre,descripcion,tipo,definicion,precio,activa,imgURL } = req.body;
+    const { idOrilla, idSucursal,precio } = req.body;
     pool.query(
-        'INSERT INTO preesppropro.promocion_especial(id_promocion, nombre, descripcion,'
-        +'tipo, definicion, precio, activa,img_url) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *',
-        [idPromocion, nombre,descripcion,tipo,definicion,precio,activa,imgURL],
+        'INSERT INTO preesppropro.relacion_orilla_sucursal(id_orilla, id_sucursal, precio)VALUES ($1, $2, $3) RETURNING *',
+        [idOrilla, idSucursal,precio],
         (error, results) => {
             if (error) {
                 throw error;
             }
-            textoRespuesta = '{"respuesta": "Se insertó nueva promocion_especial: ' + results.rows[0].id_promocion + '"}';
+            textoRespuesta = '{"respuesta": "Se insertó nuevo registro relacion orilla sucursal: ' + results.rows[0].id_orilla + '"}';
             res.status(201).json(JSON.parse(textoRespuesta));
         }
     );
 }
 
 const actualizaRegistroRelacionOrillaSucursal= (req, res) => {
-    const idPromocion = req.params.idPromocion;
-    const { nombre,descripcion,tipo,definicion,precio,activa, imgURL } = req.body;
-    console.log('Estoy en ActualizaPromocionEspecial');
-    console.log('idPromocion=',idPromocion);
+    const idOrilla = req.params.idOrilla;
+    const idSucursal = req.params.idSucursal;
+    const {precio} = req.body;
     pool.query(
-        'UPDATE preesppropro.promocion_especial	SET nombre=$2, descripcion=$3, '
-        +'tipo=$4, definicion=$5, precio=$6, activa=$7, img_url=$8 WHERE id_promocion=$1 RETURNING *',
-        [idPromocion,nombre,descripcion,tipo,definicion,precio,activa, imgURL],
+        'UPDATE preesppropro.relacion_orilla_sucursal SET precio=$3 WHERE id_orilla=$1 and id_sucursal=$2 RETURNING *',
+        [idOrilla,idSucursal,precio],
         (error, results) => {
             if (error) {
                 throw error;
             }
-            textoRespuesta = '{"respuesta": "Se actualizó promocion_especial: ' + results.rows[0].id_promocion + '"}';
+            textoRespuesta = '{"respuesta": "Se actualizó relacion orilla sucursal: ' + results.rows[0].id_orilla + '"}';
             res.status(201).json(JSON.parse(textoRespuesta));
         }
     );
@@ -95,7 +92,7 @@ const eliminaRegistroRelacionOrillaSucursal = (req, res) => {
     console.log('idOrilla='+idOrilla);
     console.log('idSucursal='+idSucursal);
     pool.query(
-        'DELETE FROM preesppropro.relacion_orilla_sucursal WHERE idOrilla=$1 and idSucursal=$2',
+        'DELETE FROM preesppropro.relacion_orilla_sucursal WHERE id_orilla=$1 and id_sucursal=$2',
         [idOrilla,idSucursal],
         (error, results) => {
             if (error) {

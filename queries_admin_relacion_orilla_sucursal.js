@@ -39,6 +39,7 @@ const getListaRelacionOrillaSucursal = (request, response) => {
 }
 
 
+
 const getRegistroRelacionOrillaSucursal= (request, response) => {
     const idPromocion = request.params.idPromocion;
     pool.query(

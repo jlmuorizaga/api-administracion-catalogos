@@ -19,6 +19,7 @@ const db_promocion_especial=require('./queries_admin_promocion_especial')
 const db_relacion_promocion_especial_sucursal=require('./queries_admin_relacion_promocion_especial_sucursal')
 const db_ros=require('./queries_admin_relacion_orilla_sucursal')
 const db_rps=require('./queries_admin_relacion_pizza_sucursal')
+const db_rprods=require('./queries_admin_relacion_producto_sucursal')
 const port = process.env.PORT || 3005
 
 app.use(bodyParser.json())
@@ -127,13 +128,20 @@ app.put('/relacion_orilla_sucursal/:idOrilla/:idSucursal', db_ros.actualizaRegis
 app.delete('/relacion_orilla_sucursal/:idOrilla/:idSucursal', db_ros.eliminaRegistroRelacionOrillaSucursal);
 
 //Endpoints para relacion_pizza_sucursal
-app.get('/relacion_pizza_sucursal/:idSucursal', db_rps.getListaRelacionPizzaSucursal);
-
-app.get('/relacion_orilla_sucursal/:idOrilla/:idSucursal', db_ros.getRegistroRelacionOrillaSucursal);
-app.post('/relacion_orilla_sucursal', db_ros.insertaRegistroRelacionOrillaSucursal);
+app.get('/relacion_producto_sucursal/:idSucursal', db_rps.getListaRelacionPizzaSucursal);
+/*
+app.get('/relacion_pizza_sucursal/:idOrilla/:idSucursal', db_ros.getRegistroRelacionOrillaSucursal);
+app.post('/relacion_pizza_sucursal', db_ros.insertaRegistroRelacionOrillaSucursal);
 app.put('/relacion_orilla_sucursal/:idOrilla/:idSucursal', db_ros.actualizaRegistroRelacionOrillaSucursal);
 app.delete('/relacion_orilla_sucursal/:idOrilla/:idSucursal', db_ros.eliminaRegistroRelacionOrillaSucursal);
+*/
 
+//Endpoints para relacion_producto_sucursal
+app.get('/relacion_producto_sucursal/:idSucursal', db_rprods.getListaRelacionProductoSucursal);
+app.get('/relacion_producto_sucursal/:idOrilla/:idSucursal', db_rprods.getRegistroRelacionOrillaSucursal);
+app.post('/relacion_producto_sucursal', db_rprods.insertaRegistroRelacionOrillaSucursal);
+app.put('/relacion_producto_sucursal/:idOrilla/:idSucursal', db_rprods.actualizaRegistroRelacionOrillaSucursal);
+app.delete('/relacion_producto_sucursal/:idOrilla/:idSucursal', dbv_ros.eliminaRegistroRelacionOrillaSucursal);
 
 //Endpoints para region
 app.get('/regiones', db_region.getListaRegiones);

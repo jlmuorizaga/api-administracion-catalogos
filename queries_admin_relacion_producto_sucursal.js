@@ -17,20 +17,20 @@ const pool = new Pool({
 });
 
 
-const getListaRelacionPizzaSucursal = (request, response) => {
+const getListaRelacionProductoSucursal = (request, response) => {
     const idSucursal = request.params.idSucursal;
     console.log('idSucursal=',idSucursal)
     pool.query(
-        'SELECT rps.id_pizza as "idPizza", ep.nombre as "nombreEspecialidad", tp.nombre as "tamanioPizza",rps.id_sucursal as "idSucursal", '
-+'s.clave as "claveSucursal",rps.precio_x2 as "precioX2", rps.precio_x1 as "precioX1" '
-+'FROM preesppropro.relacion_pizza_sucursal AS rps '
-+'INNER JOIN preesppropro.pizza as p ON rps.id_pizza=p.id '
-+'INNER JOIN preesppropro.especialidad_pizza AS ep ON ep.id=p.id_especialidad '
-+'INNER JOIN preesppropro.tamanio_pizza AS tp ON tp.id=p.id_tamanio '
-+'INNER JOIN preesppropro.sucursal AS s ON s.id=rps.id_sucursal '
-+'AND s.id=$1 '
-//+'AND s.id='0192a635-2d12-7821-90d3-1f4ccff4c8d8'
-+'ORDER BY ep.nombre,tp.nombre',
+        'SELECT rps.id_producto as "idProducto", p.descripcion, p.tamanio,tp.nombre as "tipoProductoNombre",'
+        +'id_sucursal as "idSucursal", s.clave as "claveSucursal", rps.precio '
+	+'FROM preesppropro.relacion_producto_sucursal as rps'
+	+' INNER JOIN preesppropro.producto AS p ON p.id=rps.id_producto'
+	+' INNER JOIN preesppropro.producto_tipo AS tp ON tp.id=p.id_tipo_producto'
+	+' INNER JOIN preesppropro.sucursal AS s ON s.id=rps.id_sucursal '
+	//--AND s.id='0192a635-0b52-70f9-add2-75b610e99021'
+	//+' AND s.id='0192a635-2d12-7821-90d3-1f4ccff4c8d8'
+    +' AND s.id=$1 '
+	+' ORDER BY  p.descripcion,p.tamanio',
         [idSucursal],
         (error, results) => {
             if (error) {
@@ -109,7 +109,7 @@ const eliminaRegistroRelacionOrillaSucursal = (req, res) => {
 }
 
 module.exports = {
-    getListaRelacionPizzaSucursal,
+    getListaRelacionProductoSucursal,
     getRegistroRelacionOrillaSucursal,
     insertaRegistroRelacionOrillaSucursal,
     actualizaRegistroRelacionOrillaSucursal,

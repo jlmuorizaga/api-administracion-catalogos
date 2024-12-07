@@ -141,7 +141,7 @@ app.get('/relacion_producto_sucursal/:idSucursal', db_rprods.getListaRelacionPro
 app.get('/relacion_producto_sucursal/:idOrilla/:idSucursal', db_rprods.getRegistroRelacionOrillaSucursal);
 app.post('/relacion_producto_sucursal', db_rprods.insertaRegistroRelacionOrillaSucursal);
 app.put('/relacion_producto_sucursal/:idOrilla/:idSucursal', db_rprods.actualizaRegistroRelacionOrillaSucursal);
-app.delete('/relacion_producto_sucursal/:idOrilla/:idSucursal', dbv_ros.eliminaRegistroRelacionOrillaSucursal);
+app.delete('/relacion_producto_sucursal/:idOrilla/:idSucursal', db_rprods.eliminaRegistroRelacionOrillaSucursal);
 
 //Endpoints para region
 app.get('/regiones', db_region.getListaRegiones);

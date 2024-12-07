@@ -57,7 +57,7 @@ const getListadoPizzasNoEstanEnRPS = (request, response) => {
       "INNER JOIN preesppropro.especialidad_pizza AS ep ON ep.id = p.id_especialidad " +
       "INNER JOIN preesppropro.tamanio_pizza AS tp ON tp.id = p.id_tamanio " +
       "LEFT JOIN preesppropro.relacion_pizza_sucursal AS rps " +
-      "ON rps.id_pizza = p.id AND rps.id_sucursal = $1" +
+      "ON rps.id_pizza = p.id AND rps.id_sucursal = $1 " +
       "WHERE rps.id_pizza IS NULL " +
       "ORDER BY ep.nombre, tp.nombre;",
     [idSucursal],

@@ -125,21 +125,21 @@ const actualizaRegistroRelacionOrillaSucursal = (req, res) => {
   );
 };
 
-const eliminaRegistroRelacionOrillaSucursal = (req, res) => {
-  const idOrilla = req.params.idOrilla;
+const eliminaRegistroRelacionPizzaSucursal = (req, res) => {
+  const idPizza = req.params.idPizza;
   const idSucursal = req.params.idSucursal;
-  console.log("Entré a eliminaRegistroRelacionOrillaSucursal");
-  console.log("idOrilla=" + idOrilla);
+  console.log("Entré a eliminaRegistroRelacionPizzaSucursal");
+  console.log("idPizza=" + idPizza);
   console.log("idSucursal=" + idSucursal);
   pool.query(
-    "DELETE FROM preesppropro.relacion_orilla_sucursal WHERE id_orilla=$1 and id_sucursal=$2",
-    [idOrilla, idSucursal],
+    "DELETE FROM preesppropro.relacion_pizza_sucursal WHERE id_pizza=$1 and id_sucursal=$2",
+    [idPizza, idSucursal],
     (error, results) => {
       if (error) {
         throw error;
       }
       textoRespuesta =
-        '{"respuesta": "Se eliminó ' + results.rows[0].idOrilla + '"}';
+        '{"respuesta": "Se eliminó ' + results.rows[0] + '"}';
       res.status(201).json(JSON.parse(textoRespuesta));
     }
   );
@@ -151,5 +151,5 @@ module.exports = {
   getRegistroRelacionOrillaSucursal,
   insertaRegistroRelacionPizzaSucursal,
   actualizaRegistroRelacionOrillaSucursal,
-  eliminaRegistroRelacionOrillaSucursal,
+  eliminaRegistroRelacionPizzaSucursal,
 };

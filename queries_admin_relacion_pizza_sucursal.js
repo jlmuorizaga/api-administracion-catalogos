@@ -39,8 +39,15 @@ const getListaRelacionPizzaSucursal = (request, response) => {
       if (error) {
         throw error;
       }
+      results.rows.forEach((element) => {
+        element.precioX2 = Number(element.precioX2);
+      });
+      results.rows.forEach((element) => {
+        element.precioX1 = Number(element.precioX1);
+      });
       response.status(200).json(results.rows);
     }
+    
   );
 };
 

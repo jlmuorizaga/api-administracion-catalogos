@@ -129,6 +129,8 @@ app.delete('/relacion_orilla_sucursal/:idOrilla/:idSucursal', db_ros.eliminaRegi
 
 //Endpoints para relacion_pizza_sucursal
 app.get('/relacion_pizza_sucursal/:idSucursal', db_rps.getListaRelacionPizzaSucursal);
+app.post('/relacion_pizza_sucursal', db_rps.insertaRegistroRelacionPizzaSucursal);
+app.get('/dameListadoPizzasNoEstanEnRPS/:idSucursal',db_rps.getListadoPizzasNoEstanEnRPS);
 /*
 app.get('/relacion_pizza_sucursal/:idOrilla/:idSucursal', db_ros.getRegistroRelacionOrillaSucursal);
 app.post('/relacion_pizza_sucursal', db_ros.insertaRegistroRelacionOrillaSucursal);

@@ -22,13 +22,13 @@ const pool = new Pool({
 
 const getListaRelacionPromocionesEspecialesSucursal = (request, response) => {
   const idSucursal = request.params.idSucursal;
-  console.log('idSucursal='+idSucursal)
+  console.log("idSucursal=" + idSucursal);
   pool.query(
-'SELECT pe.id_promocion, pe.nombre AS "nombrePromocion", pe.descripcion AS "descripcionPromocion",rpes.id_sucursal AS "idSucursal",'
-	+'s.clave AS "claveSucursal",rpes.activa FROM preesppropro.promocion_especial AS pe '
-  +'INNER JOIN preesppropro.relacion_promocion_especial_sucursal AS rpes ON pe.id_promocion = rpes.id_promocion '
-  +'INNER JOIN preesppropro.sucursal AS s ON s.id = rpes.id_sucursal '
-  +'WHERE rpes.id_sucursal = $1 ORDER BY pe.nombre, pe.descripcion;',
+    'SELECT pe.id_promocion, pe.nombre AS "nombrePromocion", pe.descripcion AS "descripcionPromocion",rpes.id_sucursal AS "idSucursal",' +
+      's.clave AS "claveSucursal",rpes.activa FROM preesppropro.promocion_especial AS pe ' +
+      "INNER JOIN preesppropro.relacion_promocion_especial_sucursal AS rpes ON pe.id_promocion = rpes.id_promocion " +
+      "INNER JOIN preesppropro.sucursal AS s ON s.id = rpes.id_sucursal " +
+      "WHERE rpes.id_sucursal = $1 ORDER BY pe.nombre, pe.descripcion;",
     [idSucursal],
     (error, results) => {
       if (error) {
@@ -41,15 +41,15 @@ const getListaRelacionPromocionesEspecialesSucursal = (request, response) => {
 const getRelacionPromocionEspecialSucursal = (request, response) => {
   const idPromocion = request.params.idPromocion;
   const idSucursal = request.params.idSucursal;
-  console.log('Entré a getRelacionPromocionEspecialSucursal()')
+  console.log("Entré a getRelacionPromocionEspecialSucursal()");
   console.log("idPromocion=", idPromocion);
   console.log("idSucursal=", idSucursal);
   pool.query(
     'SELECT r.id_promocion as "idPromocion" ,pe.nombre as "nombre",pe.descripcion as "descripcion",r.id_sucursal as "idSucursal",s.clave as "claveSucursal",' +
       's.nombre_sucursal as "nombreSucursal",r.activa as "activa" FROM preesppropro.relacion_promocion_especial_sucursal as r,preesppropro.sucursal as s,' +
-      'preesppropro.promocion_especial as pe WHERE s.id=r.id_sucursal AND pe.id_promocion=r.id_promocion AND s.id=$2 ' +
-      'AND r.id_promocion=$1',
-      [idPromocion, idSucursal],
+      "preesppropro.promocion_especial as pe WHERE s.id=r.id_sucursal AND pe.id_promocion=r.id_promocion AND s.id=$2 " +
+      "AND r.id_promocion=$1",
+    [idPromocion, idSucursal],
     (error, results) => {
       if (error) {
         throw error;
@@ -124,10 +124,30 @@ const eliminaRelacionPromocionEspecialSucursal = (req, res) => {
   );
 };
 
+const getPromocionesEspecialesNoEstanEnRPE = (request, response) => {
+  const idSucursal = request.params.idSucursal;
+  console.log("idSucursal=", idSucursal);
+  pool.query(
+    'SELECT pe.id_promocion, pe.nombre AS "nombrePromocion", pe.descripcion AS "descripcionPromocion", ' +
+      "pe.tipo, pe.definicion, pe.precio, pe.activa, pe.img_url " +
+      "FROM preesppropro.promocion_especial AS pe LEFT JOIN preesppropro.relacion_promocion_especial_sucursal AS rpes " +
+      "ON pe.id_promocion = rpes.id_promocion AND rpes.id_sucursal = $1 " +
+      "WHERE rpes.id_promocion IS NULL ORDER BY pe.nombre, pe.descripcion;	",
+    [idSucursal],
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      response.status(200).json(results.rows);
+    }
+  );
+};
+
 module.exports = {
   getListaRelacionPromocionesEspecialesSucursal,
   getRelacionPromocionEspecialSucursal,
   insertaRelacionPromocionEspecialSucursal,
   actualizaRelacionPromocionEspecialSucursal,
   eliminaRelacionPromocionEspecialSucursal,
+  getPromocionesEspecialesNoEstanEnRPE,
 };

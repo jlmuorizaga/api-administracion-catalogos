@@ -24,7 +24,7 @@ const getListaRelacionPromocionesEspecialesSucursal = (request, response) => {
   const idSucursal = request.params.idSucursal;
   console.log("idSucursal=" + idSucursal);
   pool.query(
-    'SELECT pe.id_promocion, pe.nombre AS "nombrePromocion", pe.descripcion AS "descripcionPromocion",rpes.id_sucursal AS "idSucursal",' +
+    'SELECT pe.id_promocion as "idPromocion", pe.nombre AS "nombrePromocion", pe.descripcion AS "descripcionPromocion",rpes.id_sucursal AS "idSucursal",' +
       's.clave AS "claveSucursal",rpes.activa FROM preesppropro.promocion_especial AS pe ' +
       "INNER JOIN preesppropro.relacion_promocion_especial_sucursal AS rpes ON pe.id_promocion = rpes.id_promocion " +
       "INNER JOIN preesppropro.sucursal AS s ON s.id = rpes.id_sucursal " +

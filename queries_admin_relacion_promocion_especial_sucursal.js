@@ -28,7 +28,7 @@ const getListaRelacionPromocionesEspecialesSucursal = (request, response) => {
 	+'s.clave AS "claveSucursal",rpes.activa FROM preesppropro.promocion_especial AS pe '
   +'INNER JOIN preesppropro.relacion_promocion_especial_sucursal AS rpes ON pe.id_promocion = rpes.id_promocion '
   +'INNER JOIN preesppropro.sucursal AS s ON s.id = rpes.id_sucursal '
-  +'WHERE rpes.id_sucursal = $1 ORDER BY pe.nombre, pe.descripcion;'
+  +'WHERE rpes.id_sucursal = $1 ORDER BY pe.nombre, pe.descripcion;',
     [idSucursal],
     (error, results) => {
       if (error) {

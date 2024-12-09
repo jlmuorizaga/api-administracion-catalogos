@@ -22,6 +22,7 @@ const pool = new Pool({
 
 const getListaRelacionPromocionesEspecialesSucursal = (request, response) => {
   const idSucursal = request.params.idSucursal;
+  console.log('idSucursal='+idSucursal)
   pool.query(
 'SELECT pe.id_promocion, pe.nombre AS "nombrePromocion", pe.descripcion AS "descripcionPromocion",rpes.id_sucursal AS "idSucursal",'
 	+'s.clave AS "claveSucursal",rpes.activa FROM preesppropro.promocion_especial AS pe '

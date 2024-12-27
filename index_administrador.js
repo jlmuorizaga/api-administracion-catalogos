@@ -120,6 +120,13 @@ app.post('/relacion_producto_precio_sucursal', db_rpps.insertaRelacionProductoPr
 app.put('/relacion_producto_precio_sucursal/:idSucursal/:idProducto', db_rpps.actualizaRelacionProductoPrecioSucursal);
 app.delete('/relacion_producto_precio_sucursal/:idSucursal/:idProducto', db_rpps.eliminaRelacionProductoPrecioSucursal);
 
+//Endpoints para relacion_producto_sucursal
+app.get('/relacion_producto_sucursal/:idSucursal', db_rprods.getListaRelacionProductoSucursal);
+app.get('/relacion_producto_sucursal/:idOrilla/:idSucursal', db_rprods.getRegistroRelacionOrillaSucursal);
+app.post('/relacion_producto_sucursal', db_rprods.insertaRegistroRelacionOrillaSucursal);
+app.put('/relacion_producto_sucursal/:idOrilla/:idSucursal', db_rprods.actualizaRegistroRelacionOrillaSucursal);
+app.delete('/relacion_producto_sucursal/:idOrilla/:idSucursal', db_rprods.eliminaRegistroRelacionOrillaSucursal);
+
 //Endpoints para relacion_orilla_sucursal
 app.get('/relacion_orilla_sucursal/:idSucursal', db_ros.getListaRelacionOrillaSucursal);
 app.get('/relacion_orilla_sucursal/:idOrilla/:idSucursal', db_ros.getRegistroRelacionOrillaSucursal);
@@ -140,12 +147,7 @@ app.put('/relacion_orilla_sucursal/:idOrilla/:idSucursal', db_ros.actualizaRegis
 app.delete('/relacion_orilla_sucursal/:idOrilla/:idSucursal', db_ros.eliminaRegistroRelacionOrillaSucursal);
 */
 
-//Endpoints para relacion_producto_sucursal
-app.get('/relacion_producto_sucursal/:idSucursal', db_rprods.getListaRelacionProductoSucursal);
-app.get('/relacion_producto_sucursal/:idOrilla/:idSucursal', db_rprods.getRegistroRelacionOrillaSucursal);
-app.post('/relacion_producto_sucursal', db_rprods.insertaRegistroRelacionOrillaSucursal);
-app.put('/relacion_producto_sucursal/:idOrilla/:idSucursal', db_rprods.actualizaRegistroRelacionOrillaSucursal);
-app.delete('/relacion_producto_sucursal/:idOrilla/:idSucursal', db_rprods.eliminaRegistroRelacionOrillaSucursal);
+
 
 //Endpoints para region
 app.get('/regiones', db_region.getListaRegiones);

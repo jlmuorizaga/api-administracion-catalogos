@@ -1,22 +1,22 @@
 //const DB_HOST = process.env.DB_HOST || 'database-1.cgujpjkz4fsl.us-west-1.rds.amazonaws.com';
- const DB_HOST = process.env.DB_HOST ||'database-1.czyiomwau3kc.us-east-1.rds.amazonaws.com';
- //const DB_HOST = process.env.DB_HOST || 'localhost';
+ //const DB_HOST = process.env.DB_HOST ||'database-1.czyiomwau3kc.us-east-1.rds.amazonaws.com';
+ const DB_HOST = process.env.DB_HOST || 'localhost';
  const DB_USER = process.env.DB_USER || 'cheesepizzauser';
  const DB_PASSWORD = process.env.DB_PASSWORD || 'cheesepizza2001';
  const DB_NAME = process.env.DB_NAME ||  'chppreciosespecprodpromocdb';
  const URL_SERVER=process.env.URL_SERVER || 'http://ec2-54-153-58-93.us-west-1.compute.amazonaws.com/';
- const ENABLE_SSL = true; // Cambia a true para habilitar SSL
+ const ENABLE_SSL = false; // Cambia a true para habilitar SSL
 
 
  
  //AWS
- const DB_PORT = process.env.DB_PORT || 5432;
+ //const DB_PORT = process.env.DB_PORT || 5432;
 
  //MacBook
  //const DB_PORT = process.env.DB_PORT || 5432;
 
  //Laptop Omen
-//const DB_PORT = process.env.DB_PORT || 5436;
+const DB_PORT = process.env.DB_PORT || 5436;
 
 //Desktop INEGI
 //const DB_PORT = process.env.DB_PORT || 5433;

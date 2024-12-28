@@ -1,6 +1,5 @@
 const Pool = require('pg').Pool;
-
-const {DB_HOST,DB_USER,DB_PASSWORD,DB_NAME,DB_PORT} = require('./conexion_data_db.js')
+const {DB_HOST, DB_USER,DB_PASSWORD, DB_NAME,DB_PORT,URL_SERVER,ENABLE_SSL} = require('./conexion_data_db.js')
 
 
 //Pool de conexiones a base de datos
@@ -10,11 +9,11 @@ const pool = new Pool({
     database: DB_NAME,
     password: DB_PASSWORD,
     port: DB_PORT,
-    ssl: {
-        rejectUnauthorized: false,
-    },
-    
-
+    ...(ENABLE_SSL && {
+        ssl: {
+            rejectUnauthorized: false,
+        },
+    }),
 });
 
 

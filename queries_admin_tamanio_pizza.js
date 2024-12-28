@@ -1,13 +1,7 @@
 const Pool = require('pg').Pool;
+const {DB_HOST, DB_USER,DB_PASSWORD, DB_NAME,DB_PORT,URL_SERVER,ENABLE_SSL} = require('./conexion_data_db.js')
 
-//Datos de conexión a base de datos en AWS
-//const DB_HOST = process.env.DB_HOST || 'database-1.cgujpjkz4fsl.us-west-1.rds.amazonaws.com';
-//const DB_HOST = process.env.DB_HOST || 'localhost';
-//import {DB_HOST} from './conexion_data_dbconexion';
-const {DB_HOST,DB_USER,DB_PASSWORD,DB_NAME,DB_PORT} = require('./conexion_data_db.js')
 
-console.log('db_host='+DB_HOST);
-console.log('db_user='+DB_USER);
 //Pool de conexiones a base de datos
 const pool = new Pool({
     user: DB_USER,
@@ -15,9 +9,11 @@ const pool = new Pool({
     database: DB_NAME,
     password: DB_PASSWORD,
     port: DB_PORT,
-    ssl: {
-        rejectUnauthorized: false,
-    },
+    ...(ENABLE_SSL && {
+        ssl: {
+            rejectUnauthorized: false,
+        },
+    }),
 });
 
 

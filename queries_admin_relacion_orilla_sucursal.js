@@ -38,6 +38,27 @@ const getListaRelacionOrillaSucursal = (request, response) => {
     );
 }
 
+const getListadoOrillasNoEstanEnROS = (request, response) => {
+  const idSucursal = request.params.idSucursal;
+  console.log("idSucursal=", idSucursal);
+  pool.query(
+    'SELECT o.id AS "idOrilla", o.descripcion AS "descripcionOrilla",'
+	+'o.id_tamanio AS "idTamanio",tp.nombre AS "nombreTamanio" '
+	+'FROM preesppropro.orilla AS o '
+	+'INNER JOIN preesppropro.tamanio_pizza AS tp ON tp.id = o.id_tamanio '
+	+'LEFT JOIN preesppropro.relacion_orilla_sucursal AS ros '
+    +'ON ros.id_orilla = o.id AND ros.id_sucursal = $1 '
+	+'WHERE ros.id_orilla IS NULL '
+	+'ORDER BY o.descripcion,tp.nombre',
+    [idSucursal],
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      response.status(200).json(results.rows);
+    }
+  );
+};
 
 
 const getRegistroRelacionOrillaSucursal= (request, response) => {
@@ -108,6 +129,7 @@ const eliminaRegistroRelacionOrillaSucursal = (req, res) => {
 module.exports = {
     getListaRelacionOrillaSucursal,
     getRegistroRelacionOrillaSucursal,
+    getListadoOrillasNoEstanEnROS,
     insertaRegistroRelacionOrillaSucursal,
     actualizaRegistroRelacionOrillaSucursal,
     eliminaRegistroRelacionOrillaSucursal,

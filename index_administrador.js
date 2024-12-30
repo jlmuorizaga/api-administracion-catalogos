@@ -135,6 +135,7 @@ app.delete('/relacion_producto_sucursal/:idOrilla/:idSucursal', db_rprods.elimin
 //Endpoints para relacion_orilla_sucursal
 app.get('/relacion_orilla_sucursal/:idSucursal', db_ros.getListaRelacionOrillaSucursal);
 app.get('/relacion_orilla_sucursal/:idOrilla/:idSucursal', db_ros.getRegistroRelacionOrillaSucursal);
+app.get('/dameListadoOrillasNoEstanEnROS/:idSucursal', db_ros.getListadoOrillasNoEstanEnROS);
 app.post('/relacion_orilla_sucursal', db_ros.insertaRegistroRelacionOrillaSucursal);
 app.put('/relacion_orilla_sucursal/:idOrilla/:idSucursal', db_ros.actualizaRegistroRelacionOrillaSucursal);
 app.delete('/relacion_orilla_sucursal/:idOrilla/:idSucursal', db_ros.eliminaRegistroRelacionOrillaSucursal);

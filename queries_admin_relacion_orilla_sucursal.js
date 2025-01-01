@@ -120,7 +120,7 @@ const eliminaRegistroRelacionOrillaSucursal = (req, res) => {
             if (error) {
                 throw error;
             }
-            textoRespuesta = '{"respuesta": "Se eliminó ' + results.rows[0].idOrilla + '"}';
+            textoRespuesta = '{"respuesta": "Se eliminó ' + results.rows[0] + '"}';
             res.status(201).json(JSON.parse(textoRespuesta));
         }
     );

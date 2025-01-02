@@ -21,8 +21,8 @@ const getListaRelacionProductoSucursal = (request, response) => {
     const idSucursal = request.params.idSucursal;
     console.log('idSucursal=',idSucursal)
     pool.query(
-        'SELECT rps.id_producto as "idProducto", p.descripcion, p.tamanio,tp.nombre as "tipoProductoNombre",'
-        +'id_sucursal as "idSucursal", s.clave as "claveSucursal", rps.precio '
+    'SELECT rps.id_producto as "idProducto", p.descripcion, p.tamanio,tp.nombre as "tipoProductoNombre",'
+    +'id_sucursal as "idSucursal", s.clave as "claveSucursal", rps.precio '
 	+'FROM preesppropro.relacion_producto_sucursal as rps'
 	+' INNER JOIN preesppropro.producto AS p ON p.id=rps.id_producto'
 	+' INNER JOIN preesppropro.producto_tipo AS tp ON tp.id=p.id_tipo_producto'

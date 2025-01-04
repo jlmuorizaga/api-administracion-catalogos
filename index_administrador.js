@@ -131,7 +131,7 @@ app.get('/relacion_producto_sucursal/:idOrilla/:idSucursal', db_rprods.getRegist
 app.post('/relacion_producto_sucursal', db_rprods.insertaRegistroRelacionOrillaSucursal);
 
 // Nuevo 2 Ene 2024
-app.get('/dameListadoProductosNoEstanEnRPS/:idSucursal',db_rps.getListadoProductosNoEstanEnRPS);
+//app.get('/dameListadoProductosNoEstanEnRPS/:idSucursal',db_rprods.getListadoProductosNoEstanEnRPS);
 app.put('/relacion_producto_sucursal/:idOrilla/:idSucursal', db_rprods.actualizaRegistroRelacionOrillaSucursal);
 app.delete('/relacion_producto_sucursal/:idOrilla/:idSucursal', db_rprods.eliminaRegistroRelacionOrillaSucursal);
 

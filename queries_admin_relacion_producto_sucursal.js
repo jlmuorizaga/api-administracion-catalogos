@@ -57,6 +57,30 @@ const getRegistroRelacionOrillaSucursal= (request, response) => {
         }
     );
 }
+const getListadoProductosNoEstanEnRPS = (request, response) => {
+    const idSucursal = request.params.idSucursal;
+    console.log('idSucursal=',idSucursal)
+    pool.query(
+    'SELECT p.id AS "idProducto",'
+    +'p.descripcion AS "descripcion",'
+    +'p.tamanio AS "tamanio",'
+    +'tp.descripcion AS "descripcionTamanio" '
+    +'FROM preesppropro.producto AS p '
+    +'INNER JOIN preesppropro.producto_tipo AS tp ON tp.id = p.id_tipo_producto '
+    +'LEFT JOIN preesppropro.relacion_producto_sucursal AS rps '
+    +'ON rps.id_producto = p.id AND rps.id_sucursal =$1 '
+    +'WHERE rps.id_producto IS NULL '
+    +'ORDER BY p.descripcion, p.tamanio;',
+        [idSucursal],
+        (error, results) => {
+            if (error) {
+                throw error;
+            }
+            response.status(200).json(results.rows);
+        }
+    );
+}
+
 const insertaRegistroRelacionOrillaSucursal = (req, res) => {
     const { idOrilla, idSucursal,precio } = req.body;
     pool.query(
@@ -111,6 +135,7 @@ const eliminaRegistroRelacionOrillaSucursal = (req, res) => {
 module.exports = {
     getListaRelacionProductoSucursal,
     getRegistroRelacionOrillaSucursal,
+    getListadoProductosNoEstanEnRPS,
     insertaRegistroRelacionOrillaSucursal,
     actualizaRegistroRelacionOrillaSucursal,
     eliminaRegistroRelacionOrillaSucursal,

@@ -43,7 +43,7 @@ const getListaRelacionProductoSucursal = (request, response) => {
 
 
 
-const getRegistroRelacionOrillaSucursal= (request, response) => {
+const getRegistroRelacionProductoSucursal= (request, response) => {
     const idPromocion = request.params.idPromocion;
     pool.query(
         'SELECT id_promocion as "idPromocion", nombre, descripcion, tipo, definicion, precio, activa, img_url as "imgURL" '
@@ -81,52 +81,52 @@ const getListadoProductosNoEstanEnRPS = (request, response) => {
     );
 }
 
-const insertaRegistroRelacionOrillaSucursal = (req, res) => {
-    const { idOrilla, idSucursal,precio } = req.body;
+const insertaRegistroRelacionProductoSucursal = (req, res) => {
+    const { idProducto, idSucursal,precio } = req.body;
     pool.query(
-        'INSERT INTO preesppropro.relacion_orilla_sucursal(id_orilla, id_sucursal, precio)VALUES ($1, $2, $3) RETURNING *',
-        [idOrilla, idSucursal,precio],
+        'INSERT INTO preesppropro.relacion_producto_sucursal(id_producto, id_sucursal, precio) VALUES ($1, $2, $3) RETURNING *',
+        [idProducto, idSucursal,precio],
         (error, results) => {
             if (error) {
                 throw error;
             }
-            textoRespuesta = '{"respuesta": "Se insertó nuevo registro relacion orilla sucursal: ' + results.rows[0].id_orilla + '"}';
+            textoRespuesta = '{"respuesta": "Se insertó nuevo registro relacion producto sucursal: ' + results.rows[0].id_producto + '"}';
             res.status(201).json(JSON.parse(textoRespuesta));
         }
     );
 }
 
-const actualizaRegistroRelacionOrillaSucursal= (req, res) => {
-    const idOrilla = req.params.idOrilla;
+const actualizaRegistroRelacionProductoSucursal= (req, res) => {
+    const idProducto = req.params.idOrilla;
     const idSucursal = req.params.idSucursal;
     const {precio} = req.body;
     pool.query(
-        'UPDATE preesppropro.relacion_orilla_sucursal SET precio=$3 WHERE id_orilla=$1 and id_sucursal=$2 RETURNING *',
-        [idOrilla,idSucursal,precio],
+        'UPDATE preesppropro.relacion_producto_sucursal SET precio=$3 WHERE id_producto=$1 and id_sucursal=$2 RETURNING *',
+        [idProducto,idSucursal,precio],
         (error, results) => {
             if (error) {
                 throw error;
             }
-            textoRespuesta = '{"respuesta": "Se actualizó relacion orilla sucursal: ' + results.rows[0].id_orilla + '"}';
+            textoRespuesta = '{"respuesta": "Se actualizó relacion producto sucursal: ' + results.rows[0].id_producto + '"}';
             res.status(201).json(JSON.parse(textoRespuesta));
         }
     );
 }
 
-const eliminaRegistroRelacionOrillaSucursal = (req, res) => {
-    const idOrilla = req.params.idOrilla;
+const eliminaRegistroRelacionProductoSucursal = (req, res) => {
+    const idProducto = req.params.idProducto;
     const idSucursal = req.params.idSucursal;
-    console.log('Entré a eliminaRegistroRelacionOrillaSucursal');
-    console.log('idOrilla='+idOrilla);
+    console.log('Entré a eliminaRegistroRelacionProductoSucursal');
+    console.log('idProducto='+idProducto);
     console.log('idSucursal='+idSucursal);
     pool.query(
-        'DELETE FROM preesppropro.relacion_orilla_sucursal WHERE id_orilla=$1 and id_sucursal=$2',
+        'DELETE FROM preesppropro.relacion_producto_sucursal WHERE id_producto=$1 and id_sucursal=$2',
         [idOrilla,idSucursal],
         (error, results) => {
             if (error) {
                 throw error;
             }
-            textoRespuesta = '{"respuesta": "Se eliminó ' + results.rows[0].idOrilla + '"}';
+            textoRespuesta = '{"respuesta": "Se eliminó ' + results.rows[0].idProducto + '"}';
             res.status(201).json(JSON.parse(textoRespuesta));
         }
     );
@@ -134,9 +134,9 @@ const eliminaRegistroRelacionOrillaSucursal = (req, res) => {
 
 module.exports = {
     getListaRelacionProductoSucursal,
-    getRegistroRelacionOrillaSucursal,
+    getRegistroRelacionProductoSucursal,
     getListadoProductosNoEstanEnRPS,
-    insertaRegistroRelacionOrillaSucursal,
-    actualizaRegistroRelacionOrillaSucursal,
-    eliminaRegistroRelacionOrillaSucursal,
+    insertaRegistroRelacionProductoSucursal,
+    actualizaRegistroRelacionProductoSucursal,
+    eliminaRegistroRelacionProductoSucursal,
 }

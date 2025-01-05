@@ -127,13 +127,12 @@ app.delete('/relacion_producto_precio_sucursal/:idSucursal/:idProducto', db_rpps
 
 //Endpoints para relacion_producto_sucursal
 app.get('/relacion_producto_sucursal/:idSucursal', db_rprods.getListaRelacionProductoSucursal);
-app.get('/relacion_producto_sucursal/:idOrilla/:idSucursal', db_rprods.getRegistroRelacionOrillaSucursal);
-app.post('/relacion_producto_sucursal', db_rprods.insertaRegistroRelacionOrillaSucursal);
-
+app.get('/relacion_producto_sucursal/:idProducto/:idSucursal', db_rprods.getRegistroRelacionProductoSucursal);
+app.post('/relacion_producto_sucursal', db_rprods.insertaRegistroRelacionProductoSucursal);
+app.put('/relacion_producto_sucursal/:idSucursal', db_rprods.actualizaRegistroRelacionProductoSucursal);
 // Nuevo 2 Ene 2024
 app.get('/dameListadoProductosNoEstanEnRPS/:idSucursal',db_rprods.getListadoProductosNoEstanEnRPS);
-app.put('/relacion_producto_sucursal/:idOrilla/:idSucursal', db_rprods.actualizaRegistroRelacionOrillaSucursal);
-app.delete('/relacion_producto_sucursal/:idOrilla/:idSucursal', db_rprods.eliminaRegistroRelacionOrillaSucursal);
+app.delete('/relacion_producto_sucursal/:idProducto/:idSucursal', db_rprods.eliminaRegistroRelacionProductoSucursal);
 
 //Endpoints para relacion_orilla_sucursal
 app.get('/relacion_orilla_sucursal/:idSucursal', db_ros.getListaRelacionOrillaSucursal);
@@ -149,6 +148,7 @@ app.post('/relacion_pizza_sucursal', db_rps.insertaRegistroRelacionPizzaSucursal
 app.get('/dameListadoPizzasNoEstanEnRPS/:idSucursal',db_rps.getListadoPizzasNoEstanEnRPS);
 app.post('/relacion_pizza_sucursal', db_rps.insertaRegistroRelacionPizzaSucursal);
 app.delete('/relacion_pizza_sucursal/:idPizza/:idSucursal', db_rps.eliminaRegistroRelacionPizzaSucursal);
+
 
 /*
 app.get('/relacion_pizza_sucursal/:idOrilla/:idSucursal', db_ros.getRegistroRelacionOrillaSucursal);

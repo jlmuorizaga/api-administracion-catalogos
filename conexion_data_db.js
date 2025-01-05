@@ -13,10 +13,10 @@
  //const DB_PORT = process.env.DB_PORT || 5432;
 
  //MacBook
- const DB_PORT = process.env.DB_PORT || 5432;
+ //const DB_PORT = process.env.DB_PORT || 5432;
 
  //Laptop Omen
-//const DB_PORT = process.env.DB_PORT || 5436;
+const DB_PORT = process.env.DB_PORT || 5436;
 
 //Desktop INEGI
 //const DB_PORT = process.env.DB_PORT || 5433;

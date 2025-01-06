@@ -121,12 +121,12 @@ const eliminaRegistroRelacionProductoSucursal = (req, res) => {
     console.log('idSucursal='+idSucursal);
     pool.query(
         'DELETE FROM preesppropro.relacion_producto_sucursal WHERE id_producto=$1 and id_sucursal=$2',
-        [idOrilla,idSucursal],
+        [idProducto,idSucursal],
         (error, results) => {
             if (error) {
                 throw error;
             }
-            textoRespuesta = '{"respuesta": "Se eliminó ' + results.rows[0].idProducto + '"}';
+            textoRespuesta = '{"respuesta": "Se eliminó ' + results.rows[0] + '"}';
             res.status(201).json(JSON.parse(textoRespuesta));
         }
     );

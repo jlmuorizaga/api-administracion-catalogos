@@ -19,7 +19,7 @@ const pool = new Pool({
 
 const getListaRegiones = (request, response) => {
     pool.query(
-        'SELECT id as "idRegion", nombre as "nombreRegion" FROM preesppropro.region ORDER BY nombre',
+        'SELECT id as "idRegion", nombre as "nombreRegion", poligono, latitud, longitud FROM preesppropro.region ORDER BY nombre',
         (error, results) => {
             if (error) {
                 throw error;

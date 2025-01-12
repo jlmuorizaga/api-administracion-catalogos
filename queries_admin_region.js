@@ -31,7 +31,7 @@ const getListaRegiones = (request, response) => {
 const getRegion= (request, response) => {
     const idRegion = request.params.idRegion
     pool.query(
-        'SELECT id, nombre FROM preesppropro.region WHERE id=$1 ORDER BY nombre',
+        'SELECT id, nombre, poligono, latitud, longitud FROM preesppropro.region WHERE id=$1 ORDER BY nombre',
         [idRegion],
         (error, results) => {
             if (error) {
@@ -42,10 +42,10 @@ const getRegion= (request, response) => {
     );
 }
 const insertaRegion = (req, res) => {
-    const { idRegion, nombreRegion } = req.body;
+    const { idRegion, nombreRegion, poligono, latitud, longitud } = req.body;
     pool.query(
-        'INSERT INTO preesppropro.region (id, nombre) VALUES ($1, $2) RETURNING *',        
-        [idRegion,nombreRegion],
+        'INSERT INTO preesppropro.region (id, nombre, poligono, latitud, longitud) VALUES ($1, $2, $3, $4, $5) RETURNING *',        
+        [idRegion,nombreRegion,poligono, latitud, longitud],
         (error, results) => {
             if (error) {
                 throw error;
@@ -58,10 +58,10 @@ const insertaRegion = (req, res) => {
 
 const actualizaRegion= (req, res) => {
     const idRegion = req.params.idRegion;
-    const { nombreRegion } = req.body;
+    const { nombreRegion, poligono, latitud, longitud } = req.body;
     pool.query(
-        'UPDATE preesppropro.region SET nombre=$1 WHERE id=$2 RETURNING *',
-        [nombreRegion,idRegion],
+        'UPDATE preesppropro.region SET nombre=$1, poligono=$3, latitud=$4, longitud=$5 WHERE id=$2 RETURNING *',
+        [nombreRegion,idRegion,poligono, latitud, longitud],
         (error, results) => {
             if (error) {
                 throw error;

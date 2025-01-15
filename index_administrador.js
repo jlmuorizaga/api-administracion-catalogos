@@ -10,6 +10,7 @@ const db_tipos_producto=require('./queries_admin_tipos_producto')
 const db_producto=require('./queries_admin_producto')
 const db_retps=require('./queries_admin_relacion_especialidad_tamanio_precio_sucursal')
 const db_rpps=require('./queries_admin_relacion_producto_precio_sucursal')
+const db_rss=require('./queries_admin_relacion_salsa_sucursal')
 const db_region=require('./queries_admin_region')
 const db_sucursal=require('./queries_admin_sucursal')
 const db_ingrediente=require('./queries_admin_ingrediente')
@@ -149,6 +150,12 @@ app.get('/dameListadoPizzasNoEstanEnRPS/:idSucursal',db_rps.getListadoPizzasNoEs
 app.post('/relacion_pizza_sucursal', db_rps.insertaRegistroRelacionPizzaSucursal);
 app.delete('/relacion_pizza_sucursal/:idPizza/:idSucursal', db_rps.eliminaRegistroRelacionPizzaSucursal);
 
+//Endpoints para relacion_salsa_sucursal
+app.get('/relacion_salsa_sucursal/:idSucursal', db_rss.getListaRelacionSalsaSucursal);
+app.post('/relacion_salsa_sucursal', db_rss.insertaRegistroRelacionSalsaSucursal);
+app.get('/dameListadoSalsasNoEstanEnRSS/:idSucursal',db_rss.getListadoSalsasNoEstanEnRSS);
+app.post('/relacion_salsa_sucursal', db_rss.insertaRegistroRelacionSalsaSucursal);
+app.delete('/relacion_salsa_sucursal/:idSucursal', db_rss.eliminaRegistroRelacionSalsaSucursal);
 
 /*
 app.get('/relacion_pizza_sucursal/:idOrilla/:idSucursal', db_ros.getRegistroRelacionOrillaSucursal);

@@ -20,7 +20,7 @@ const getListaRelacionSalsaSucursal = (request, response) => {
     const idSucursal = request.params.idSucursal;
     console.log('idSucursal=', idSucursal)
     pool.query(
-        'SELECT rss.id_salsa as "idSalsa", sal.descripcion as "descripcionSalsa",s.clave as "claveSucursal" '
+        'SELECT rss.id_salsa as "idSalsa", sal.descripcion as "descripcionSalsa",s.id as "idSucursal",s.clave as "claveSucursal" '
         + 'FROM preesppropro.relacion_salsa_sucursal as rss '
         + 'INNER JOIN preesppropro.salsa AS sal ON sal.id=rss.id_salsa '
         + 'INNER JOIN preesppropro.sucursal AS s ON s.id=rss.id_sucursal '
@@ -56,16 +56,11 @@ const getListadoSalsasNoEstanEnRSS = (request, response) => {
     const idSucursal = request.params.idSucursal;
     console.log('idSucursal=', idSucursal)
     pool.query(
-        'SELECT p.id AS "idProducto",'
-        + 'p.descripcion AS "descripcion",'
-        + 'p.tamanio AS "tamanio",'
-        + 'tp.descripcion AS "descripcionTamanio" '
-        + 'FROM preesppropro.producto AS p '
-        + 'INNER JOIN preesppropro.producto_tipo AS tp ON tp.id = p.id_tipo_producto '
-        + 'LEFT JOIN preesppropro.relacion_producto_sucursal AS rps '
-        + 'ON rps.id_producto = p.id AND rps.id_sucursal =$1 '
-        + 'WHERE rps.id_producto IS NULL '
-        + 'ORDER BY p.descripcion, p.tamanio;',
+        'SELECT s.id as "idSalsa", s.descripcion as "descripcionSalsa "'
+        + 'FROM preesppropro.salsa AS s '
+        + 'LEFT JOIN preesppropro.relacion_salsa_sucursal AS rss '
+        + 'ON s.id = rss.id_salsa AND rss.id_sucursal = $1 '
+        + 'WHERE rss.id_salsa IS NULL ORDER BY s.id, s.descripcion',
         [idSucursal],
         (error, results) => {
             if (error) {

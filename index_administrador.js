@@ -155,7 +155,7 @@ app.get('/relacion_salsa_sucursal/:idSucursal', db_rss.getListaRelacionSalsaSucu
 app.post('/relacion_salsa_sucursal', db_rss.insertaRegistroRelacionSalsaSucursal);
 app.get('/dameListadoSalsasNoEstanEnRSS/:idSucursal',db_rss.getListadoSalsasNoEstanEnRSS);
 app.post('/relacion_salsa_sucursal', db_rss.insertaRegistroRelacionSalsaSucursal);
-app.delete('/relacion_salsa_sucursal/:idSucursal', db_rss.eliminaRegistroRelacionSalsaSucursal);
+app.delete('/relacion_salsa_sucursal/:idSalsa/:idSucursal', db_rss.eliminaRegistroRelacionSalsaSucursal);
 
 /*
 app.get('/relacion_pizza_sucursal/:idOrilla/:idSucursal', db_ros.getRegistroRelacionOrillaSucursal);

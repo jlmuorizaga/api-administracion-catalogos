@@ -56,7 +56,7 @@ const getListadoSalsasNoEstanEnRSS = (request, response) => {
     const idSucursal = request.params.idSucursal;
     console.log('idSucursal=', idSucursal)
     pool.query(
-        'SELECT s.id as "idSalsa", s.descripcion as "descripcionSalsa "'
+        'SELECT s.id as "idSalsa", s.descripcion as "descripcionSalsa"'
         + 'FROM preesppropro.salsa AS s '
         + 'LEFT JOIN preesppropro.relacion_salsa_sucursal AS rss '
         + 'ON s.id = rss.id_salsa AND rss.id_sucursal = $1 '
@@ -72,46 +72,46 @@ const getListadoSalsasNoEstanEnRSS = (request, response) => {
 }
 
 const insertaRegistroRelacionSalsaSucursal = (req, res) => {
-    const { idProducto, idSucursal, precio } = req.body;
+    const { idSalsa, idSucursal} = req.body;
     pool.query(
-        'INSERT INTO preesppropro.relacion_producto_sucursal(id_producto, id_sucursal, precio) VALUES ($1, $2, $3) RETURNING *',
-        [idProducto, idSucursal, precio],
+        'INSERT INTO preesppropro.relacion_salsa_sucursal(id_salsa, id_sucursal) VALUES ($1, $2) RETURNING *',
+        [idSalsa, idSucursal],
         (error, results) => {
             if (error) {
                 throw error;
             }
-            textoRespuesta = '{"respuesta": "Se insertó nuevo registro relacion producto sucursal: ' + results.rows[0].id_producto + '"}';
+            textoRespuesta = '{"respuesta": "Se insertó nuevo registro relacion salsa sucursal: ' + results.rows[0].id_salsa + '"}';
             res.status(201).json(JSON.parse(textoRespuesta));
         }
     );
 }
 
 const actualizaRegistroRelacionSalsaSucursal = (req, res) => {
-    const idProducto = req.params.idOrilla;
+    const idSalsa = req.params.idSalsa;
     const idSucursal = req.params.idSucursal;
     const { precio } = req.body;
     pool.query(
-        'UPDATE preesppropro.relacion_producto_sucursal SET precio=$3 WHERE id_producto=$1 and id_sucursal=$2 RETURNING *',
-        [idProducto, idSucursal, precio],
+        'UPDATE preesppropro.relacion_salsa_sucursal SET id_salsa=$1, id_sucursal=$2 WHERE id_salsa=$1 and id_sucursal=$2 RETURNING *',
+        [idSalsa, idSucursal],
         (error, results) => {
             if (error) {
                 throw error;
             }
-            textoRespuesta = '{"respuesta": "Se actualizó relacion producto sucursal: ' + results.rows[0].id_producto + '"}';
+            textoRespuesta = '{"respuesta": "Se actualizó relacion producto sucursal: ' + results.rows[0].id_salsa + '"}';
             res.status(201).json(JSON.parse(textoRespuesta));
         }
     );
 }
 
 const eliminaRegistroRelacionSalsaSucursal = (req, res) => {
-    const idProducto = req.params.idProducto;
+    const idSalsa = req.params.idSalsa;
     const idSucursal = req.params.idSucursal;
-    console.log('Entré a eliminaRegistroRelacionProductoSucursal');
-    console.log('idProducto=' + idProducto);
+    console.log('Entré a eliminaRegistroRelacionSalsaSucursal');
+    console.log('idSalsa=' + idSalsa);
     console.log('idSucursal=' + idSucursal);
     pool.query(
-        'DELETE FROM preesppropro.relacion_producto_sucursal WHERE id_producto=$1 and id_sucursal=$2',
-        [idProducto, idSucursal],
+        'DELETE FROM preesppropro.relacion_salsa_sucursal WHERE id_salsa=$1 and id_sucursal=$2',
+        [idSalsa, idSucursal],
         (error, results) => {
             if (error) {
                 throw error;

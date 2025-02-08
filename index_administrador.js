@@ -140,7 +140,7 @@ app.get('/relacion_orilla_sucursal/:idSucursal', db_ros.getListaRelacionOrillaSu
 app.get('/relacion_orilla_sucursal/:idOrilla/:idSucursal', db_ros.getRegistroRelacionOrillaSucursal);
 app.get('/dameListadoOrillasNoEstanEnROS/:idSucursal', db_ros.getListadoOrillasNoEstanEnROS);
 app.post('/relacion_orilla_sucursal', db_ros.insertaRegistroRelacionOrillaSucursal);
-app.put('/relacion_orilla_sucursal/:idOrilla/:idSucursal', db_ros.actualizaRegistroRelacionOrillaSucursal);
+app.put('/relacion_orilla_sucursal/:idOrilla', db_ros.actualizaRegistroRelacionOrillaSucursal);
 app.delete('/relacion_orilla_sucursal/:idOrilla/:idSucursal', db_ros.eliminaRegistroRelacionOrillaSucursal);
 
 //Endpoints para relacion_pizza_sucursal

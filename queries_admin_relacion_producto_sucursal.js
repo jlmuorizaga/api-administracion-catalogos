@@ -97,7 +97,7 @@ const insertaRegistroRelacionProductoSucursal = (req, res) => {
 }
 
 const actualizaRegistroRelacionProductoSucursal= (req, res) => {
-    const idProducto = req.params.idOrilla;
+    const idProducto = req.params.idProducto;
     const idSucursal = req.params.idSucursal;
     const {precio} = req.body;
     pool.query(

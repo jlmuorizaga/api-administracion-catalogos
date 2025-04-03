@@ -1,5 +1,6 @@
 const cors = require('cors')
 const express = require('express')
+const multer = require('multer');
 const bodyParser = require('body-parser')
 const app = express()
 const db_tp = require('./queries_admin_tamanio_pizza')
@@ -32,6 +33,34 @@ app.use(
 app.use(cors({
     origin: '*'
 }))
+
+// Ruta física en el servidor donde se guardarán las imágenes
+const storagePath = '/var/www/html/img/especialidades';
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, storagePath);
+    },
+    filename: function (req, file, cb) {
+      const uniqueName = `${Date.now()}-${file.originalname}`;
+      cb(null, uniqueName);
+    }
+  });
+  const upload = multer({ storage: storage });
+  app.post('/upload', upload.single('image'), (req, res) => {
+    if (!req.file) {
+      console.log('❌ No se recibió archivo');
+      return res.status(400).json({ message: 'No se envió ningún archivo' });
+    }
+    console.log('✅ Archivo recibido:', req.file);
+    // Construimos la URL pública
+    const fileUrl = `http://ec2-54-144-58-67.compute-1.amazonaws.com/img/especialidades/${req.file.filename}`;
+  
+    return res.status(200).json({
+      message: 'Imagen subida exitosamente',
+      url: fileUrl
+    });
+  });
+
 app.get('/', (request, response) => {
     response.json([{
         info: 'API CHPSystem Captura PPP Móviles'},

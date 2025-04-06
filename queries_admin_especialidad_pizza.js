@@ -32,7 +32,7 @@ const getListaEspecialidades = (request, response) => {
 const getEspecialidad= (request, response) => {
     const idEspecialidad = request.params.idEspecialidad;
     console.log('idEspecialidad='+idEspecialidad);
-    console.log('img_url='+img_url)
+    
     pool.query(
         //'SELECT id as idEspecialidad, nombre as nombreEspecialidad, ingredientes as ingredientesEspecialidad,aplica_2x1 as aplica2x1Especialidad, aplica_p1 as aplicaP1Especialidad FROM preesppropro.especialidad_pizza WHERE id=$1 ORDER by nombre',
         'SELECT id, nombre, ingredientes, img_url, orden,cantidad_ingredientes,es_de_un_ingrediente FROM preesppropro.especialidad_pizza as ep WHERE id=$1 ORDER by nombre',
@@ -49,6 +49,7 @@ const getEspecialidad= (request, response) => {
 const insertaEspecialidad = (req, res) => {
     const { id, nombre, ingredientes, img_url,orden,cantidad_ingredientes,es_de_un_ingrediente } = req.body;
     console.log('id='+id);
+    console.log('img_url='+img_url);
     pool.query(
         'INSERT INTO preesppropro.especialidad_pizza(id, nombre, ingredientes,img_url,orden,cantidad_ingredientes,es_de_un_ingrediente) '
         +'VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *',

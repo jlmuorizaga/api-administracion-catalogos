@@ -69,7 +69,7 @@ const storagePromo = multer.diskStorage({
     destination: function (req, file, cb) {
       cb(null, storagePathPromo);
     },
-    file: function (req, file, cb) {
+    fileNamePromo: function (req, file, cb) {
       //const uniqueName = `${Date.now()}-${file.originalname}`;
       const uniqueNamePromo = `${file.originalnamePromo}`;
       cb(null, uniqueNamePromo);
@@ -83,7 +83,7 @@ const storagePromo = multer.diskStorage({
     }
     console.log('✅ Archivo recibido en promociones:', req.file);
     // Construimos la URL pública
-    const fileUrlPromo = `http://ec2-54-144-58-67.compute-1.amazonaws.com/img/promociones/${req.file.filenamePromo}`;
+    const fileUrlPromo = `http://ec2-54-144-58-67.compute-1.amazonaws.com/img/promociones/${req.file.fileNamePromo}`;
   
     return res.status(200).json({
       message: 'Imagen subida exitosamente',

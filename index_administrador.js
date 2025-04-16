@@ -35,7 +35,7 @@ app.use(cors({
 }))
 
 // Ruta física en el servidor donde se guardarán las imágenes
-const storagePath = '/var/www/html/img/especialidades';
+/*const storagePath = '/var/www/html/img/especialidades';
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
       cb(null, storagePath);
@@ -61,7 +61,7 @@ const storage = multer.diskStorage({
       url: fileUrl
     });
   });
-
+*/
   //////////////////////////////////
   // Ruta física en el servidor donde se guardarán las imágenes de las promociones
 const storagePathPromo = '/var/www/html/img/promociones';
@@ -81,7 +81,7 @@ const storagePromo = multer.diskStorage({
       console.log('❌ No se recibió archivo');
       return res.status(400).json({ message: 'No se envió ningún archivo' });
     }
-    console.log('✅ Archivo recibido:', req.file);
+    console.log('✅ Archivo recibido en promociones:', req.file);
     // Construimos la URL pública
     const fileUrlPromo = `http://ec2-54-144-58-67.compute-1.amazonaws.com/img/promociones/${req.file.filenamePromo}`;
   

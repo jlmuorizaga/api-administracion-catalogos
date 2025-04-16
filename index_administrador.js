@@ -62,6 +62,36 @@ const storage = multer.diskStorage({
     });
   });
 
+  //////////////////////////////////
+  // Ruta física en el servidor donde se guardarán las imágenes de las promociones
+const storagePathPromo = '/var/www/html/img/promociones';
+const storagePromo = multer.diskStorage({
+    destination: function (req, filePromo, cb) {
+      cb(null, storagePath);
+    },
+    filenamePromo: function (req, filePromo, cb) {
+      //const uniqueName = `${Date.now()}-${file.originalname}`;
+      const uniqueNamePromo = `${file.originalnamePromo}`;
+      cb(null, uniqueNamePromo);
+    }
+  });
+  const uploadPromo = multer({ storagePromo: storagePromo });
+  app.post('/uploadPromo', upload.single('image'), (req, res) => {
+    if (!req.filePromo) {
+      console.log('❌ No se recibió archivo');
+      return res.status(400).json({ message: 'No se envió ningún archivo' });
+    }
+    console.log('✅ Archivo recibido:', req.file);
+    // Construimos la URL pública
+    const fileUrlPromo = `http://ec2-54-144-58-67.compute-1.amazonaws.com/img/promociones/${req.file.filenamePromo}`;
+  
+    return res.status(200).json({
+      message: 'Imagen subida exitosamente',
+      url: fileUrlPromo
+    });
+  });
+  //////////////////////////////////
+
 app.get('/', (request, response) => {
     response.json([{
         info: 'API CHPSystem Captura PPP Móviles'},

@@ -78,7 +78,7 @@ const storagePromo = multer.diskStorage({
   const uploadPromo = multer({ storagePromo: storagePromo });
   app.post('/uploadPromo', uploadPromo.single('image'), (req, res) => {
     if (!req.filePromo) {
-      console.log('❌ No se recibió archivo');
+      console.log('❌ No se recibió archivo en promo');
       return res.status(400).json({ message: 'No se envió ningún archivo' });
     }
     console.log('✅ Archivo recibido en promociones:', req.file);

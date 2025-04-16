@@ -66,10 +66,10 @@ const storage = multer.diskStorage({
   // Ruta física en el servidor donde se guardarán las imágenes de las promociones
 const storagePathPromo = '/var/www/html/img/promociones';
 const storagePromo = multer.diskStorage({
-    destination: function (req, filePromo, cb) {
+    destination: function (req, file, cb) {
       cb(null, storagePathPromo);
     },
-    filenamePromo: function (req, filePromo, cb) {
+    file: function (req, file, cb) {
       //const uniqueName = `${Date.now()}-${file.originalname}`;
       const uniqueNamePromo = `${file.originalnamePromo}`;
       cb(null, uniqueNamePromo);

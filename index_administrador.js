@@ -35,7 +35,7 @@ app.use(cors({
 }))
 
 // Ruta física en el servidor donde se guardarán las imágenes
-/*const storagePath = '/var/www/html/img/especialidades';
+const storagePath = '/var/www/html/img/promociones';
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
       cb(null, storagePath);
@@ -54,42 +54,17 @@ const storage = multer.diskStorage({
     }
     console.log('✅ Archivo recibido:', req.file);
     // Construimos la URL pública
-    const fileUrl = `http://ec2-54-144-58-67.compute-1.amazonaws.com/img/especialidades/${req.file.filename}`;
+    const fileUrl = `http://ec2-54-144-58-67.compute-1.amazonaws.com/img/promociones/${req.file.filename}`;
   
     return res.status(200).json({
       message: 'Imagen subida exitosamente',
       url: fileUrl
     });
   });
-*/
+
   //////////////////////////////////
   // Ruta física en el servidor donde se guardarán las imágenes de las promociones
-const storagePathPromo = '/var/www/html/img/promociones';
-const storagePromo = multer.diskStorage({
-    destination: function (req, file, cb) {
-      cb(null, storagePathPromo);
-    },
-    fileNamePromo: function (req, file, cb) {
-      //const uniqueName = `${Date.now()}-${file.originalname}`;
-      const uniqueNamePromo = `${file.originalnamePromo}`;
-      cb(null, uniqueNamePromo);
-    }
-  });
-  const uploadPromo = multer({ storagePromo: storagePromo });
-  app.post('/uploadPromo', uploadPromo.single('image'), (req, res) => {
-    if (!req.file) {
-      console.log('❌ No se recibió archivo en promo');
-      return res.status(400).json({ message: 'No se envió ningún archivo' });
-    }
-    console.log('✅ Archivo recibido en promociones:', req.file);
-    // Construimos la URL pública
-    const fileUrlPromo = `http://ec2-54-144-58-67.compute-1.amazonaws.com/img/promociones/${req.file.fileNamePromo}`;
-  
-    return res.status(200).json({
-      message: 'Imagen subida exitosamente',
-      url: fileUrlPromo
-    });
-  });
+
   //////////////////////////////////
 
 app.get('/', (request, response) => {

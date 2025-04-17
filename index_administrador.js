@@ -69,7 +69,7 @@ const storage = multer.diskStorage({
 
 app.get('/', (request, response) => {
     response.json([{
-        info: 'API CHPSystem Captura PPP Móviles'},
+        info: 'API CHPSystem Captura PPP Móviles. Conectado desde servidor AWS CHP Móvil'},
         {dameListaPizzas:'/pizzas'},
         {dameListaTamaniosPizza:'/tamanios-pizza'},
         {dameListaCategorias:'/categorias'},

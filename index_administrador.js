@@ -1,6 +1,5 @@
 const cors = require('cors')
 const express = require('express')
-const multer = require('multer');
 const bodyParser = require('body-parser')
 const app = express()
 const db_tp = require('./queries_admin_tamanio_pizza')

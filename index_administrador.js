@@ -34,33 +34,44 @@ app.use(cors({
     origin: '*'
 }))
 
-// Ruta física en el servidor donde se guardarán las imágenes
-const storagePath = '/var/www/html/img/promociones';
+const multer = require('multer');
+const path = require('path');
+const fs = require('fs');
+
 const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-      cb(null, storagePath);
-    },
-    filename: function (req, file, cb) {
-      //const uniqueName = `${Date.now()}-${file.originalname}`;
-      const uniqueName = `${file.originalname}`;
-      cb(null, uniqueName);
-    }
-  });
-  const upload = multer({ storage: storage });
-  app.post('/upload', upload.single('image'), (req, res) => {
-    if (!req.file) {
-      console.log('❌ No se recibió archivo');
-      return res.status(400).json({ message: 'No se envió ningún archivo' });
-    }
-    console.log('✅ Archivo recibido:', req.file);
-    // Construimos la URL pública
-    const fileUrl = `http://ec2-54-144-58-67.compute-1.amazonaws.com/img/promociones/${req.file.filename}`;
-  
-    return res.status(200).json({
-      message: 'Imagen subida exitosamente',
-      url: fileUrl
+  destination: function (req, file, cb) {
+    const subcarpeta = req.body.subcarpeta || 'default';
+    const storagePath = `/var/www/html/img/${subcarpeta}`;
+
+    // Crea la carpeta si no existe
+    fs.mkdir(storagePath, { recursive: true }, (err) => {
+      cb(err, storagePath);
     });
+  },
+  filename: function (req, file, cb) {
+    const uniqueName = `${file.originalname}`;
+    cb(null, uniqueName);
+  }
+});
+
+const upload = multer({ storage: storage });
+
+app.post('/upload', upload.single('image'), (req, res) => {
+  if (!req.file) {
+    console.log('❌ No se recibió archivo');
+    return res.status(400).json({ message: 'No se envió ningún archivo' });
+  }
+
+  const subcarpeta = req.body.subcarpeta || 'default';
+  const fileUrl = `http://ec2-54-144-58-67.compute-1.amazonaws.com/img/${subcarpeta}/${req.file.filename}`;
+
+  console.log('✅ Archivo recibido:', req.file);
+
+  return res.status(200).json({
+    message: 'Imagen subida exitosamente',
+    url: fileUrl
   });
+});
 
   //////////////////////////////////
   // Ruta física en el servidor donde se guardarán las imágenes de las promociones

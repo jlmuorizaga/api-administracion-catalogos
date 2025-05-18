@@ -56,6 +56,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 app.post('/upload', upload.single('image'), (req, res) => {
+   console.log('➡️ POST /upload recibido');
   if (!req.file) {
     console.log('❌ No se recibió archivo');
     return res.status(400).json({ message: 'No se envió ningún archivo' });
@@ -65,6 +66,7 @@ app.post('/upload', upload.single('image'), (req, res) => {
   const fileUrl = `http://ec2-54-144-58-67.compute-1.amazonaws.com/img/${subcarpeta}/${req.file.filename}`;
 
   console.log('✅ Archivo recibido:', req.file);
+  console.log('✅ Archivo guardado correctamente en:', fileUrl);
 
   return res.status(200).json({
     message: 'Imagen subida exitosamente',

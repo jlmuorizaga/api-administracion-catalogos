@@ -47,13 +47,13 @@ const getEspecialidad= (request, response) => {
     );
 }
 const insertaEspecialidad = (req, res) => {
-    const { id, nombre, ingredientes, img_url,orden,cantidad_ingredientes,es_de_un_ingrediente } = req.body;
+    const { id, nombre, ingredientes, imgURL,orden,cantidadIngredientes,esDeUnIngrediente } = req.body;
     console.log('id='+id);
     console.log('img_url='+img_url);
     pool.query(
-        'INSERT INTO preesppropro.especialidad_pizza(id, nombre, ingredientes,img_url,orden,cantidad_ingredientes,es_de_un_ingrediente) '
+        'INSERT INTO preesppropro.especialidad_pizza(id, nombre, ingredientes,img_url,orden,cantidadIngredientes,es_de_un_ingrediente) '
         +'VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *',
-        [id,nombre,ingredientes,img_url,orden,cantidad_ingredientes,es_de_un_ingrediente],
+        [id,nombre,ingredientes,imgURL,orden,cantidadIngredientes,esDeUnIngrediente],
         (error, results) => {
             if (error) {
                 throw error;
@@ -66,11 +66,11 @@ const insertaEspecialidad = (req, res) => {
 
 const actualizaEspecialidad= (req, res) => {
     const idEspecialidad = req.params.idEspecialidad;
-    const { nombre,ingredientes,img_url,orden,cantidad_ingredientes,es_de_un_ingrediente } = req.body;
+    const { nombre,ingredientes,imgURL,orden,cantidadIngredientes,esDeUnIngrediente } = req.body;
     pool.query(
         'UPDATE preesppropro.especialidad_pizza SET nombre=$2, ingredientes=$3, img_url=$4, orden=$5, '
         +'cantidad_ingredientes=$6,es_de_un_ingrediente=$7 WHERE id=$1 RETURNING *',
-        [idEspecialidad,nombre,ingredientes,img_url,orden,cantidad_ingredientes,es_de_un_ingrediente],
+        [idEspecialidad,nombre,ingredientes,imgURL,orden,cantidadIngredientes,esDeUnIngrediente],
         (error, results) => {
             if (error) {
                 throw error;

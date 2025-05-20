@@ -35,7 +35,7 @@ const getEspecialidad= (request, response) => {
     
     pool.query(
         //'SELECT id as idEspecialidad, nombre as nombreEspecialidad, ingredientes as ingredientesEspecialidad,aplica_2x1 as aplica2x1Especialidad, aplica_p1 as aplicaP1Especialidad FROM preesppropro.especialidad_pizza WHERE id=$1 ORDER by nombre',
-        'SELECT id, nombre, ingredientes, img_url as "imgURL", orden,cantidad_ingredientes as "cantidadIngredientes",es_de_un_ingrediente as "esDeunIngrediente" FROM preesppropro.especialidad_pizza as ep WHERE id=$1 ORDER by nombre',
+        'SELECT id, nombre, ingredientes, img_url as "imgURL", orden,cantidad_ingredientes as "cantidadIngredientes",es_de_un_ingrediente as "esDeUnIngrediente" FROM preesppropro.especialidad_pizza as ep WHERE id=$1 ORDER by nombre',
          //where id=$1 ORDER by nombre'        
         [idEspecialidad],
         (error, results) => {

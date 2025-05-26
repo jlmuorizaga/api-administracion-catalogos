@@ -19,7 +19,7 @@ const pool = new Pool({
 
 const getListaProducto = (request, response) => {
     pool.query(
-        'SELECT id, descripcion, tamanio, usa_salsa, id_tipo_producto, ruta_imagen, categoria1, categoria2, categoria3 '
+        'SELECT id, descripcion as "descripcionP", tamanio, usa_salsa as "usaSalsa", id_tipo_producto as "idTipoProducto", ruta_imagen as "rutaImagen", categoria1, categoria2, categoria3 '
         +'FROM preesppropro.producto ORDER BY descripcion;',
         (error, results) => {
             if (error) {
@@ -32,9 +32,9 @@ const getListaProducto = (request, response) => {
 
 const getListaProducto2 = (request, response) => {
     pool.query(
-        'SELECT p.id as "id", p.descripcion as "descripcion_p", tamanio as "tamanio", '
-        +'usa_salsa as "usa_salsa", id_tipo_producto as "id_tipo_producto",' 
-        +'pt.nombre as "nombre_tp", ruta_imagen as "ruta_imagen", categoria1 as "categoria1",' 
+        'SELECT p.id as "id", p.descripcion as "descripcionP", tamanio as "tamanio", '
+        +'usa_salsa as "usaSalsa", id_tipo_producto as "idTipoProducto",' 
+        +'pt.nombre as "nombreTP", ruta_imagen as "rutaImagen", categoria1 as "categoria1",' 
         +'categoria2 as "categoria2", categoria3 as "categoria3" '
         +'FROM preesppropro.producto as p, preesppropro.producto_tipo as pt where p.id_tipo_producto=pt.id ORDER BY p.descripcion;',
         (error, results) => {
@@ -51,7 +51,7 @@ const getListaProducto2 = (request, response) => {
 const getProducto= (request, response) => {
     const idProducto = request.params.idProducto;    
     pool.query(
-        'SELECT id, descripcion, tamanio, usa_salsa, id_tipo_producto, ruta_imagen, categoria1, categoria2, categoria3 '
+        'SELECT id, descripcion as "descripcionP", tamanio, usa_salsa as "usaSalsa", id_tipo_producto as "idTipoProducto", ruta_imagen as "rutaImagen", categoria1, categoria2, categoria3 '
         +'FROM preesppropro.producto WHERE id=$1;',
         [idProducto],
         (error, results) => {
@@ -63,11 +63,11 @@ const getProducto= (request, response) => {
     );
 }
 const insertaProducto = (req, res) => {
-    const { id, descripcion_p,  tamanio, usa_salsa, id_tipo_producto, ruta_imagen, categoria1, categoria2, categoria3} = req.body;
+    const { id, descripcionP,  tamanio, usaSalsa, idTipoProducto, rutaImagen, categoria1, categoria2, categoria3} = req.body;
     pool.query(
         'INSERT INTO preesppropro.producto(id, descripcion, tamanio, usa_salsa, id_tipo_producto, ruta_imagen, categoria1, categoria2, categoria3) '
         +'VALUES ($1, $2, $3, $4, $5, $6,$7, $8, $9) RETURNING *',
-        [id,descripcion_p,tamanio, usa_salsa, id_tipo_producto, ruta_imagen, categoria1, categoria2, categoria3],
+        [id,descripcionP,tamanio, usaSalsa, idTipoProducto, rutaImagen, categoria1, categoria2, categoria3],
         (error, results) => {
             if (error) {
                 throw error;
@@ -80,11 +80,11 @@ const insertaProducto = (req, res) => {
 
 const actualizaProducto= (req, res) => {
     const idProducto = req.params.idProducto;
-    const { descripcion_p, tamanio, usa_salsa, id_tipo_producto, ruta_imagen, categoria1, categoria2, categoria3 } = req.body;
+    const { descripcionP, tamanio, usaSalsa, idTipoProducto, rutaImagen, categoria1, categoria2, categoria3 } = req.body;
     pool.query(
         'UPDATE preesppropro.producto SET descripcion=$1, tamanio=$2, usa_salsa=$3, '
         +'id_tipo_producto=$4, ruta_imagen=$5, categoria1=$6, categoria2=$7, categoria3=$8 WHERE id=$9 RETURNING *',
-        [descripcion_p, tamanio, usa_salsa, id_tipo_producto, ruta_imagen, categoria1, categoria2, categoria3,idProducto],
+        [descripcionP, tamanio, usaSalsa, idTipoProducto, rutaImagen, categoria1, categoria2, categoria3,idProducto],
         (error, results) => {
             if (error) {
                 throw error;

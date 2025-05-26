@@ -49,7 +49,7 @@ const getEspecialidad= (request, response) => {
 const insertaEspecialidad = (req, res) => {
     const { id, nombre, ingredientes, imgURL,orden,cantidadIngredientes,esDeUnIngrediente } = req.body;
     console.log('id='+id);
-    console.log('img_url='+img_url);
+    console.log('img_url='+imgURL);
     pool.query(
         'INSERT INTO preesppropro.especialidad_pizza(id, nombre, ingredientes,img_url,orden,cantidadIngredientes,es_de_un_ingrediente) '
         +'VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *',

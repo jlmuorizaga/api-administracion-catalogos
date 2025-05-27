@@ -128,10 +128,10 @@ const storage = multer.diskStorage({
     // Pero mejor solución:
     const subcarpeta = req.body.subcarpeta || 'default';
 
-/*    if (req.body && req.body.subcarpeta) {
+    if (req.body && req.body.subcarpeta) {
       subcarpeta = req.body.subcarpeta;
     }
-*/
+
     const storagePath = path.join('/var/www/html/img', subcarpeta);
     fs.mkdir(storagePath, { recursive: true }, (err) => {
       cb(err, storagePath);

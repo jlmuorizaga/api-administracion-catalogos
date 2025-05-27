@@ -32,18 +32,18 @@ app.use(
 app.use(cors({
     origin: '*'
 }))
-/*
+
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 
-// Esta función crea dinámicamente un upload con destino correcto
-function crearMulterConSubcarpeta(subcarpeta) {
+// Esta función crea un middleware multer configurado dinámicamente
+function crearMiddlewareUpload(subcarpeta) {
   const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-      const storagePath = path.join('/var/www/html/img', subcarpeta || 'default');
-      fs.mkdir(storagePath, { recursive: true }, (err) => {
-        cb(err, storagePath);
+      const rutaDestino = path.join('/var/www/html/img', subcarpeta || 'default');
+      fs.mkdir(rutaDestino, { recursive: true }, (err) => {
+        cb(err, rutaDestino);
       });
     },
     filename: function (req, file, cb) {
@@ -54,11 +54,10 @@ function crearMulterConSubcarpeta(subcarpeta) {
   return multer({ storage: storage }).single('image');
 }
 
-// Este endpoint ahora extrae primero el campo y luego usa multer
 app.post('/upload', (req, res) => {
-  const form = new multer().none(); // Procesa solo campos, sin archivos
+  const tempForm = multer().none(); // Procesa solo campos sin archivo
 
-  form(req, res, function (err) {
+  tempForm(req, res, function (err) {
     if (err) {
       return res.status(500).json({ error: 'Error al procesar campos' });
     }
@@ -66,8 +65,7 @@ app.post('/upload', (req, res) => {
     const subcarpeta = req.body.subcarpeta || 'default';
     console.log('📦 Subcarpeta recibida:', subcarpeta);
 
-    // Ahora que ya tenemos la subcarpeta, usamos multer con destino dinámico
-    const upload = crearMulterConSubcarpeta(subcarpeta);
+    const upload = crearMiddlewareUpload(subcarpeta);
 
     upload(req, res, function (err) {
       if (err) {
@@ -75,6 +73,7 @@ app.post('/upload', (req, res) => {
       }
 
       const fileUrl = `http://ec2-54-144-58-67.compute-1.amazonaws.com/img/${subcarpeta}/${req.file.filename}`;
+      console.log('✅ Archivo recibido:', req.file);
       console.log('✅ Imagen guardada en:', fileUrl);
 
       return res.status(200).json({
@@ -84,92 +83,7 @@ app.post('/upload', (req, res) => {
     });
   });
 });
-*/
 
-
-/*const multer = require('multer');
-const path = require('path');
-const fs = require('fs');
-
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    const subcarpeta = req.body.subcarpeta || 'default';
-    const storagePath = `/var/www/html/img/${subcarpeta}`;
-    console ('storagePath==>>',storagePath);
-
-    // Crea la carpeta si no existe
-    fs.mkdir(storagePath, { recursive: true }, (err) => {
-      cb(err, storagePath);
-    });
-  },
-  filename: function (req, file, cb) {
-    const uniqueName = `${file.originalname}`;
-    cb(null, uniqueName);
-  }
-});
-
-const upload = multer({ storage: storage });
-*/
-
-
-const multer = require('multer');
-const path = require('path');
-const fs = require('fs');
-
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    //let subcarpeta = 'promociones';
-
-    // Usa 'on("field")' para capturar campos antes de que Multer procese el archivo
-    req.on('data', chunk => {
-      // Este método no garantiza buena captura de body
-    });
-
-    // Pero mejor solución:
-    const subcarpeta = req.body.subcarpeta || 'default';
-
-    if (req.body && req.body.subcarpeta) {
-      subcarpeta = req.body.subcarpeta;
-    }
-
-    const storagePath = path.join('/var/www/html/img', subcarpeta);
-    fs.mkdir(storagePath, { recursive: true }, (err) => {
-      cb(err, storagePath);
-    });
-  },
-  filename: function (req, file, cb) {
-    cb(null, file.originalname);
-  }
-});
-
-const upload = multer({ storage });
-
-
-app.post('/upload', upload.single('image'), (req, res) => {
-  console.log('body recibido:', req.body);
-   console.log('➡️ POST /upload recibido');
-  if (!req.file) {
-    console.log('❌ No se recibió archivo');
-    return res.status(400).json({ message: 'No se envió ningún archivo' });
-  }
-
-  const subcarpeta = req.body.subcarpeta || 'default';
-  console.log('subcarpeta==>',subcarpeta);
-  const fileUrl = `http://ec2-54-144-58-67.compute-1.amazonaws.com/img/${subcarpeta}/${req.file.filename}`;
-
-  console.log('✅ Archivo recibido:', req.file);
-  console.log('✅ Archivo guardado correctamente en:', fileUrl);
-
-  return res.status(200).json({
-    message: 'Imagen subida exitosamente',
-    url: fileUrl
-  });
-});
-
-  //////////////////////////////////
-  // Ruta física en el servidor donde se guardarán las imágenes de las promociones
-
-  //////////////////////////////////
 
 app.get('/', (request, response) => {
     response.json([{

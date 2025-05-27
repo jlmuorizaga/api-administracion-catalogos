@@ -33,7 +33,7 @@ app.use(cors({
     origin: '*'
 }))
 
-const multer = require('multer');
+/*const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 
@@ -41,6 +41,7 @@ const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     const subcarpeta = req.body.subcarpeta || 'default';
     const storagePath = `/var/www/html/img/${subcarpeta}`;
+    console ('storagePath==>>',storagePath);
 
     // Crea la carpeta si no existe
     fs.mkdir(storagePath, { recursive: true }, (err) => {
@@ -54,6 +55,37 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage: storage });
+*/
+const multer = require('multer');
+const path = require('path');
+const fs = require('fs');
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    let subcarpeta = 'default';
+
+    // Usa 'on("field")' para capturar campos antes de que Multer procese el archivo
+    req.on('data', chunk => {
+      // Este método no garantiza buena captura de body
+    });
+
+    // Pero mejor solución:
+    if (req.body && req.body.subcarpeta) {
+      subcarpeta = req.body.subcarpeta;
+    }
+
+    const storagePath = path.join('/var/www/html/img', subcarpeta);
+    fs.mkdir(storagePath, { recursive: true }, (err) => {
+      cb(err, storagePath);
+    });
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname);
+  }
+});
+
+const upload = multer({ storage });
+
 
 app.post('/upload', upload.single('image'), (req, res) => {
    console.log('➡️ POST /upload recibido');

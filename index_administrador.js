@@ -55,6 +55,7 @@ function crearMiddlewareUpload(subcarpeta) {
 }
 
 app.post('/upload', (req, res) => {
+    console.log('📥 Endpoint /upload INVOCADO');
   const tempForm = multer().none(); // Procesa solo campos sin archivo
 
   tempForm(req, res, function (err) {

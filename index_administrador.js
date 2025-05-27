@@ -118,7 +118,7 @@ const fs = require('fs');
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    let subcarpeta = 'default';
+    //let subcarpeta = 'default';
 
     // Usa 'on("field")' para capturar campos antes de que Multer procese el archivo
     req.on('data', chunk => {
@@ -151,7 +151,7 @@ app.post('/upload', upload.single('image'), (req, res) => {
     return res.status(400).json({ message: 'No se envió ningún archivo' });
   }
 
-  const subcarpeta = req.body.subcarpeta || 'promociones';
+  const subcarpeta = req.body.subcarpeta || 'default';
   console.log('subcarpeta==>',subcarpeta);
   const fileUrl = `http://ec2-54-144-58-67.compute-1.amazonaws.com/img/${subcarpeta}/${req.file.filename}`;
 

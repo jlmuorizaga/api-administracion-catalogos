@@ -151,7 +151,7 @@ app.post('/upload', upload.single('image'), (req, res) => {
     return res.status(400).json({ message: 'No se envió ningún archivo' });
   }
 
-  const subcarpeta = req.body.subcarpeta || 'default';
+  const subcarpeta = req.body.subcarpeta || 'promociones';
   console.log('subcarpeta==>',subcarpeta);
   const fileUrl = `http://ec2-54-144-58-67.compute-1.amazonaws.com/img/${subcarpeta}/${req.file.filename}`;
 

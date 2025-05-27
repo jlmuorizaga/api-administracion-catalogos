@@ -152,6 +152,7 @@ app.post('/upload', upload.single('image'), (req, res) => {
   }
 
   const subcarpeta = req.body.subcarpeta || 'default';
+  console.log('subcarpeta==>',subcarpeta);
   const fileUrl = `http://ec2-54-144-58-67.compute-1.amazonaws.com/img/${subcarpeta}/${req.file.filename}`;
 
   console.log('✅ Archivo recibido:', req.file);

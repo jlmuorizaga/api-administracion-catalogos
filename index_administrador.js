@@ -32,7 +32,7 @@ app.use(
 app.use(cors({
     origin: '*'
 }))
-
+/*
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
@@ -84,6 +84,8 @@ app.post('/upload', (req, res) => {
     });
   });
 });
+*/
+
 
 /*const multer = require('multer');
 const path = require('path');
@@ -109,7 +111,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 */
 
-/*
+
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
@@ -160,7 +162,7 @@ app.post('/upload', upload.single('image'), (req, res) => {
     url: fileUrl
   });
 });
-*/
+
   //////////////////////////////////
   // Ruta física en el servidor donde se guardarán las imágenes de las promociones
 

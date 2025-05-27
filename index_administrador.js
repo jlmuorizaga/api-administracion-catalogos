@@ -118,7 +118,7 @@ const fs = require('fs');
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    //let subcarpeta = 'default';
+    let subcarpeta = 'promociones';
 
     // Usa 'on("field")' para capturar campos antes de que Multer procese el archivo
     req.on('data', chunk => {

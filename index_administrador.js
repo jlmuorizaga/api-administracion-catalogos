@@ -88,6 +88,7 @@ const upload = multer({ storage });
 
 
 app.post('/upload', upload.single('image'), (req, res) => {
+  console.log('body recibido:', req.body);
    console.log('➡️ POST /upload recibido');
   if (!req.file) {
     console.log('❌ No se recibió archivo');

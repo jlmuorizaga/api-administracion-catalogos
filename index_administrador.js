@@ -33,6 +33,58 @@ app.use(cors({
     origin: '*'
 }))
 
+const multer = require('multer');
+const path = require('path');
+const fs = require('fs');
+
+// Esta función crea dinámicamente un upload con destino correcto
+function crearMulterConSubcarpeta(subcarpeta) {
+  const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      const storagePath = path.join('/var/www/html/img', subcarpeta || 'default');
+      fs.mkdir(storagePath, { recursive: true }, (err) => {
+        cb(err, storagePath);
+      });
+    },
+    filename: function (req, file, cb) {
+      cb(null, file.originalname);
+    }
+  });
+
+  return multer({ storage: storage }).single('image');
+}
+
+// Este endpoint ahora extrae primero el campo y luego usa multer
+app.post('/upload', (req, res) => {
+  const form = new multer().none(); // Procesa solo campos, sin archivos
+
+  form(req, res, function (err) {
+    if (err) {
+      return res.status(500).json({ error: 'Error al procesar campos' });
+    }
+
+    const subcarpeta = req.body.subcarpeta || 'default';
+    console.log('📦 Subcarpeta recibida:', subcarpeta);
+
+    // Ahora que ya tenemos la subcarpeta, usamos multer con destino dinámico
+    const upload = crearMulterConSubcarpeta(subcarpeta);
+
+    upload(req, res, function (err) {
+      if (err) {
+        return res.status(500).json({ error: 'Error al subir imagen' });
+      }
+
+      const fileUrl = `http://ec2-54-144-58-67.compute-1.amazonaws.com/img/${subcarpeta}/${req.file.filename}`;
+      console.log('✅ Imagen guardada en:', fileUrl);
+
+      return res.status(200).json({
+        message: 'Imagen subida exitosamente',
+        url: fileUrl
+      });
+    });
+  });
+});
+
 /*const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
@@ -56,6 +108,8 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 */
+
+/*
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
@@ -106,7 +160,7 @@ app.post('/upload', upload.single('image'), (req, res) => {
     url: fileUrl
   });
 });
-
+*/
   //////////////////////////////////
   // Ruta física en el servidor donde se guardarán las imágenes de las promociones
 

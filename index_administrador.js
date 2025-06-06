@@ -100,9 +100,6 @@ app.get('/', (request, response) => {
 
 //Endpoints para pizzas
 app.get('/pizzas', db_pizza.getListaPizzas);
-// -- Especialidades cuyas combinaciones con tamaños no están completas (ordenadas alfabéticamente)
-// -- (no tienen combinación con todos los tamaños)
-app.get('/pizzasNoCombinacionTamanios', db_pizza.getListaPizzasNoCombinanTodosTamanios);
 app.get('/pizzas/:idPizza', db_pizza.getPizza);
 app.post('/pizzas', db_pizza.insertaPizza);
 app.put('/pizzas/:idPizza', db_pizza.actualizaPizza);
@@ -149,6 +146,9 @@ app.get('/especialidades/:idEspecialidad', db_e.getEspecialidad);
 app.post('/especialidades', db_e.insertaEspecialidad);
 app.put('/especialidades/:idEspecialidad', db_e.actualizaEspecialidad);
 app.delete('/especialidades/:idEspecialidad', db_e.eliminaEspecialidad);
+// -- Especialidades cuyas combinaciones con tamaños no están completas (ordenadas alfabéticamente)
+// -- (no tienen combinación con todos los tamaños)
+app.get('/especialidadesNoCombinanTodosTamanios', db_e.getListaEspecialidadesNoCombinanTodosTamanios);
 
 //Endpoints para tipos_producto
 app.get('/tipos-producto', db_tipos_producto.getListaTiposProducto);

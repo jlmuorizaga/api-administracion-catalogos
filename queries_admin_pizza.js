@@ -41,22 +41,7 @@ const getListaPizzas = (request, response) => {
     );
 }
 */
-// -- Especialidades cuyas combinaciones con tamaños no están completas (ordenadas alfabéticamente)
-// -- (no tienen combinación con todos los tamaños)
-const getListaPizzasNoCombinanTodosTamanios = (request, response) => {
-  pool.query(
-    'SELECT DISTINCT esp.id as "idEspecialidad", esp.nombre as "nombreEspecialidad" FROM preesppropro.especialidad_pizza esp ' +
-      "WHERE EXISTS (SELECT 1 FROM preesppropro.tamanio_pizza tam WHERE NOT EXISTS (SELECT 1 FROM preesppropro.pizza p " +
-      "WHERE p.id_especialidad = esp.id AND p.id_tamanio = tam.id)) ORDER BY esp.nombre;",
 
-    (error, results) => {
-      if (error) {
-        throw error;
-      }
-      response.status(200).json(results.rows);
-    }
-  );
-};
 
 const getListaPizzas = (request, response) => {
   pool.query(
@@ -191,5 +176,4 @@ module.exports = {
   insertaPizza,
   actualizaPizza,
   eliminaPizza,
-  getListaPizzasNoCombinanTodosTamanios,
 };

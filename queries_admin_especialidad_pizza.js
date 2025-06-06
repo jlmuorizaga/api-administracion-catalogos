@@ -16,6 +16,22 @@ const pool = new Pool({
     }),
 });
 
+// -- Especialidades cuyas combinaciones con tamaños no están completas (ordenadas alfabéticamente)
+// -- (no tienen combinación con todos los tamaños)
+const getListaEspecialidadesNoCombinanTodosTamanios = (request, response) => {
+  pool.query(
+    'SELECT DISTINCT esp.id as "idEspecialidad", esp.nombre as "nombreEspecialidad" FROM preesppropro.especialidad_pizza esp ' +
+      "WHERE EXISTS (SELECT 1 FROM preesppropro.tamanio_pizza tam WHERE NOT EXISTS (SELECT 1 FROM preesppropro.pizza p " +
+      "WHERE p.id_especialidad = esp.id AND p.id_tamanio = tam.id)) ORDER BY esp.nombre;",
+
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      response.status(200).json(results.rows);
+    }
+  );
+};
 
 const getListaEspecialidades = (request, response) => {
     pool.query(
@@ -101,5 +117,6 @@ module.exports = {
     getEspecialidad,
     insertaEspecialidad,
     actualizaEspecialidad,
-    eliminaEspecialidad
+    eliminaEspecialidad,
+    getListaEspecialidadesNoCombinanTodosTamanios,
 }

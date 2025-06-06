@@ -191,4 +191,5 @@ module.exports = {
   insertaPizza,
   actualizaPizza,
   eliminaPizza,
+  getListaPizzasNoCombinanTodosTamanios,
 };

@@ -42,6 +42,7 @@ function crearMiddlewareUpload(subcarpeta) {
   const storage = multer.diskStorage({
     destination: function (req, file, cb) {
       const rutaDestino = path.join('/var/www/html/img', subcarpeta || 'default');
+      console.log('rutaDestino=',rutaDestino);
       fs.mkdir(rutaDestino, { recursive: true }, (err) => {
         cb(err, rutaDestino);
       });

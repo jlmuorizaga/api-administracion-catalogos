@@ -21,6 +21,21 @@ const db_relacion_promocion_especial_sucursal=require('./queries_admin_relacion_
 const db_ros=require('./queries_admin_relacion_orilla_sucursal')
 const db_rps=require('./queries_admin_relacion_pizza_sucursal')
 const db_rprods=require('./queries_admin_relacion_producto_sucursal')
+const crearMiddlewareUpload = require('./middlewares/uploadMiddleware');
+// Imagen para especialidad
+app.post('/upload/especialidad', crearUploadHandler('especialidades'));
+
+// Imagen para producto
+app.post('/upload/producto', crearUploadHandler('productos'));
+
+// Imagen para promoción
+app.post('/upload/promocion', crearUploadHandler('promociones'));
+
+// Imagen para salsa
+app.post('/upload/salsa', crearUploadHandler('salsas'));
+
+// Imagen para orilla
+app.post('/upload/orilla', crearUploadHandler('orillas'));
 const port = process.env.PORT || 3005
 
 app.use(bodyParser.json())
@@ -33,31 +48,39 @@ app.use(cors({
     origin: '*'
 }))
 
-const multer = require('multer');
-const path = require('path');
-const fs = require('fs');
+function crearUploadHandler(subcarpeta) {
+  return (req, res) => {
+    const tempForm = multer().none(); // primero leemos el body
+    tempForm(req, res, function (err) {
+      if (err) {
+        return res.status(500).json({ error: 'Error al procesar campos del formulario' });
+      }
 
-// Esta función crea un middleware multer configurado dinámicamente
-function crearMiddlewareUpload(subcarpeta) {
-  const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-      const rutaDestino = path.join('/var/www/html/img', subcarpeta || 'default');
-      console.log('rutaDestino=',rutaDestino);
-      fs.mkdir(rutaDestino, { recursive: true }, (err) => {
-        cb(err, rutaDestino);
+      const upload = crearMiddlewareUpload(subcarpeta);
+
+      upload(req, res, function (err) {
+        if (err) {
+          return res.status(400).json({ error: err.message });
+        }
+
+        const fileUrl = `http://ec2-54-144-58-67.compute-1.amazonaws.com/img/${subcarpeta}/${req.file.filename}`;
+        console.log(`✅ Imagen subida a [${subcarpeta}]:`, fileUrl);
+
+        return res.status(200).json({
+          message: 'Imagen subida exitosamente',
+          url: fileUrl
+        });
       });
-    },
-    filename: function (req, file, cb) {
-      cb(null, file.originalname);
-    }
-  });
-
-  return multer({ storage: storage }).single('image');
+    });
+  };
 }
 
+app.use('/img', express.static('/var/www/html/img'));
+
 app.post('/upload', (req, res) => {
-    console.log('📥 Endpoint /upload INVOCADO');
-  const tempForm = multer().none(); // Procesa solo campos sin archivo
+  console.log('📥 Endpoint /upload INVOCADO');
+
+  const tempForm = multer().none(); // primero procesamos campos
 
   tempForm(req, res, function (err) {
     if (err) {
@@ -71,12 +94,11 @@ app.post('/upload', (req, res) => {
 
     upload(req, res, function (err) {
       if (err) {
-        return res.status(500).json({ error: 'Error al subir imagen' });
+        return res.status(400).json({ error: err.message });
       }
 
       const fileUrl = `http://ec2-54-144-58-67.compute-1.amazonaws.com/img/${subcarpeta}/${req.file.filename}`;
-      console.log('✅ Archivo recibido:', req.file);
-      console.log('✅ Imagen guardada en:', fileUrl);
+      console.log('✅ Archivo recibido:', req.file.filename);
 
       return res.status(200).json({
         message: 'Imagen subida exitosamente',
@@ -85,6 +107,7 @@ app.post('/upload', (req, res) => {
     });
   });
 });
+
 
 
 app.get('/', (request, response) => {

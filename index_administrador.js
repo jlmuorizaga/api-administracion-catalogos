@@ -1,11 +1,5 @@
 const express = require("express");
 const cors = require('cors');
-
-app.use(cors({
-  origin: '*',  // 👈 permite cualquier origen (ideal para pruebas)
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type']
-}));
 const bodyParser = require("body-parser");
 const multer = require('multer');
 const app = express();
@@ -29,6 +23,13 @@ const db_ros = require("./queries_admin_relacion_orilla_sucursal");
 const db_rps = require("./queries_admin_relacion_pizza_sucursal");
 const db_rprods = require("./queries_admin_relacion_producto_sucursal");
 const crearUploadHandler = require('./middlewares/uploadMiddleware');
+
+
+app.use(cors({
+  origin: '*',  // 👈 permite cualquier origen (ideal para pruebas)
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type']
+}));
 
 // Especialidades
 app.post('/upload/especialidad', crearUploadHandler('especialidades'), (req, res) => {

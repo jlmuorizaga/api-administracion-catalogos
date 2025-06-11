@@ -1,3 +1,4 @@
+const express = require("express");
 const cors = require('cors');
 
 app.use(cors({
@@ -5,8 +6,6 @@ app.use(cors({
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type']
 }));
-
-const express = require("express");
 const bodyParser = require("body-parser");
 const multer = require('multer');
 const app = express();
@@ -52,11 +51,6 @@ app.use(bodyParser.json());
 app.use(
   bodyParser.urlencoded({
     extended: true,
-  })
-);
-app.use(
-  cors({
-    origin: "*",
   })
 );
 

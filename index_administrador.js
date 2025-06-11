@@ -1,4 +1,11 @@
-const cors = require("cors");
+const cors = require('cors');
+
+app.use(cors({
+  origin: '*',  // 👈 permite cualquier origen (ideal para pruebas)
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type']
+}));
+
 const express = require("express");
 const bodyParser = require("body-parser");
 const multer = require('multer');
@@ -22,21 +29,23 @@ const db_relacion_promocion_especial_sucursal = require("./queries_admin_relacio
 const db_ros = require("./queries_admin_relacion_orilla_sucursal");
 const db_rps = require("./queries_admin_relacion_pizza_sucursal");
 const db_rprods = require("./queries_admin_relacion_producto_sucursal");
-const crearMiddlewareUpload = require("./middlewares/uploadMiddleware");
-// Imagen para especialidad
-app.post("/upload/especialidad", crearUploadHandler("especialidades"));
+const crearUploadHandler = require('./middlewares/uploadMiddleware');
 
-// Imagen para producto
-app.post("/upload/producto", crearUploadHandler("productos"));
+// Especialidades
+app.post('/upload/especialidad', crearUploadHandler('especialidades'), (req, res) => {
+  res.status(200).json({ message: 'Imagen subida exitosamente', url: req.uploadInfo.url });
+});
 
-// Imagen para promoción
-app.post("/upload/promocion", crearUploadHandler("promociones"));
+// Productos
+app.post('/upload/producto', crearUploadHandler('productos'), (req, res) => {
+  res.status(200).json({ message: 'Imagen subida exitosamente', url: req.uploadInfo.url });
+});
 
-// Imagen para salsa
-app.post("/upload/salsa", crearUploadHandler("salsas"));
+// Promociones
+app.post('/upload/promocion', crearUploadHandler('promociones'), (req, res) => {
+  res.status(200).json({ message: 'Imagen subida exitosamente', url: req.uploadInfo.url });
+});
 
-// Imagen para orilla
-app.post("/upload/orilla", crearUploadHandler("orillas"));
 const port = process.env.PORT || 3005;
 
 app.use(bodyParser.json());
@@ -51,73 +60,8 @@ app.use(
   })
 );
 
-function crearUploadHandler(subcarpeta) {
-  return (req, res) => {
-    const tempForm = multer().none(); // primero leemos el body
-    tempForm(req, res, function (err) {
-      if (err) {
-        return res
-          .status(500)
-          .json({ error: "Error al procesar campos del formulario" });
-      }
-
-      const upload = crearMiddlewareUpload(subcarpeta);
-
-      upload(req, res, function (err) {
-        if (err) {
-          console.error("❌ Error al procesar el archivo:", err);
-          return res
-            .status(500)
-            .json({ error: "Error al subir la imagen: " + err.message });
-        }
-
-        if (!req.file) {
-          console.error("⚠️ No se recibió ningún archivo");
-          return res.status(400).json({ error: "No se recibió archivo" });
-        }
-
-        const fileUrl = `http://ec2-54-144-58-67.compute-1.amazonaws.com/img/${subcarpeta}/${req.file.filename}`;
-        console.log("✅ Imagen guardada:", fileUrl);
-        return res
-          .status(200)
-          .json({ message: "Imagen subida exitosamente", url: fileUrl });
-      });
-    });
-  };
-}
 
 app.use("/img", express.static("/var/www/html/img"));
-
-app.post("/upload", (req, res) => {
-  console.log("📥 Endpoint /upload INVOCADO");
-
-  const tempForm = multer().none(); // primero procesamos campos
-
-  tempForm(req, res, function (err) {
-    if (err) {
-      return res.status(500).json({ error: "Error al procesar campos" });
-    }
-
-    const subcarpeta = req.body.subcarpeta || "default";
-    console.log("📦 Subcarpeta recibida:", subcarpeta);
-
-    const upload = crearMiddlewareUpload(subcarpeta);
-
-    upload(req, res, function (err) {
-      if (err) {
-        return res.status(400).json({ error: err.message });
-      }
-
-      const fileUrl = `http://ec2-54-144-58-67.compute-1.amazonaws.com/img/${subcarpeta}/${req.file.filename}`;
-      console.log("✅ Archivo recibido:", req.file.filename);
-
-      return res.status(200).json({
-        message: "Imagen subida exitosamente",
-        url: fileUrl,
-      });
-    });
-  });
-});
 
 app.get("/", (request, response) => {
   response.json([

@@ -224,6 +224,10 @@ app.get(
   "/relacion_pizza_sucursal/:idSucursal",
   db_rps.getListaRelacionPizzaSucursal
 );
+app.get(
+  "/relacion_pizza_sucursal/:idPizza/:idSucursal",
+  db_rps.getRegistroRelacionPizzaSucursal
+);
 app.post(
   "/relacion_pizza_sucursal",
   db_rps.insertaRegistroRelacionPizzaSucursal

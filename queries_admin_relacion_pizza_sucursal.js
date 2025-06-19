@@ -73,20 +73,26 @@ const getListadoPizzasNoEstanEnRPS = (request, response) => {
   );
 };
 
-const getRegistroRelacionOrillaSucursal = (request, response) => {
-  const idPromocion = request.params.idPromocion;
-  pool.query(
-    'SELECT id_promocion as "idPromocion", nombre, descripcion, tipo, definicion, precio, activa, img_url as "imgURL" ' +
-      "FROM preesppropro.promocion_especial WHERE id_promocion=$1 ORDER BY nombre",
-    [idPromocion],
-    (error, results) => {
-      if (error) {
-        throw error;
-      }
-      response.status(200).json(results.rows[0]);
-    }
-  );
-};
+const getRegistroRelacionPizzaSucursal= (request, response) => {
+    const idPizza = request.params.idPizza;
+    const idOrilla = request.params.idOrilla;
+    pool.query(
+        'SELECT o.id as "idOrilla", o.descripcion as "descripcionOrilla", tp.id as "idTamanioPizza",tp.nombre as "tamanioPizza",'
+        +'ros.id_sucursal as "idSucursal", s.clave as "claveSucursal",ros.precio as "precio" '
+        +'FROM preesppropro.relacion_orilla_sucursal as ros '
+        +'INNER JOIN preesppropro.orilla as o ON ros.id_orilla=o.id '
+        +'INNER JOIN preesppropro.tamanio_pizza as tp ON o.id_tamanio=tp.id '
+        +'INNER JOIN preesppropro.sucursal AS s ON s.id=ros.id_sucursal and s.id=$1 ' 
+    +'WHERE ros.id_orilla=$2',
+        [idSucursal,idOrilla],
+        (error, results) => {
+            if (error) {
+                throw error;
+            }
+            response.status(200).json(results.rows[0]);
+        }
+    );
+}
 
 const insertaRegistroRelacionPizzaSucursal = (req, res) => {
   const { idPizza, idSucursal, precioX2, precioX1 } = req.body;
@@ -151,7 +157,7 @@ const eliminaRegistroRelacionPizzaSucursal = (req, res) => {
 module.exports = {
   getListaRelacionPizzaSucursal,
   getListadoPizzasNoEstanEnRPS,
-  getRegistroRelacionOrillaSucursal,
+  getRegistroRelacionPizzaSucursal,
   insertaRegistroRelacionPizzaSucursal,
   actualizaRegistroRelacionOrillaSucursal,
   eliminaRegistroRelacionPizzaSucursal,

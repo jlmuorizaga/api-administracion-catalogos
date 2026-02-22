@@ -249,7 +249,11 @@ app.delete(
   "/relacion_pizza_sucursal/:idPizza/:idSucursal",
   db_rps.eliminaRegistroRelacionPizzaSucursal
 );
-app.put("/relacion_pizza_sucursal")
+app.put(
+  "/relacion_pizza_sucursal/:idPizza",
+  db_rps.actualizaRegistroRelacionPizzaSucursal
+);
+
 
 //Endpoints para relacion_salsa_sucursal
 app.get(

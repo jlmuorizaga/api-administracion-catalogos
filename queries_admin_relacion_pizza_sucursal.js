@@ -114,20 +114,21 @@ const insertaRegistroRelacionPizzaSucursal = (req, res) => {
   );
 };
 
-const actualizaRegistroRelacionOrillaSucursal = (req, res) => {
-  const idOrilla = req.params.idOrilla;
-  const idSucursal = req.params.idSucursal;
-  const { precio } = req.body;
+const actualizaRegistroRelacionPizzaSucursal = (req, res) => {
+  const idPizza = req.params.idPizza;
+  const { idSucursal,precioX2,precioX1 } = req.body;
+
   pool.query(
-    "UPDATE preesppropro.relacion_orilla_sucursal SET precio=$3 WHERE id_orilla=$1 and id_sucursal=$2 RETURNING *",
-    [idOrilla, idSucursal, precio],
+
+    "UPDATE preesppropro.relacion_pizza_sucursal SET precio_x2=$3, precio_x1=$4 WHERE id_pizza=$1 and id_sucursal=$2 RETURNING *",
+    [idPizza, idSucursal, precioX2,precioX1],
     (error, results) => {
       if (error) {
         throw error;
       }
       textoRespuesta =
-        '{"respuesta": "Se actualizó relacion orilla sucursal: ' +
-        results.rows[0].id_orilla +
+        '{"respuesta": "Se actualizó relacion pizza sucursal: ' +
+        results.rows[0].id_pizza +
         '"}';
       res.status(201).json(JSON.parse(textoRespuesta));
     }
@@ -159,6 +160,6 @@ module.exports = {
   getListadoPizzasNoEstanEnRPS,
   getRegistroRelacionPizzaSucursal,
   insertaRegistroRelacionPizzaSucursal,
-  actualizaRegistroRelacionOrillaSucursal,
+  actualizaRegistroRelacionPizzaSucursal,
   eliminaRegistroRelacionPizzaSucursal,
 };

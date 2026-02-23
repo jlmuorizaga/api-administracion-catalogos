@@ -77,6 +77,8 @@ const getRegistroRelacionPizzaSucursal= (request, response) => {
     
     const idSucursal = request.params.idSucursal;
     const idPizza = request.params.idPizza;
+    console.log('idSucursal='+idSucursal);
+    console.log('idPizza='+idPizza);
     pool.query(
 'SELECT p.id as "idPizza", ep.id as "idEspecialidadPizza", ep.nombre as "nombrePizza", '
 + 'ep.ingredientes as "ingredientes", ep.img_url as "imgUrl", ep.orden as "ordenPizza", '

@@ -231,7 +231,7 @@ app.get(
   db_rps.getListaRelacionPizzaSucursal
 );
 app.get(
-  "/relacion_pizza_sucursal/:idPizza/:idSucursal",
+  "/relacion_pizza_sucursal/:idSucursal/:idPizza",
   db_rps.getRegistroRelacionPizzaSucursal
 );
 app.post(

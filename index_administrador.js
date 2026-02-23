@@ -51,7 +51,8 @@ app.post('/upload/tipo-producto', crearUploadHandler('menu'), (req, res) => {
   res.status(200).json({ message: 'Imagen subida exitosamente', url: req.uploadInfo.url });
 });
 
-const port = process.env.PORT || 3005;
+//const port = process.env.PORT || 3005;
+const port = 3005;
 
 app.use(bodyParser.json());
 app.use(

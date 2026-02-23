@@ -74,17 +74,25 @@ const getListadoPizzasNoEstanEnRPS = (request, response) => {
 };
 
 const getRegistroRelacionPizzaSucursal= (request, response) => {
+    
+    const idSucursal = request.params.idSucursal;
     const idPizza = request.params.idPizza;
-    const idOrilla = request.params.idOrilla;
     pool.query(
-        'SELECT o.id as "idOrilla", o.descripcion as "descripcionOrilla", tp.id as "idTamanioPizza",tp.nombre as "tamanioPizza",'
-        +'ros.id_sucursal as "idSucursal", s.clave as "claveSucursal",ros.precio as "precio" '
-        +'FROM preesppropro.relacion_orilla_sucursal as ros '
-        +'INNER JOIN preesppropro.orilla as o ON ros.id_orilla=o.id '
-        +'INNER JOIN preesppropro.tamanio_pizza as tp ON o.id_tamanio=tp.id '
-        +'INNER JOIN preesppropro.sucursal AS s ON s.id=ros.id_sucursal and s.id=$1 ' 
-    +'WHERE ros.id_orilla=$2',
-        [idSucursal,idOrilla],
+'SELECT p.id as "idPizza", ep.id as "idEspecialidadPizza", ep.nombre as "nombrePizza", '
++ 'ep.ingredientes as "ingredientes", ep.img_url as "imgUrl", ep.orden as "ordenPizza", '
++ 'ep.cantidad_ingredientes as "cantidadIngredientes", ep.es_de_un_ingrediente as "esDeUnIngrediente", '
++ 'tp.id as "idTamanioPizza", tp.nombre as "tamanioPizza", tp.orden as "ordenTamanio", '
++ 'rps.id_sucursal as "idSucursal", s.clave as "claveSucursal", s.nombre_sucursal as "nombreSucursal", '
++ 'rps.precio_x2 as "precioX2", rps.precio_x1 as "precioX1", '
++ 'p.aplica_2x1 as "aplica2x1", p.categoria1 as "categoria1", p.categoria2 as "categoria2", p.categoria3 as "categoria3", '
++ 'p.aplica_bebida_gratis as "aplicaBebidaGratis", p.aplica_orilla_queso as "aplicaOrillaQueso" '
++ 'FROM preesppropro.relacion_pizza_sucursal as rps '
++ 'INNER JOIN preesppropro.pizza as p ON rps.id_pizza=p.id '
++ 'INNER JOIN preesppropro.especialidad_pizza as ep ON p.id_especialidad=ep.id '
++ 'INNER JOIN preesppropro.tamanio_pizza as tp ON p.id_tamanio=tp.id '
++ 'INNER JOIN preesppropro.sucursal as s ON s.id=rps.id_sucursal and s.id=$1 '
++ 'WHERE rps.id_pizza=$2'
+        [idSucursal,idPizza],
         (error, results) => {
             if (error) {
                 throw error;

@@ -73,36 +73,43 @@ const getListadoPizzasNoEstanEnRPS = (request, response) => {
   );
 };
 
-const getRegistroRelacionPizzaSucursal= (request, response) => {
-    
-    const idSucursal = request.params.idSucursal;
-    const idPizza = request.params.idPizza;
-    console.log('idSucursal='+idSucursal);
-    console.log('idPizza='+idPizza);
-    pool.query(
-'SELECT p.id as "idPizza", ep.id as "idEspecialidadPizza", ep.nombre as "nombrePizza", '
-+ 'ep.ingredientes as "ingredientes", ep.img_url as "imgUrl", ep.orden as "ordenPizza", '
-+ 'ep.cantidad_ingredientes as "cantidadIngredientes", ep.es_de_un_ingrediente as "esDeUnIngrediente", '
-+ 'tp.id as "idTamanioPizza", tp.nombre as "tamanioPizza", tp.orden as "ordenTamanio", '
-+ 'rps.id_sucursal as "idSucursal", s.clave as "claveSucursal", s.nombre_sucursal as "nombreSucursal", '
-+ 'rps.precio_x2 as "precioX2", rps.precio_x1 as "precioX1", '
-+ 'p.aplica_2x1 as "aplica2x1", p.categoria1 as "categoria1", p.categoria2 as "categoria2", p.categoria3 as "categoria3", '
-+ 'p.aplica_bebida_gratis as "aplicaBebidaGratis", p.aplica_orilla_queso as "aplicaOrillaQueso" '
-+ 'FROM preesppropro.relacion_pizza_sucursal as rps '
-+ 'INNER JOIN preesppropro.pizza as p ON rps.id_pizza=p.id '
-+ 'INNER JOIN preesppropro.especialidad_pizza as ep ON p.id_especialidad=ep.id '
-+ 'INNER JOIN preesppropro.tamanio_pizza as tp ON p.id_tamanio=tp.id '
-+ 'INNER JOIN preesppropro.sucursal as s ON s.id=rps.id_sucursal and s.id=$1 '
-+ 'WHERE rps.id_pizza=$2'
-        [idSucursal,idPizza],
-        (error, results) => {
-            if (error) {
-                throw error;
-            }
-            response.status(200).json(results.rows[0]);
-        }
-    );
-}
+const getRegistroRelacionPizzaSucursal = (request, response) => {
+  const { idSucursal, idPizza } = request.params;
+
+  console.log("idSucursal=" + idSucursal);
+  console.log("idPizza=" + idPizza);
+
+  const sql =
+    'SELECT p.id as "idPizza", ep.id as "idEspecialidadPizza", ep.nombre as "nombrePizza", ' +
+    'ep.ingredientes as "ingredientes", ep.img_url as "imgUrl", ep.orden as "ordenPizza", ' +
+    'ep.cantidad_ingredientes as "cantidadIngredientes", ep.es_de_un_ingrediente as "esDeUnIngrediente", ' +
+    'tp.id as "idTamanioPizza", tp.nombre as "tamanioPizza", tp.orden as "ordenTamanio", ' +
+    'rps.id_sucursal as "idSucursal", s.clave as "claveSucursal", s.nombre_sucursal as "nombreSucursal", ' +
+    'rps.precio_x2 as "precioX2", rps.precio_x1 as "precioX1", ' +
+    'p.aplica_2x1 as "aplica2x1", p.categoria1 as "categoria1", p.categoria2 as "categoria2", p.categoria3 as "categoria3", ' +
+    'p.aplica_bebida_gratis as "aplicaBebidaGratis", p.aplica_orilla_queso as "aplicaOrillaQueso" ' +
+    'FROM preesppropro.relacion_pizza_sucursal as rps ' +
+    'INNER JOIN preesppropro.pizza as p ON rps.id_pizza=p.id ' +
+    'INNER JOIN preesppropro.especialidad_pizza as ep ON p.id_especialidad=ep.id ' +
+    'INNER JOIN preesppropro.tamanio_pizza as tp ON p.id_tamanio=tp.id ' +
+    'INNER JOIN preesppropro.sucursal as s ON s.id=rps.id_sucursal and s.id=$1 ' +
+    'WHERE rps.id_pizza=$2';
+
+  pool.query(
+    sql,
+    [idSucursal, idPizza],
+    (error, results) => {
+      if (error) {
+        console.error(error);
+        return response.status(500).json({ error: error.message });
+      }
+      if (!results.rows.length) {
+        return response.status(404).json({ error: "No encontrado" });
+      }
+      response.status(200).json(results.rows[0]);
+    }
+  );
+};
 
 const insertaRegistroRelacionPizzaSucursal = (req, res) => {
   const { idPizza, idSucursal, precioX2, precioX1 } = req.body;

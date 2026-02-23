@@ -125,21 +125,40 @@ const insertaRegistroRelacionProductoSucursal = (req, res) => {
 const actualizaRegistroRelacionProductoSucursal = (req, res) => {
   const idProducto = req.params.idProducto;
   const idSucursal = req.params.idSucursal;
+
+  // Solo necesitas precio para editar
   const { precio } = req.body;
+
   pool.query(
-    "UPDATE preesppropro.relacion_producto_sucursal SET precio=$3 WHERE id_producto=$1 and id_sucursal=$2 RETURNING *",
+    'UPDATE preesppropro.relacion_producto_sucursal ' +
+      'SET precio=$3 ' +
+      'WHERE id_producto=$1 AND id_sucursal=$2 ' +
+      'RETURNING *',
     [idProducto, idSucursal, precio],
     (error, results) => {
       if (error) {
         throw error;
       }
-      textoRespuesta =
+
+      // Si no encontró el registro a actualizar
+      if (!results.rows.length) {
+        return res.status(404).json({
+          respuesta: "No existe la relación producto-sucursal con esos ids",
+        });
+      }
+
+      const textoRespuesta =
         '{"respuesta": "Se actualizó relacion producto sucursal: ' +
         results.rows[0].id_producto +
         '"}';
+
       res.status(201).json(JSON.parse(textoRespuesta));
-    },
+    }
   );
+};
+
+module.exports = {
+  actualizaRegistroRelacionProductoSucursal,
 };
 
 const eliminaRegistroRelacionProductoSucursal = (req, res) => {

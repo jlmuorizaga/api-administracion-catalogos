@@ -186,7 +186,7 @@ app.post(
   db_rprods.insertaRegistroRelacionProductoSucursal
 );
 app.put(
-  "/relacion_producto_sucursal/:idSucursal",
+  "/relacion_producto_sucursal/:idProducto/:idSucursal",
   db_rprods.actualizaRegistroRelacionProductoSucursal
 );
 // Nuevo 2 Ene 2024

@@ -13,7 +13,8 @@
  
  //const URL_SERVER=process.env.URL_SERVER || 'http://ec2-54-144-58-67.compute-1.amazonaws.com/';
   //URL Server AWS 7 de Diciembre del 2025
- const URL_SERVER=process.env.URL_SERVER || 'http://ec2-3-148-103-201.us-east-2.compute.amazonaws.com';
+ //const URL_SERVER=process.env.URL_SERVER || 'http://ec2-3-148-103-201.us-east-2.compute.amazonaws.com';
+ const URL_SERVER=process.env.URL_SERVER || 'http://admin.cheesepizza.com.mx';
  const ENABLE_SSL = true; // Cambia a true para habilitar SSL
 
 /*

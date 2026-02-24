@@ -88,10 +88,11 @@ const insertaPizza = (req, res) => {
     categoria1,
     categoria2,
     categoria3,
+    aplica_orilla_queso
   } = req.body;
   pool.query(
     "INSERT INTO preesppropro.pizza(id, id_especialidad, id_tamanio," +
-      "aplica_2x1, categoria1, categoria2, categoria3,aplica_orilla_queso) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *;",
+      "aplica_2x1, categoria1, categoria2, categoria3,aplica_orilla_queso) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *;",
     [
       idPizza,
       idEspecialidad,
@@ -100,6 +101,7 @@ const insertaPizza = (req, res) => {
       categoria1,
       categoria2,
       categoria3,
+      aplica_orilla_queso,
     ],
     (error, results) => {
       if (error) {

@@ -269,9 +269,9 @@ app.get(
   "/dameListadoSalsasNoEstanEnRSS/:idSucursal",
   db_rss.getListadoSalsasNoEstanEnRSS
 );
-app.post(
-  "/relacion_salsa_sucursal",
-  db_rss.insertaRegistroRelacionSalsaSucursal
+app.put(
+  "/relacion_salsa_sucursal/:idSalsa/:idSucursal",
+  db_rss.actualizaRegistroRelacionSalsaSucursal
 );
 app.delete(
   "/relacion_salsa_sucursal/:idSalsa/:idSucursal",

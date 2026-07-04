@@ -41,7 +41,7 @@ const getSucursal= (request, response) => {
         +'hora_fin as "horaFin", s.latitud, s.longitud, id_region as "idRegion", r.nombre as "nombreRegion",venta_activa as "ventaActiva", pk, sk,'
         +'monto_minimo_entrega_sucursal as "montoMinimoEntregaSucursal", monto_minimo_entrega_domicilio as "montoMinimoEntregaDomicilio" ' 
         +'FROM preesppropro.sucursal as s '
-        +'INNER JOIN preesppropro.region as r ON r.id=s.id_region '
+        +'LEFT JOIN preesppropro.region as r ON r.id=s.id_region '
         +'WHERE s.id=$1;',
         [idSucursal],
         (error, results) => {

@@ -19,7 +19,7 @@ const pool = new Pool({
 
 const getListaProducto = (request, response) => {
     pool.query(
-        'SELECT id, descripcion as "descripcionP", tamanio, usa_salsa as "usaSalsa", id_tipo_producto as "idTipoProducto", ruta_imagen as "rutaImagen", categoria1, categoria2, categoria3 '
+        'SELECT id, descripcion as "descripcionP", tamanio, usa_salsa as "usaSalsa", id_tipo_producto as "idTipoProducto", ruta_imagen as "rutaImagen", categoria1, categoria2, categoria3, aplica_bebida_gratis as "aplicaBebidaGratis" '
         +'FROM preesppropro.producto ORDER BY descripcion;',
         (error, results) => {
             if (error) {
@@ -35,7 +35,7 @@ const getListaProducto2 = (request, response) => {
         'SELECT p.id as "id", p.descripcion as "descripcionP", tamanio as "tamanio", '
         +'usa_salsa as "usaSalsa", id_tipo_producto as "idTipoProducto",' 
         +'pt.nombre as "nombreTP", ruta_imagen as "rutaImagen", categoria1 as "categoria1",' 
-        +'categoria2 as "categoria2", categoria3 as "categoria3" '
+        +'categoria2 as "categoria2", categoria3 as "categoria3", p.aplica_bebida_gratis as "aplicaBebidaGratis" '
         +'FROM preesppropro.producto as p, preesppropro.producto_tipo as pt where p.id_tipo_producto=pt.id ORDER BY p.descripcion;',
         (error, results) => {
             if (error) {
@@ -51,7 +51,7 @@ const getListaProducto2 = (request, response) => {
 const getProducto= (request, response) => {
     const idProducto = request.params.idProducto;    
     pool.query(
-        'SELECT id, descripcion as "descripcionP", tamanio, usa_salsa as "usaSalsa", id_tipo_producto as "idTipoProducto", ruta_imagen as "rutaImagen", categoria1, categoria2, categoria3 '
+        'SELECT id, descripcion as "descripcionP", tamanio, usa_salsa as "usaSalsa", id_tipo_producto as "idTipoProducto", ruta_imagen as "rutaImagen", categoria1, categoria2, categoria3, aplica_bebida_gratis as "aplicaBebidaGratis" '
         +'FROM preesppropro.producto WHERE id=$1;',
         [idProducto],
         (error, results) => {
@@ -63,11 +63,23 @@ const getProducto= (request, response) => {
     );
 }
 const insertaProducto = (req, res) => {
-    const { id, descripcionP,  tamanio, usaSalsa, idTipoProducto, rutaImagen, categoria1, categoria2, categoria3} = req.body;
+    const { id, descripcionP,  tamanio, usaSalsa, idTipoProducto, rutaImagen, categoria1, categoria2, categoria3, aplicaBebidaGratis, aplica_bebida_gratis} = req.body;
+
+    let aplicaBebidaGratisVal = aplicaBebidaGratis !== undefined ? aplicaBebidaGratis : aplica_bebida_gratis;
+    if (aplicaBebidaGratisVal === undefined || aplicaBebidaGratisVal === null) {
+      aplicaBebidaGratisVal = 'N';
+    } else {
+      aplicaBebidaGratisVal = aplicaBebidaGratisVal.toString().toUpperCase();
+    }
+
+    if (aplicaBebidaGratisVal !== 'S' && aplicaBebidaGratisVal !== 'N') {
+      return res.status(400).json({ error: "El campo aplicaBebidaGratis debe ser 'S' o 'N'" });
+    }
+
     pool.query(
-        'INSERT INTO preesppropro.producto(id, descripcion, tamanio, usa_salsa, id_tipo_producto, ruta_imagen, categoria1, categoria2, categoria3) '
-        +'VALUES ($1, $2, $3, $4, $5, $6,$7, $8, $9) RETURNING *',
-        [id,descripcionP,tamanio, usaSalsa, idTipoProducto, rutaImagen, categoria1, categoria2, categoria3],
+        'INSERT INTO preesppropro.producto(id, descripcion, tamanio, usa_salsa, id_tipo_producto, ruta_imagen, categoria1, categoria2, categoria3, aplica_bebida_gratis) '
+        +'VALUES ($1, $2, $3, $4, $5, $6,$7, $8, $9, $10) RETURNING *',
+        [id,descripcionP,tamanio, usaSalsa, idTipoProducto, rutaImagen, categoria1, categoria2, categoria3, aplicaBebidaGratisVal],
         (error, results) => {
             if (error) {
                 throw error;
@@ -80,11 +92,23 @@ const insertaProducto = (req, res) => {
 
 const actualizaProducto= (req, res) => {
     const idProducto = req.params.idProducto;
-    const { descripcionP, tamanio, usaSalsa, idTipoProducto, rutaImagen, categoria1, categoria2, categoria3 } = req.body;
+    const { descripcionP, tamanio, usaSalsa, idTipoProducto, rutaImagen, categoria1, categoria2, categoria3, aplicaBebidaGratis, aplica_bebida_gratis } = req.body;
+
+    let aplicaBebidaGratisVal = aplicaBebidaGratis !== undefined ? aplicaBebidaGratis : aplica_bebida_gratis;
+    if (aplicaBebidaGratisVal === undefined || aplicaBebidaGratisVal === null) {
+      aplicaBebidaGratisVal = 'N';
+    } else {
+      aplicaBebidaGratisVal = aplicaBebidaGratisVal.toString().toUpperCase();
+    }
+
+    if (aplicaBebidaGratisVal !== 'S' && aplicaBebidaGratisVal !== 'N') {
+      return res.status(400).json({ error: "El campo aplicaBebidaGratis debe ser 'S' o 'N'" });
+    }
+
     pool.query(
         'UPDATE preesppropro.producto SET descripcion=$1, tamanio=$2, usa_salsa=$3, '
-        +'id_tipo_producto=$4, ruta_imagen=$5, categoria1=$6, categoria2=$7, categoria3=$8 WHERE id=$9 RETURNING *',
-        [descripcionP, tamanio, usaSalsa, idTipoProducto, rutaImagen, categoria1, categoria2, categoria3,idProducto],
+        +'id_tipo_producto=$4, ruta_imagen=$5, categoria1=$6, categoria2=$7, categoria3=$8, aplica_bebida_gratis=$9 WHERE id=$10 RETURNING *',
+        [descripcionP, tamanio, usaSalsa, idTipoProducto, rutaImagen, categoria1, categoria2, categoria3, aplicaBebidaGratisVal, idProducto],
         (error, results) => {
             if (error) {
                 throw error;

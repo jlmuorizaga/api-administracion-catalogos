@@ -47,7 +47,7 @@ const getListaPizzas = (request, response) => {
   pool.query(
     'SELECT p.id as "idPizza", p.id_especialidad as "idEspecialidad", ep.nombre as "nombreEspecialidad",' +
       'p.id_tamanio as "idTamanioPizza", tp.nombre as "tamanioPizza",' +
-      'p.aplica_2x1 as "aplica2x1", p.categoria1, p.categoria2, p.categoria3,p.aplica_orilla_queso FROM preesppropro.pizza as p ' +
+      'p.aplica_2x1 as "aplica2x1", p.categoria1, p.categoria2, p.categoria3, p.aplica_orilla_queso, p.aplica_bebida_gratis as "aplicaBebidaGratis" FROM preesppropro.pizza as p ' +
       "INNER JOIN preesppropro.especialidad_pizza as ep ON p.id_especialidad=ep.id " +
       "INNER JOIN preesppropro.tamanio_pizza as tp ON p.id_tamanio=tp.id " +
       'ORDER BY "nombreEspecialidad","tamanioPizza"',
@@ -65,7 +65,7 @@ const getPizza = (request, response) => {
   pool.query(
     'SELECT p.id as "idPizza", p.id_especialidad as "idEspecialidad", ep.nombre as "nombreEspecialidad",' +
       'p.id_tamanio as "idTamanioPizza", tp.nombre as "tamanioPizza",' +
-      'p.aplica_2x1 as "aplica2x1", p.categoria1, p.categoria2, p.categoria3,p.aplica_orilla_queso FROM preesppropro.pizza as p ' +
+      'p.aplica_2x1 as "aplica2x1", p.categoria1, p.categoria2, p.categoria3, p.aplica_orilla_queso, p.aplica_bebida_gratis as "aplicaBebidaGratis" FROM preesppropro.pizza as p ' +
       "INNER JOIN preesppropro.especialidad_pizza as ep ON p.id_especialidad=ep.id " +
       "INNER JOIN preesppropro.tamanio_pizza as tp ON p.id_tamanio=tp.id " +
       "WHERE p.id=$1 " +
@@ -88,11 +88,25 @@ const insertaPizza = (req, res) => {
     categoria1,
     categoria2,
     categoria3,
-    aplica_orilla_queso
+    aplica_orilla_queso,
+    aplicaBebidaGratis,
+    aplica_bebida_gratis
   } = req.body;
+
+  let aplicaBebidaGratisVal = aplicaBebidaGratis !== undefined ? aplicaBebidaGratis : aplica_bebida_gratis;
+  if (aplicaBebidaGratisVal === undefined || aplicaBebidaGratisVal === null) {
+    aplicaBebidaGratisVal = 'N';
+  } else {
+    aplicaBebidaGratisVal = aplicaBebidaGratisVal.toString().toUpperCase();
+  }
+
+  if (aplicaBebidaGratisVal !== 'S' && aplicaBebidaGratisVal !== 'N') {
+    return res.status(400).json({ error: "El campo aplicaBebidaGratis debe ser 'S' o 'N'" });
+  }
+
   pool.query(
     "INSERT INTO preesppropro.pizza(id, id_especialidad, id_tamanio," +
-      "aplica_2x1, categoria1, categoria2, categoria3,aplica_orilla_queso) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *;",
+      "aplica_2x1, categoria1, categoria2, categoria3, aplica_orilla_queso, aplica_bebida_gratis) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *;",
     [
       idPizza,
       idEspecialidad,
@@ -102,6 +116,7 @@ const insertaPizza = (req, res) => {
       categoria2,
       categoria3,
       aplica_orilla_queso,
+      aplicaBebidaGratisVal,
     ],
     (error, results) => {
       if (error) {
@@ -124,10 +139,24 @@ const actualizaPizza = (req, res) => {
     categoria2,
     categoria3,
     aplica_orilla_queso,
+    aplicaBebidaGratis,
+    aplica_bebida_gratis,
   } = req.body;
+
+  let aplicaBebidaGratisVal = aplicaBebidaGratis !== undefined ? aplicaBebidaGratis : aplica_bebida_gratis;
+  if (aplicaBebidaGratisVal === undefined || aplicaBebidaGratisVal === null) {
+    aplicaBebidaGratisVal = 'N';
+  } else {
+    aplicaBebidaGratisVal = aplicaBebidaGratisVal.toString().toUpperCase();
+  }
+
+  if (aplicaBebidaGratisVal !== 'S' && aplicaBebidaGratisVal !== 'N') {
+    return res.status(400).json({ error: "El campo aplicaBebidaGratis debe ser 'S' o 'N'" });
+  }
+
   pool.query(
     "UPDATE preesppropro.pizza SET id_especialidad=$2, id_tamanio=$3, aplica_2x1=$4, categoria1=$5, " +
-      "categoria2=$6, categoria3=$7, aplica_orilla_queso=$8 WHERE id=$1 RETURNING *",
+      "categoria2=$6, categoria3=$7, aplica_orilla_queso=$8, aplica_bebida_gratis=$9 WHERE id=$1 RETURNING *",
     [
       idPizza,
       idEspecialidad,
@@ -136,7 +165,8 @@ const actualizaPizza = (req, res) => {
       categoria1,
       categoria2,
       categoria3,
-      aplica_orilla_queso
+      aplica_orilla_queso,
+      aplicaBebidaGratisVal,
     ],
     (error, results) => {
       if (error) {

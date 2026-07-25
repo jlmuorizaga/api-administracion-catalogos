@@ -24,33 +24,16 @@ const db_ros = require("./queries_admin_relacion_orilla_sucursal");
 const db_rps = require("./queries_admin_relacion_pizza_sucursal");
 const db_rprods = require("./queries_admin_relacion_producto_sucursal");
 const crearUploadHandler = require('./middlewares/uploadMiddleware');
+const db_usuario = require("./queries_admin_usuario");
+const jwt = require("jsonwebtoken");
+const authMiddleware = require("./middlewares/auth");
 
 
 app.use(cors({
   origin: '*',  // 👈 permite cualquier origen (ideal para pruebas)
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type']
+  allowedHeaders: ['Content-Type', 'Authorization']
 }));
-
-// Especialidades
-app.post('/upload/especialidad', crearUploadHandler('especialidades'), (req, res) => {
-  res.status(200).json({ message: 'Imagen subida exitosamente', url: req.uploadInfo.url });
-});
-
-// Productos
-app.post('/upload/producto', crearUploadHandler('productos'), (req, res) => {
-  res.status(200).json({ message: 'Imagen subida exitosamente', url: req.uploadInfo.url });
-});
-
-// Promociones
-app.post('/upload/promocion', crearUploadHandler('promociones'), (req, res) => {
-  res.status(200).json({ message: 'Imagen subida exitosamente', url: req.uploadInfo.url });
-});
-
-// Tipos de Producto
-app.post('/upload/tipo-producto', crearUploadHandler('menu'), (req, res) => {
-  res.status(200).json({ message: 'Imagen subida exitosamente', url: req.uploadInfo.url });
-});
 
 //const port = process.env.PORT || 3005;
 const port = 3005;
@@ -79,6 +62,54 @@ app.get("/", (request, response) => {
   ]);
 });
 
+app.post("/login", async (req, res) => {
+  const { usuario, contrasenia } = req.body;
+  
+  if (!usuario || !contrasenia) {
+    return res.status(400).json({ error: "Usuario y contraseña requeridos" });
+  }
+  
+  try {
+    const user = await db_usuario.getUsuarioByCredentials(usuario, contrasenia);
+    
+    if (user) {
+      const token = jwt.sign(
+        { id: user.id, usuario: user.usuario, nombre: user.nombre },
+        process.env.JWT_SECRET,
+        { expiresIn: "8h" }
+      );
+      
+      res.status(200).json({ message: "Login exitoso", token: token, usuario: user });
+    } else {
+      res.status(401).json({ error: "Credenciales inválidas" });
+    }
+  } catch (error) {
+    res.status(500).json({ error: "Error interno del servidor" });
+  }
+});
+
+// Registrar el middleware de autenticación antes de proteger las rutas
+app.use(authMiddleware);
+
+// Especialidades
+app.post('/upload/especialidad', crearUploadHandler('especialidades'), (req, res) => {
+  res.status(200).json({ message: 'Imagen subida exitosamente', url: req.uploadInfo.url });
+});
+
+// Productos
+app.post('/upload/producto', crearUploadHandler('productos'), (req, res) => {
+  res.status(200).json({ message: 'Imagen subida exitosamente', url: req.uploadInfo.url });
+});
+
+// Promociones
+app.post('/upload/promocion', crearUploadHandler('promociones'), (req, res) => {
+  res.status(200).json({ message: 'Imagen subida exitosamente', url: req.uploadInfo.url });
+});
+
+// Tipos de Producto
+app.post('/upload/tipo-producto', crearUploadHandler('menu'), (req, res) => {
+  res.status(200).json({ message: 'Imagen subida exitosamente', url: req.uploadInfo.url });
+});
 //Endpoints para pizzas
 app.get("/pizzas", db_pizza.getListaPizzas);
 app.get("/pizzas/:idPizza", db_pizza.getPizza);
